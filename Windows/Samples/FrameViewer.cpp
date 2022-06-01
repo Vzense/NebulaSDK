@@ -394,22 +394,6 @@ GET:
 				std::cout << "Current Depth Frame is NULL" << endl;
 			}
 		}
-		else if (key == 'S' || key == 's')
-		{
-            static bool isStart = false;
-
-            if (true == isStart)
-            {
-                VZCT_StartStream(g_DeviceHandle);
-            }
-            else
-            {
-                VZCT_StopStream(g_DeviceHandle);
-            }
-
-            cout << ((true == isStart)? "start" : "stop") << " stream."<< endl;
-            isStart = !isStart;
-		}
         else if (key == 'Q' || key == 'q')
         {
 			static bool isTransformColorImgToDepthCameraEnabled = true;
@@ -458,13 +442,8 @@ bool InitDevice(const int deviceCount)
 		return false;
 	}
 
-    VZCT_StopStream(g_DeviceHandle);
-    std::this_thread::sleep_for(std::chrono::microseconds(500));
-
     g_DataMode = PsModeDualFreq;
     VZCT_SetDataMode(g_DeviceHandle, g_DataMode);
-
-    VZCT_StartStream(g_DeviceHandle);
     
 	PsCameraParameters cameraParameters;
 	status = VZCT_GetCameraParameters(g_DeviceHandle, PsToFSensor, &cameraParameters);
@@ -509,7 +488,6 @@ void ShowMenu()
     cout << "                             1: 800 * 600" << endl;
     cout << "                             2: 1600 * 1200" << endl;
 	cout << "P/p: Save point cloud data into PointCloud.txt in current directory" << endl;
-    cout << "S/s: Start/Stop Stream" << endl;
     cout << "Q/q: Enables or disables transforms a color image into the geometry of the depth camera" << endl;
     cout << "L/l: Enables or disables transforms the depth map into the geometry of the color camera" << endl;
 	cout << "Esc: Program quit " << endl;
