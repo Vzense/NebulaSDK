@@ -116,7 +116,7 @@ Before invoking this API, invoke PsReadNextFrame() to capture one image frame fr
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFrame(PsDeviceHandle device, PsFrameType frameType, PsFrame* pPsFrame);
 
 /**
-* @brief          Sets the output data mode for the device specified by <code>device</code>.
+* @brief          Sets the output data mode for the device specified by <code>device</code>.The interface takes a long time, about 500 ms.
 * @param[in]     device            The handle of the device for which to set the data mode.
 * @param[in]    dataMode        The output data mode. See ::PsDataMode for more information.
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
@@ -140,7 +140,7 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDataMode(PsDeviceHandle device, PsDat
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDepthRange(PsDeviceHandle device, PsDepthRange* pDepthRange);
 
 /**
-* @brief         Sets the depth range mode for the device specified by <code>device</code>.
+* @brief         Sets the depth range mode for the device specified by <code>device</code> only when the datamode of Camera is SingleFreqMode. The interface takes a long time, about 500 ms.
 * @param[in]     device            The handle of the device on which to set the depth range.
 * @param[in]     depthRange         Specifies the depth range mode.
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
@@ -462,7 +462,7 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetSerialNumber(PsDeviceHandle device, c
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFirmwareVersionNumber(PsDeviceHandle device, char* fw, int length);
 
 /**
-* @brief         Sets the tof frame rate.
+* @brief         Sets the tof frame rate.The interface takes a long time, about 500 ms.
 * @param[in]     device            The handle of the device on which to set the pulse count.
 * @param[in]     value             The rate value, in range [1,25].
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
