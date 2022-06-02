@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <opencv2/opencv.hpp>
-#include "VzenseDS_api.h"
+#include "VzenseDS77_api.h"
 #include <thread>
 
 using namespace std;
@@ -64,6 +64,7 @@ GET:
 	cv::Mat imageMat;
 	const string irImageWindow = "IR Image";
 	const string depthImageWindow = "Depth Image";
+    const string rgbImageWindow = "RGB Image";
 	cv::namedWindow(depthImageWindow, cv::WINDOW_AUTOSIZE);
 	cv::namedWindow(irImageWindow, cv::WINDOW_AUTOSIZE);
 	setMouseCallback(depthImageWindow, on_MouseHandle, nullptr);
@@ -73,6 +74,9 @@ GET:
 	{
 		PsFrame depthFrame = { 0 };
 		PsFrame irFrame = { 0 };
+		PsFrame rgbFrame = { 0 };
+		PsFrame transformedDepthFrame = { 0 };
+		PsFrame transformedRgbFrame = { 0 };
 
 		// Read one frame before call PsGetFrame
 		PsFrameReady frameReady = {0};
@@ -112,6 +116,40 @@ GET:
 				cout << "VZCT_GetFrame PsDepthFrame status:" << status << " pFrameData is NULL " << endl;
 			}
 		}
+		if (1 == frameReady.transformedDepth)
+		{
+			status = VZCT_GetFrame(g_DeviceHandle, PsTransformDepthImgToColorCameraFrame, &transformedDepthFrame);
+
+			if (transformedDepthFrame.pFrameData != NULL)
+			{
+				static int index = 0;
+				static float fps = 0;
+				static int64 start = cv::getTickCount();
+
+				int64 current = cv::getTickCount();
+				int64 diff = current - start;
+				index++;
+				if (diff > cv::getTickFrequency())
+				{
+					fps = index * cv::getTickFrequency() / diff;
+					index = 0;
+					start = current;
+				}
+
+				//Display the Depth Image
+                g_Slope = (PsModeDualFreq == g_DataMode) ? GetSlopeByDepthRange(PsXFarRange) : GetSlopeByDepthRange(transformedDepthFrame.depthRange);
+				Opencv_Depth(g_Slope, transformedDepthFrame.height, transformedDepthFrame.width, transformedDepthFrame.pFrameData, imageMat);
+				char text[30] = "";
+				sprintf(text, "%.2f", fps);
+				putText(imageMat, text, Point(0, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255));
+				cv::imshow("TransformedDepth", imageMat);
+			}
+			else
+			{
+				cout << "VZCT_GetFrame PsDepthFrame status:" << status << " pFrameData is NULL " << endl;
+			}
+		}
+
 		//Get IR frame, IR frame only output in following data mode
 		if (1 == frameReady.ir)
 		{
@@ -141,6 +179,78 @@ GET:
 			else
 			{
 				cout << "VZCT_GetFrame PsIRFrame status:" << status << " pFrameData is NULL " << endl;
+			}
+		}
+
+        //Get RGB frame, RGB frame only output in following data mode
+        if (1 == frameReady.color)
+        {
+            status = VZCT_GetFrame(g_DeviceHandle, PsColorFrame, &rgbFrame);
+
+            if (rgbFrame.pFrameData != NULL)
+            {
+
+                static int index = 0;
+                static float fps = 0;
+                static int64 start = cv::getTickCount();
+
+                int64 current = cv::getTickCount();
+                int64 diff = current - start;
+                index++;
+                if (diff > cv::getTickFrequency())
+                {
+                    fps = index * cv::getTickFrequency() / diff;
+                    index = 0;
+                    start = current;
+                }
+
+                //Display the RGB Image
+                imageMat = cv::Mat(rgbFrame.height, rgbFrame.width, CV_8UC3, rgbFrame.pFrameData);
+
+                char text[30] = "";
+                sprintf(text, "%.2f", fps);
+                putText(imageMat, text, Point(0, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255));
+
+                cv::imshow(rgbImageWindow, imageMat);
+            }
+            else
+            {
+                cout << "VZCT_GetFrame PsRGBFrame status:" << status << " pFrameData is NULL " << endl;
+            }
+        }
+		if (1 == frameReady.transformedColor)
+		{
+			status = VZCT_GetFrame(g_DeviceHandle, PsTransformColorImgToDepthCameraFrame, &transformedRgbFrame);
+
+			if (transformedRgbFrame.pFrameData != NULL)
+			{
+
+				static int index = 0;
+				static float fps = 0;
+				static int64 start = cv::getTickCount();
+
+				int64 current = cv::getTickCount();
+				int64 diff = current - start;
+				index++;
+				if (diff > cv::getTickFrequency())
+				{
+					fps = index * cv::getTickFrequency() / diff;
+					index = 0;
+					start = current;
+				}
+
+				//Display the RGB Image
+				imageMat = cv::Mat(transformedRgbFrame.height, transformedRgbFrame.width, CV_8UC3, transformedRgbFrame.pFrameData);
+
+				char text[30] = "";
+				sprintf(text, "%.2f", fps);
+				putText(imageMat, text, Point(0, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255));
+
+				cv::imshow("TransformedColor", imageMat);
+			}
+			else
+			{
+				cout << "VZCT_GetFrame PsRGBFrame status:" << status << " pFrameData is NULL " << endl;
 			}
 		}
 
@@ -219,6 +329,41 @@ GET:
 				cout << "Get depth range failed! " << endl;
 			}
 		}
+        else if (key == 'R' || key == 'r')
+        {
+            cout << "please select RGB resolution to set: 0:640*480; 1:800*600; 2:1600*1200" << endl;
+            int index = 0;
+            cin >> index;
+            if (cin.fail())
+            {
+                std::cout << "Unexpected input\n";
+                cin.clear();
+                cin.ignore(1024, '\n');
+                continue;
+            }
+            else
+            {
+                cin.clear();
+                cin.ignore(1024, '\n');
+            }
+
+            switch (index)
+            {
+            case 0:
+                VZCT_SetColorResolution(g_DeviceHandle, PsColor_Resolution_640_480);
+                break;
+            case 1:
+                VZCT_SetColorResolution(g_DeviceHandle, PsColor_Resolution_800_600);
+                break;
+            case 2:
+                VZCT_SetColorResolution(g_DeviceHandle, PsColor_Resolution_1600_1200);
+                break;
+            default:
+                cout << "input is invalid." << endl;
+                break;
+            }
+            
+        }
 		else if (key == 'P' || key == 'p')
 		{
 			//Save the pointcloud
@@ -249,6 +394,20 @@ GET:
 				std::cout << "Current Depth Frame is NULL" << endl;
 			}
 		}
+        else if (key == 'Q' || key == 'q')
+        {
+			static bool isTransformColorImgToDepthCameraEnabled = true;
+			VZCT_SetTransformColorImgToDepthCameraEnabled(g_DeviceHandle, isTransformColorImgToDepthCameraEnabled);
+			cout << "SetTransformColorImgToDepthCameraEnabled " << ((true == isTransformColorImgToDepthCameraEnabled) ? "enable" : "disable") << endl;
+			isTransformColorImgToDepthCameraEnabled = !isTransformColorImgToDepthCameraEnabled;
+        }
+        else if (key == 'L' || key == 'l')
+        {
+			static bool isTransformDepthImgToColorCameraEnabled = true;
+			VZCT_SetTransformDepthImgToColorCameraEnabled(g_DeviceHandle, isTransformDepthImgToColorCameraEnabled);
+			cout << "SetTransformDepthImgToColorCameraEnabled " << ((true == isTransformDepthImgToColorCameraEnabled) ? "enable" : "disable") << endl;
+			isTransformDepthImgToColorCameraEnabled = !isTransformDepthImgToColorCameraEnabled;
+        }		
 		else if (key == 27)	//ESC Pressed
 		{
 			break;
@@ -324,7 +483,13 @@ void ShowMenu()
 	cout << "Press following key to set corresponding feature:" << endl;
 	cout << "M/m: Change data mode: input corresponding index in terminal:" << endl;
 	cout << "0/5: Change depth range Near/XFar" << endl;
+    cout << "R/r: Change the RGB resolution: input corresponding index in terminal:" << endl;
+    cout << "                             0: 640 * 480" << endl;
+    cout << "                             1: 800 * 600" << endl;
+    cout << "                             2: 1600 * 1200" << endl;
 	cout << "P/p: Save point cloud data into PointCloud.txt in current directory" << endl;
+    cout << "Q/q: Enables or disables transforms a color image into the geometry of the depth camera" << endl;
+    cout << "L/l: Enables or disables transforms the depth map into the geometry of the color camera" << endl;
 	cout << "Esc: Program quit " << endl;
 	cout << "--------------------------------------------------------------------" << endl;
 	cout << "--------------------------------------------------------------------\n" << endl;

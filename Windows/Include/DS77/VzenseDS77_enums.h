@@ -51,13 +51,12 @@ typedef enum{
  * @brief Specifies the image pixel format.
  */
 typedef enum{
-	PsPixelFormatDepthMM16,        //!< Depth image pixel format, 16 bits per pixel in mm.
-	PsPixelFormatGray16,           //!< IR image pixel format, 16 bits per pixel.
-	PsPixelFormatGray8,            //!< Gray image pixel format, 8 bits per pixel.
+	PsPixelFormatDepthMM16 = 0,        //!< Depth image pixel format, 16 bits per pixel in mm.
+	PsPixelFormatGray8 = 2,            //!< Gray image pixel format, 8 bits per pixel.
 
 	//Color
-	PsPixelFormatRGB888,           //!< Color image pixel format, 24 bits per pixel RGB format.
-	PsPixelFormatBGR888            //!< Color image pixel format, 24 bits per pixel BGR format.
+	PsPixelFormatRGB888 = 3,           //!< Color image pixel format, 24 bits per pixel RGB format.
+	PsPixelFormatBGR888 = 4           //!< Color image pixel format, 24 bits per pixel BGR format.
 }PsPixelFormat;
 
 /**
@@ -106,14 +105,6 @@ typedef enum {
     PsColor_Resolution_800_600 = 1,
     PsColor_Resolution_1600_1200 = 2,
 }PsResolution;
-
-typedef enum
-{
-    LinkeUNKNOWN = 0,
-    LinkUSB = 1,
-    LinkSocket = 2,
-    LinkMIPI = 3,
-}PsLinkType;
 
 typedef enum {
 	ConnectUNKNOWN,

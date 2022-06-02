@@ -2,7 +2,7 @@
 #define VZENSE_TYPES_H
 
 #include <stdint.h>
-#include "VzenseDS_enums.h"
+#include "VzenseDS77_enums.h"
 
 typedef uint16_t PsDepthPixel;  //!< Depth image pixel type in 16-bit
 typedef uint16_t PsGray16Pixel; //!< Gray image pixel type in 16-bit
@@ -28,17 +28,6 @@ typedef struct
 	uint8_t g;	//!< Green
 	uint8_t r;	//!< Red
 } PsBGR888Pixel;
-
-/**
- * @brief Specifies the frame mode including the pixel format, resolution, and frame rate.
- */
-typedef struct
-{
-	PsPixelFormat pixelFormat;			//!< The pixel format used by a frame.
-	int32_t       resolutionWidth;		//!< The width of the image, in pixels.
-	int32_t       resolutionHeight;		//!< The height of the image, in pixels.
-	int32_t       fps;					//!< The image stream frame rate.
-}PsFrameMode;
 
 /**
  * @brief Stores the x, y, and z components of a 3D vector.
@@ -146,18 +135,6 @@ typedef struct
 	char alias[64];
 	PsConnectStatus status;
 }PsDeviceInfo;
-
-typedef struct
-{
-	uint8_t count;
-	uint8_t datamodelist[32];  
-}PsDataModeList;
-
-typedef struct
-{
-	uint8_t count;
-	uint8_t depthrangelist[9];
-}PsDepthRangeList;
 
 typedef struct
 {

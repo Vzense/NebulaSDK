@@ -14,7 +14,7 @@
 * Welcome to the Vzense API documentation. This documentation enables you to quickly get started in your development efforts to programmatically interact with the Vzense CW TOF Camera (eg:DS77).
 */
 
-#include "VzenseDS_define.h"
+#include "VzenseDS77_define.h"
 
 /**
 * @brief         Initializes the API on the device. This function must be invoked before any other Vzense APIs.
@@ -29,19 +29,19 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_Initialize();
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_Shutdown();
 
 /**
+* @brief         Gets the version of SDK.
+* @param[in]     version         Pointer to a variable in which to store the returned version value.
+* @param[in]     length             The maximum length is 63 bytes.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetSDKVersion(char* version, int length);
+
+/**
 * @brief         Returns the number of camera devices currently connected.
 * @param[out]    pDeviceCount    Pointer to a 32-bit integer variable in which to return the device count.
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceCount(uint32_t* pDeviceCount);
-
-/**
-* @brief         Returns the info lists of the deviceCount camera devices.
-* @param[in]     deviceCount        the number of camera devices.
-* @param[out]    pDevicesList    Pointer to a buffer in which to store the deviceCount devices infos.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceListInfo(PsDeviceInfo* pDevicesList, uint32_t deviceCount);
 
 /**
 * @brief         Returns the info of the deviceIndex camera device.
@@ -50,6 +50,14 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceListInfo(PsDeviceInfo* pDevices
 * @return         ::PsRetOK    if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceInfo(PsDeviceInfo* pDevices, uint32_t deviceIndex);
+
+/**
+* @brief         Returns the info lists of the deviceCount camera devices.
+* @param[in]     deviceCount        the number of camera devices.
+* @param[out]    pDevicesList    Pointer to a buffer in which to store the deviceCount devices infos.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceListInfo(PsDeviceInfo* pDevicesList, uint32_t deviceCount);
 
 /**
 * @brief         Opens the device specified by <code>uri</code>. The device must be subsequently closed using PsCloseDevice().
@@ -116,52 +124,31 @@ Before invoking this API, invoke PsReadNextFrame() to capture one image frame fr
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFrame(PsDeviceHandle device, PsFrameType frameType, PsFrame* pPsFrame);
 
 /**
-* @brief          Sets the output data mode for the device specified by <code>device</code>.The interface takes a long time, about 500 ms.
-* @param[in]     device            The handle of the device for which to set the data mode.
-* @param[in]    dataMode        The output data mode. See ::PsDataMode for more information.
+* @brief         Set the waittime of read next frame.
+* @param[in]     device            The handle of the device on which to enable or disable the feature.
+* @param[in]     time             The unit is millisecond, the value is in the range (0,65535) and the default value is 350 millisecond.
+* You can change the value according to the frame rate. For example,the frame rate is 30, so the theoretical waittime interval is 33ms, but if set the time value is 20ms,
+* it means the max wait time is 20 ms when capturing next frame, so when call the VZCT_ReadNextFrame, it may return PsRetReadNextFrameTimeOut(-11).
+* so the value range that recommended is [50.350].
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetDataMode(PsDeviceHandle device, PsDataMode dataMode);
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetWaitTimeOfReadNextFrame(PsDeviceHandle device, uint16_t time);
 
 /**
-* @brief          Returns the output data mode from the device specified by <code>device</code>.
-* @param[in]    device            The handle of the device for which to set the data mode.
-* @param[Out]    pDataMode        The output data mode. See ::PsDataMode for more information.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+* @brief        Trigger frame data once in slave mode.
+* @param[in]    device      The handle of the device on which to enable or disable the feature.
+* @param[in]    status      The status of slave mode.
+* @return       ::PsRetOK   if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDataMode(PsDeviceHandle device, PsDataMode* pDataMode);
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetSlaveModeStatus(PsDeviceHandle device, PsSlaveModeStatus status);
 
 /**
-* @brief         Returns the depth range mode from the device specified by <code>device</code>.
-* @param[in]     device            The handle of the device from which to get the depth range.
-* @param[out]    pDepthRange        Pointer to a ::PsDepthRange variable in which to store the returned depth range mode.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+* @brief        Trigger frame data once in software slave mode using invoke this API.
+* @param[in]    device      The handle of the device on which to enable or disable the feature.
+* @return       ::PsRetOK   if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDepthRange(PsDeviceHandle device, PsDepthRange* pDepthRange);
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetSoftwareSlaveTrigger(PsDeviceHandle device);
 
-/**
-* @brief         Sets the depth range mode for the device specified by <code>device</code> only when the datamode of Camera is SingleFreqMode. The interface takes a long time, about 500 ms.
-* @param[in]     device            The handle of the device on which to set the depth range.
-* @param[in]     depthRange         Specifies the depth range mode.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetDepthRange(PsDeviceHandle device, PsDepthRange depthRange);
-
-/**
-* @brief         Returns the the device's GMM gain.
-* @param[in]    device            The handle of the device from which to get the GMM gain.
-* @param[out]     gmmgain         Pointer to a variable in which to store the returned GMM gain.
-* @return        ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetIRGMMGain(PsDeviceHandle device, uint8_t* pGmmgain);
-
-/**
-* @brief         Sets the device GMM gain on a device.
-* @param[in]    device            The handle of the device on which to set the GMM gain.
-* @param[in]     gmmgain            The GMM gain value to set. See ::PsGMMGain for more information.The GMM gain value is in the range [0,4095].
-* @return        ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetIRGMMGain(PsDeviceHandle device, uint8_t gmmgain);
 /**
 * @brief         Returns the internal intrinsic and distortion coefficient parameters from the device specified by <code>device</code>.
 * @param[in]     device                The handle of the device from which to get the internal parameters. 
@@ -178,6 +165,97 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetCameraParameters(PsDeviceHandle devic
 * @return         ::PsRetOK                    if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetCameraExtrinsicParameters(PsDeviceHandle device, PsCameraExtrinsicParameters* pCameraExtrinsicParameters);
+
+/**
+* @brief         Gets the MeasuringRange in depthRange.
+* @param[in]     device            The handle of the device on which to set the WDR style.
+* @param[in]     depthRange         Specifies the depth range mode.
+* @param[out]    pMeasuringRange A pointer to a ::PsMeasuringRange variable in which to store the MeasuringRange in depthRange.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDepthMeasuringRange(PsDeviceHandle device, PsMeasuringRange* pMeasuringRange);
+
+/**
+* @brief         Gets the serial number.
+* @param[in]     device            The handle of the device on which to set the pulse count.
+* @param[in]     sn                 Pointer to a variable in which to store the returned sn value.
+* @param[in]     length             The maximum length is 63 bytes.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetSerialNumber(PsDeviceHandle device, char* sn, int length);
+
+/**
+* @brief         Gets the firmware version number.
+* @param[in]     device            The handle of the device on which to set the pulse count.
+* @param[in]     fw                 Pointer to a variable in which to store the returned fw value.
+* @param[in]     length             The maximum length is 63 bytes.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFirmwareVersionNumber(PsDeviceHandle device, char* fw, int length);
+
+/**
+* @brief         Gets IP from the device specified by <code>uri</code>.
+* @param[in]     pURI            the uri of the device. See ::PsDeviceInfo for more information.
+* @param[out]    pIP            Pointer to a buffer in which to store the device IP. the buffer default size is 17, and the last buffer set '\0'.
+* @return:         ::PsRetOK    if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceIP(const char* pURI, char* pIP);
+
+/**
+* @brief         Gets the MAC from the device specified by <code>device</code>.
+* @param[in]     device            The handle of the device.
+* @param[out]    pMAC                Pointer to a buffer in which to store the device MAC. the buffer default size is 18, and the last buffer set '\0'.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceMAC(PsDeviceHandle device, char* pMAC);
+
+/**
+* @brief          Sets the output data mode for the device specified by <code>device</code>.The interface takes a long time, about 500 ms.
+* @param[in]     device            The handle of the device for which to set the data mode.
+* @param[in]    dataMode        The output data mode. See ::PsDataMode for more information.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetDataMode(PsDeviceHandle device, PsDataMode dataMode);
+
+/**
+* @brief          Returns the output data mode from the device specified by <code>device</code>.
+* @param[in]    device            The handle of the device for which to set the data mode.
+* @param[Out]    pDataMode        The output data mode. See ::PsDataMode for more information.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDataMode(PsDeviceHandle device, PsDataMode* pDataMode);
+
+/**
+* @brief         Sets the depth range mode for the device specified by <code>device</code> only when the datamode of Camera is SingleFreqMode. The interface takes a long time, about 500 ms.
+* @param[in]     device            The handle of the device on which to set the depth range.
+* @param[in]     depthRange         Specifies the depth range mode.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetDepthRange(PsDeviceHandle device, PsDepthRange depthRange);
+
+/**
+* @brief         Returns the depth range mode from the device specified by <code>device</code>.
+* @param[in]     device            The handle of the device from which to get the depth range.
+* @param[out]    pDepthRange        Pointer to a ::PsDepthRange variable in which to store the returned depth range mode.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDepthRange(PsDeviceHandle device, PsDepthRange* pDepthRange);
+
+/**
+* @brief         Sets the device GMM gain on a device.
+* @param[in]    device            The handle of the device on which to set the GMM gain.
+* @param[in]     gmmgain            The GMM gain value to set. See ::PsGMMGain for more information.The GMM gain value is in the range [0,4095].
+* @return        ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetIRGMMGain(PsDeviceHandle device, uint8_t gmmgain);
+
+/**
+* @brief         Returns the the device's GMM gain.
+* @param[in]    device            The handle of the device from which to get the GMM gain.
+* @param[out]     gmmgain         Pointer to a variable in which to store the returned GMM gain.
+* @return        ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetIRGMMGain(PsDeviceHandle device, uint8_t* pGmmgain);
 
 /**
 * @brief         Sets the color image pixel format on the device specified by <code>device</code>. Currently only RGB and BGR formats are supported.
@@ -203,39 +281,6 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetColorResolution(PsDeviceHandle device
 */
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetColorResolution(PsDeviceHandle device, uint16_t* resolution);
 
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFrameMode(PsDeviceHandle device, PsFrameType frameType, PsFrameMode* pFrameMode);
-
-/**
-* @brief         Gets the MeasuringRange in depthRange.
-* @param[in]     device            The handle of the device on which to set the WDR style.
-* @param[in]     depthRange         Specifies the depth range mode.
-* @param[out]    pMeasuringRange A pointer to a ::PsMeasuringRange variable in which to store the MeasuringRange in depthRange.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDepthMeasuringRange(PsDeviceHandle device, PsMeasuringRange* pMeasuringRange);
-
-/**
-* @brief         Converts the input points from depth coordinate space to world coordinate space.
-* @param[in]     device            The handle of the device on which to perform the operation.
-* @param[in]     pDepthVector     Pointer to a buffer containing the x, y, and z values of the depth coordinates to be converted. \n
-*                                   x and y are measured in pixels, where 0, 0 is located at the top left corner of the image. \n
-*                                z is measured in millimeters, based on the ::PsPixelFormat depth frame.
-* @param[out]     pWorldVector     Pointer to a buffer in which to output the converted x, y, and z values of the world coordinates, measured in millimeters.
-* @param[in]     pointCount         The number of points to convert.
-* @param[in]    pCameraParam    The intrinsic camera parameters for the depth camera. See ::PsGetCameraParameters.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_ConvertDepthToPointCloud(PsDeviceHandle device, PsDepthVector3* pDepthVector, PsVector3f* pWorldVector, int32_t pointCount, PsCameraParameters* pCameraParam);
-
-/**
-* @brief         Converts the input Depth frame from depth coordinate space to world coordinate space on the device.
-* @param[in]     device            The handle of the device on which to perform the operation.
-* @param[in]     depthFrame        The depth frame.
-* @param[out]     pWorldVector     Pointer to a buffer in which to output the converted x, y, and z values of the world coordinates, measured in millimeters.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_ConvertDepthFrameToPointCloudVector(PsDeviceHandle device, const PsFrame& depthFrame, PsVector3f* pWorldVector);
-
 /**
 * @brief        Enables or disables the syncronize feature.
 * @param[in]    device            The handle of the device on which to enable or disable the feature.
@@ -251,6 +296,37 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetSynchronizeEnabled(PsDeviceHandle dev
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetSynchronizeEnabled(PsDeviceHandle device, bool *pEnabled);
+
+/**
+* @brief         Sets the tof frame rate.The interface takes a long time, about 500 ms.
+* @param[in]     device            The handle of the device on which to set the pulse count.
+* @param[in]     value             The rate value, in range [1,25].
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetFrameRate(PsDeviceHandle device, uint8_t value);
+/**
+* @brief         Gets the tof frame rate.
+* @param[in]     device            The handle of the device on which to set the pulse count.
+* @param[in]     pValue             The rate value.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFrameRate(PsDeviceHandle device, uint8_t* pValue);
+
+/**
+* @brief        Set the exposure time of Tofsensor.
+* @param[in]    device            The handle of the device on which to set the exposure time(ns).
+* @param[in]    exposureTime    the exposure time.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetToFExposureTime(PsDeviceHandle device, uint32_t exposureTime);
+
+/**
+* @brief        Get the exposure time of Tofsensor.
+* @param[in]    device            The handle of the device on which to get the exposure time(ns).
+* @param[out]    pExposureTime            the exposure time.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetToFExposureTime(PsDeviceHandle device, uint32_t* pExposureTime);
 
 /**
 * @brief         Enables or disables the ToF(Depth and IR) img distortion correction feature.
@@ -382,12 +458,26 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetTransformDepthImgToColorCameraEnabled
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_TransformedDepthPointToColorPoint(const PsDeviceHandle device, const PsDepthVector3 depthPoint, const PsVector2u16 colorSize, PsVector2u16* pPointInColor);
 
 /**
-* @brief         Sets upgrade status callback function
-* @param[in]     device            The handle of the device on which to set the pulse count.
-* @param[in]    pCallback        Pointer to the callback function. See ::PtrUpgradeStatusCallback
+* @brief         Converts the input points from depth coordinate space to world coordinate space.
+* @param[in]     device            The handle of the device on which to perform the operation.
+* @param[in]     pDepthVector     Pointer to a buffer containing the x, y, and z values of the depth coordinates to be converted. \n
+*                                   x and y are measured in pixels, where 0, 0 is located at the top left corner of the image. \n
+*                                z is measured in millimeters, based on the ::PsPixelFormat depth frame.
+* @param[out]     pWorldVector     Pointer to a buffer in which to output the converted x, y, and z values of the world coordinates, measured in millimeters.
+* @param[in]     pointCount         The number of points to convert.
+* @param[in]    pCameraParam    The intrinsic camera parameters for the depth camera. See ::PsGetCameraParameters.
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetUpgradeStatusCallback(PsDeviceHandle device, PtrUpgradeStatusCallback pCallback);
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_ConvertDepthToPointCloud(PsDeviceHandle device, PsDepthVector3* pDepthVector, PsVector3f* pWorldVector, int32_t pointCount, PsCameraParameters* pCameraParam);
+
+/**
+* @brief         Converts the input Depth frame from depth coordinate space to world coordinate space on the device.
+* @param[in]     device            The handle of the device on which to perform the operation.
+* @param[in]     depthFrame        The depth frame.
+* @param[out]     pWorldVector     Pointer to a buffer in which to output the converted x, y, and z values of the world coordinates, measured in millimeters.
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_ConvertDepthFrameToPointCloudVector(PsDeviceHandle device, const PsFrame& depthFrame, PsVector3f* pWorldVector);
 
 /**
 * @brief         Sets upgrade status callback function
@@ -396,6 +486,15 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetUpgradeStatusCallback(PsDeviceHandle 
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_StartUpgradeFirmWare(PsDeviceHandle device, char* pImgPath);
+
+/**
+* @brief         Sets upgrade status callback function
+* @param[in]     device            The handle of the device on which to set the pulse count.
+* @param[in]    pCallback        Pointer to the callback function. See ::PtrUpgradeStatusCallback
+* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
+*/
+VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetUpgradeStatusCallback(PsDeviceHandle device, PtrUpgradeStatusCallback pCallback);
+
 /**
 * @brief         Sets hotplug status callback function
 * @param[in]    pCallback        Pointer to the callback function. See ::PtrHotPlugStatusCallback 
@@ -409,103 +508,4 @@ VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetHotPlugStatusCallback(PtrHotPlugStatu
 * @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
 */
 VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetHotPlugStatusCallback_(PtrHotPlugStatusCallback_ pCallback, void* pContex);
-
-/**
-* @brief         Gets the serial number.
-* @param[in]     device            The handle of the device on which to set the pulse count.
-* @param[in]     sn                 Pointer to a variable in which to store the returned sn value.
-* @param[in]     length             The maximum length is 63 bytes.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetSerialNumber(PsDeviceHandle device, char* sn, int length);
-
-/**
-* @brief         Gets the firmware version number.
-* @param[in]     device            The handle of the device on which to set the pulse count.
-* @param[in]     fw                 Pointer to a variable in which to store the returned fw value.
-* @param[in]     length             The maximum length is 63 bytes.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFirmwareVersionNumber(PsDeviceHandle device, char* fw, int length);
-
-/**
-* @brief         Sets the tof frame rate.The interface takes a long time, about 500 ms.
-* @param[in]     device            The handle of the device on which to set the pulse count.
-* @param[in]     value             The rate value, in range [1,25].
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetFrameRate(PsDeviceHandle device, uint8_t value);
-/**
-* @brief         Gets the tof frame rate.
-* @param[in]     device            The handle of the device on which to set the pulse count.
-* @param[in]     pValue             The rate value.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetFrameRate(PsDeviceHandle device, uint8_t* pValue);
-
-/**
-* @brief         Set the waittime of read next frame.
-* @param[in]     device            The handle of the device on which to enable or disable the feature.
-* @param[in]     time             The unit is millisecond, the value is in the range (0,65535) and the default value is 350 millisecond.
-* You can change the value according to the frame rate. For example,the frame rate is 30, so the theoretical waittime interval is 33ms, but if set the time value is 20ms,
-* it means the max wait time is 20 ms when capturing next frame, so when call the VZCT_ReadNextFrame, it may return PsRetReadNextFrameTimeOut(-11).
-* so the value range that recommended is [50.350].
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetWaitTimeOfReadNextFrame(PsDeviceHandle device, uint16_t time);
-
-/**
-* @brief         Gets the version of SDK.
-* @param[in]     version         Pointer to a variable in which to store the returned version value.
-* @param[in]     length             The maximum length is 63 bytes.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetSDKVersion(char* version, int length);
-
-/**
-* @brief        Trigger frame data once in slave mode.
-* @param[in]    device      The handle of the device on which to enable or disable the feature.
-* @param[in]    status      The status of slave mode.
-* @return       ::PsRetOK   if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetSlaveModeStatus(PsDeviceHandle device, PsSlaveModeStatus status);
-
-/**
-* @brief        Trigger frame data once in software slave mode using invoke this API.
-* @param[in]    device      The handle of the device on which to enable or disable the feature.
-* @return       ::PsRetOK   if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetSoftwareSlaveTrigger(PsDeviceHandle device);
-
-/**
-* @brief        Set the exposure time of Tofsensor.
-* @param[in]    device            The handle of the device on which to set the exposure time(ns).
-* @param[in]    exposureTime    the exposure time.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_SetToFExposureTime(PsDeviceHandle device, uint32_t exposureTime);
-
-/**
-* @brief        Get the exposure time of Tofsensor.
-* @param[in]    device            The handle of the device on which to get the exposure time(ns).
-* @param[out]    pExposureTime            the exposure time.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetToFExposureTime(PsDeviceHandle device, uint32_t* pExposureTime);
-
-/**
-* @brief         Gets IP from the device specified by <code>uri</code>.
-* @param[in]     pURI            the uri of the device. See ::PsDeviceInfo for more information.
-* @param[out]    pIP            Pointer to a buffer in which to store the device IP. the buffer default size is 17, and the last buffer set '\0'.
-* @return:         ::PsRetOK    if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceIP(const char* pURI, char* pIP);
-
-/**
-* @brief         Gets the MAC from the device specified by <code>device</code>.
-* @param[in]     device            The handle of the device.
-* @param[out]    pMAC                Pointer to a buffer in which to store the device MAC. the buffer default size is 18, and the last buffer set '\0'.
-* @return         ::PsRetOK        if the function succeeded, or one of the error values defined by ::PsReturnStatus.
-*/
-VZENSE_C_API_EXPORT PsReturnStatus VZCT_GetDeviceMAC(PsDeviceHandle device, char* pMAC);
 #endif /* VZENSE_API2_H */
