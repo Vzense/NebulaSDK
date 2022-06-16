@@ -1,5 +1,5 @@
-#ifndef VZENSE_ENUMS_H
-#define VZENSE_ENUMS_H
+#ifndef VZENSEDS_ENUMS_H
+#define VZENSEDS_ENUMS_H
 
 /**
  * @brief Depth range setting.\n 
@@ -127,15 +127,15 @@ typedef enum
 
 typedef enum
 {
-        DEVICE_NORMAL = 0x00,
-        DEVICE_UPGRADE_BEGIN = 0x01,
-        DEVICE_PRE_UPGRADE_IMG_COPY = 0x02,
-        DEVICE_UPGRADE_IMG_CHECK_DOING = 0x03,
-        DEVICE_UPGRADE_IMG_CHECK_DONE = 0x04,
-        DEVICE_UPGRADE_UPGRAD_DOING = 0x05,
-        DEVICE_UPGRADE_RECHECK_DOING = 0x06,
-        DEVICE_UPGRADE_RECHECK_DONE = 0x07,
-        DEVICE_UPGRADE_UPGRAD_DONE = 0x08,
+    DEVICE_NORMAL = 0x00,
+    DEVICE_UPGRADE_BEGIN = 0x01,
+    DEVICE_PRE_UPGRADE_IMG_COPY = 0x02,
+    DEVICE_UPGRADE_IMG_CHECK_DOING = 0x03,
+    DEVICE_UPGRADE_IMG_CHECK_DONE = 0x04,
+    DEVICE_UPGRADE_UPGRAD_DOING = 0x05,
+    DEVICE_UPGRADE_RECHECK_DOING = 0x06,
+    DEVICE_UPGRADE_RECHECK_DONE = 0x07,
+    DEVICE_UPGRADE_UPGRAD_DONE = 0x08,
 }PsDeviceStatus;
 
 typedef enum
@@ -151,10 +151,10 @@ typedef enum
 
 typedef enum
 {
-    SlaveOFF = 0x00,                    //exit the salve mode
+    ActiveMode = 0x00,                  //enter the active mode
     SlaveForHardwareTrigger = 0x01,     //enter the hardware salve mode, at this time need to connect the hardware trigger wire, provide hardware signal, to trigger the image
-    SlaveForSoftwareTrigger = 0x02,     //enter the hardware salve mode, at this time need to invoke VZCT_SetSoftwareSlaveTrigger, to trigger the image
-}PsSlaveModeStatus;
+    SlaveForSoftwareTrigger = 0x02,     //enter the software salve mode, at this time need to invoke VZCT_SetSoftwareSlaveTrigger, to trigger the image
+}PsWorkModeStatus;
 
-#endif /* VZENSE_ENUMS_H */
+#endif /* VZENSEDS_ENUMS_H */
 

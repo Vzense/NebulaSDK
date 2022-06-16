@@ -1,5 +1,5 @@
-#ifndef VZENSE_TYPES_H
-#define VZENSE_TYPES_H
+#ifndef VZENSEDS_TYPES_H
+#define VZENSEDS_TYPES_H
 
 #include <stdint.h>
 #include "VzenseDS77_enums.h"
@@ -138,12 +138,37 @@ typedef struct
 
 typedef struct
 {
-    uint8_t	range;
-    uint16_t	effectDepthMax;
-    uint16_t	effectDepthMin;
-    uint16_t	depthMax;
+    bool enable;
+    int threshold;
+} PsConfidenceFilterParams;
 
-}PsMeasuringRange;
+typedef struct
+{
+    bool enable;
+    int	threshold;
+} PsFlyingPixelFilterParams;
+
+typedef struct
+{
+    bool enable;
+    int	validCount;
+    int threshold;
+    int doCount;
+} PsSpatialFilterParams;
+
+typedef struct
+{
+    bool enable;
+    int	validCount;
+    int	threshold;
+    int doCount;
+} PsFillHoleFilterParams;
+
+typedef struct
+{
+    bool enable;
+    int threshold;
+} PsOverexposureFilterParams;
 
 union IPAddr_
 {
@@ -158,22 +183,14 @@ union IPAddr_
 };
 #pragma pack (pop)
 
-typedef void(*PtrUpgradeStatusCallback)(int status, int params);
 /**
 * @brief hotplug status callback function
-* pInfo  return the info of the Device, See ::PsDeviceInfo
-* state  0:device added , 1:device removed
+* pInfo     return the info of the Device, See ::PsDeviceInfo
+* state     0:device added , 1:device removed
+* pUserData Pointer to user data, which can be null
 */
-typedef void(*PtrHotPlugStatusCallback)(const PsDeviceInfo* pInfo, int state);
+typedef void(*PtrHotPlugStatusCallback)(const PsDeviceInfo* pInfo, int state, void* pUserData);
 
-/**
-* @brief hotplug status callback function for c plus plus
-* pInfo  return the info of the Device, See ::PsDeviceInfo
-* state  0:device added , 1:device removed
-* contex pointer to the object of C++ class
-*/
-typedef void(*PtrHotPlugStatusCallback_)(const PsDeviceInfo* pInfo, int state, void* contex);
+typedef void(*PtrUpgradeStatusCallback)(int status, int params, void* pUserData);
 
-typedef void(*PtrUpgradeJsonStatusCallback)(const int status, const int params);
-
-#endif /* VZENSE_TYPES_H */
+#endif /* VZENSEDS_TYPES_H */

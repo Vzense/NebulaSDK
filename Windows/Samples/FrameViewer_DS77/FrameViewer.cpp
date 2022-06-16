@@ -9,17 +9,14 @@ using namespace cv;
 
 PsDeviceInfo* g_pDeviceListInfo = NULL;
 PsDeviceHandle g_DeviceHandle = 0;
-PsDataMode g_DataMode = PsModeDualFreq;
-PsDepthRange g_DepthRange = PsNearRange;
 Point g_Pos(320, 240);
-int g_Slope = 0;
+int g_Slope = 4500;
 
 bool InitDevice(const int deviceCount);
 void ShowMenu();
 static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, cv::Mat& dispImg);
 
-void HotPlugStateCallback(const PsDeviceInfo* pInfo, int state);
-int GetSlopeByDepthRange(const PsDepthRange range);
+void HotPlugStateCallback(const PsDeviceInfo* pInfo, int state, void* pUserData);
 
 void on_MouseHandle(int event, int x, int y, int flags, void * param)
 {
@@ -104,7 +101,6 @@ GET:
                 }
 
 				//Display the Depth Image
-                g_Slope = (PsModeDualFreq == g_DataMode) ? GetSlopeByDepthRange(PsXFarRange) : GetSlopeByDepthRange(depthFrame.depthRange);
 				Opencv_Depth(g_Slope, depthFrame.height, depthFrame.width, depthFrame.pFrameData, imageMat);
                 char text[30] = "";
                 sprintf(text, "%.2f", fps);
@@ -137,7 +133,6 @@ GET:
 				}
 
 				//Display the Depth Image
-                g_Slope = (PsModeDualFreq == g_DataMode) ? GetSlopeByDepthRange(PsXFarRange) : GetSlopeByDepthRange(transformedDepthFrame.depthRange);
 				Opencv_Depth(g_Slope, transformedDepthFrame.height, transformedDepthFrame.width, transformedDepthFrame.pFrameData, imageMat);
 				char text[30] = "";
 				sprintf(text, "%.2f", fps);
@@ -256,80 +251,7 @@ GET:
 
 	KEY:
 		unsigned char key = waitKey(1);
-		if (key == 'M' || key == 'm')
-		{
-			cout << "Selection: 1:SingleFreq; 2:DualFreq;" << endl;
-			int index = -1;
-			cin >> index;
-			//clear buffer and cin flag. if not, cin will not get input anymore;
-			if (cin.fail())
-			{
-				std::cout << "Unexpected input\n";
-				cin.clear();
-				cin.ignore(1024,'\n');
-				continue;
-			}
-			else
-			{
-				cin.clear();
-				cin.ignore(1024,'\n');
-			}
-
-			PsDataMode dataMode = PsModeSingleFreq;
-			switch (index)
-			{
-			case 1:
-				dataMode = PsModeSingleFreq;
-				break;
-            case 2:
-                dataMode = PsModeDualFreq;
-                break;
-			default:
-				cout << "Unsupported data mode!" << endl;
-				continue;
-			}
-
-            uint8_t dataMode_ = 0xFF & dataMode;
-            status = VZCT_SetDataMode(g_DeviceHandle, (PsDataMode)dataMode_);
-            if (status != PsRetOK)
-            {
-                cout << "VZCT_SetDataMode  status" << status << endl;
-            }
-            else
-            {
-                g_DataMode = dataMode;
-                if (dataMode == PsModeSingleFreq)
-                {
-                    VZCT_SetDepthRange(g_DeviceHandle, PsNearRange);
-                }
-            }
-		}
-		else if ((key == '0')
-            || (key == '5'))
-		{
-            if (PsModeSingleFreq != g_DataMode)
-            {
-                cout << "Change range is supported only when in PsModeSingleFreq mode." << endl;
-            }
-			PsDepthRange depthRange = PsDepthRange(key - '0');
-
-			status = VZCT_SetDepthRange(g_DeviceHandle, depthRange);
-			cout << "Set depth range to "<< depthRange << ", status: " << status << endl;
-
-			if (status != PsRetOK)
-			{
-				cout << "Set depth range failed! " << endl;
-			}
-            g_DepthRange = depthRange;
-
-			status = VZCT_GetDepthRange(g_DeviceHandle, &depthRange);
-			cout << "Get depth range," << " depthRange: " << depthRange << endl;
-			if (status != PsRetOK)
-			{
-				cout << "Get depth range failed! " << endl;
-			}
-		}
-        else if (key == 'R' || key == 'r')
+        if (key == 'R' || key == 'r')
         {
             cout << "please select RGB resolution to set: 0:640*480; 1:800*600; 2:1600*1200" << endl;
             int index = 0;
@@ -429,7 +351,7 @@ GET:
 
 bool InitDevice(const int deviceCount)
 {
-	VZCT_SetHotPlugStatusCallback(HotPlugStateCallback);
+	VZCT_SetHotPlugStatusCallback(HotPlugStateCallback, nullptr);
 
 	g_pDeviceListInfo = new PsDeviceInfo[deviceCount];
 	PsReturnStatus status = VZCT_GetDeviceListInfo(g_pDeviceListInfo, deviceCount);
@@ -441,10 +363,7 @@ bool InitDevice(const int deviceCount)
 		system("pause");
 		return false;
 	}
-
-    g_DataMode = PsModeDualFreq;
-    VZCT_SetDataMode(g_DeviceHandle, g_DataMode);
-    
+        
 	PsCameraParameters cameraParameters;
 	status = VZCT_GetCameraParameters(g_DeviceHandle, PsToFSensor, &cameraParameters);
 
@@ -481,8 +400,6 @@ void ShowMenu()
 	cout << "\n--------------------------------------------------------------------" << endl;
 	cout << "--------------------------------------------------------------------" << endl;
 	cout << "Press following key to set corresponding feature:" << endl;
-	cout << "M/m: Change data mode: input corresponding index in terminal:" << endl;
-	cout << "0/5: Change depth range Near/XFar" << endl;
     cout << "R/r: Change the RGB resolution: input corresponding index in terminal:" << endl;
     cout << "                             0: 640 * 480" << endl;
     cout << "                             1: 800 * 600" << endl;
@@ -517,16 +434,7 @@ static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, c
 	putText(dispImg, text, pointxy, FONT_HERSHEY_DUPLEX, 2, Scalar(color, color, color));
 }
 
-void HotPlugStateCallback(const PsDeviceInfo* pInfo, int state)
+void HotPlugStateCallback(const PsDeviceInfo* pInfo, int state, void* pUserData)
 {
 	cout << pInfo->uri<<" " << (state ==0? "add":"remove" )<<endl ;
-}
-
-int GetSlopeByDepthRange(const PsDepthRange range)
-{
-    PsMeasuringRange measuringRange = { 0xFF & range };
-    VZCT_GetDepthMeasuringRange(g_DeviceHandle, &measuringRange);
-    int slope = measuringRange.depthMax;
-
-    return slope;
 }
