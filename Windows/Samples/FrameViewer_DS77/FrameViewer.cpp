@@ -7,8 +7,8 @@
 using namespace std;
 using namespace cv;
 
-PsDeviceInfo* g_pDeviceListInfo = NULL;
-PsDeviceHandle g_DeviceHandle = 0;
+VzDeviceInfo* g_pDeviceListInfo = NULL;
+VzDeviceHandle g_DeviceHandle = 0;
 Point g_Pos(320, 240);
 int g_Slope = 4500;
 
@@ -16,7 +16,7 @@ bool InitDevice(const int deviceCount);
 void ShowMenu();
 static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, cv::Mat& dispImg);
 
-void HotPlugStateCallback(const PsDeviceInfo* pInfo, int state, void* pUserData);
+void HotPlugStateCallback(const VzDeviceInfo* pInfo, int state, void* pUserData);
 
 void on_MouseHandle(int event, int x, int y, int flags, void * param)
 {
@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
 {
 	uint32_t deviceCount = 0;
 	
-	PsReturnStatus status = VZCT_Initialize();
-	if (status != PsReturnStatus::PsRetOK)
+    VzReturnStatus status = VZCT_Initialize();
+	if (status != VzReturnStatus::VzRetOK)
 	{
 		cout << "PsInitialize failed!" << endl;
 		system("pause");
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 GET:
 	status = VZCT_GetDeviceCount(&deviceCount);
-	if (status != PsReturnStatus::PsRetOK)
+	if (status != VzReturnStatus::VzRetOK)
 	{
 		cout << "PsGetDeviceCount failed!" << endl;
 		system("pause");
@@ -69,20 +69,20 @@ GET:
 
 	for (;;)
 	{
-		PsFrame depthFrame = { 0 };
-		PsFrame irFrame = { 0 };
-		PsFrame rgbFrame = { 0 };
-		PsFrame transformedDepthFrame = { 0 };
-		PsFrame transformedRgbFrame = { 0 };
+		VzFrame depthFrame = { 0 };
+		VzFrame irFrame = { 0 };
+		VzFrame rgbFrame = { 0 };
+		VzFrame transformedDepthFrame = { 0 };
+		VzFrame transformedRgbFrame = { 0 };
 
 		// Read one frame before call PsGetFrame
-		PsFrameReady frameReady = {0};
+        VzFrameReady frameReady = {0};
 		status = VZCT_ReadNextFrame(g_DeviceHandle, &frameReady);
 		
 		//Get depth frame, depth frame only output in following data mode
 		if (1 == frameReady.depth)
 		{
-			status = VZCT_GetFrame(g_DeviceHandle, PsDepthFrame, &depthFrame);
+			status = VZCT_GetFrame(g_DeviceHandle, VzDepthFrame, &depthFrame);
 
 			if (depthFrame.pFrameData != NULL)
 			{
@@ -114,7 +114,7 @@ GET:
 		}
 		if (1 == frameReady.transformedDepth)
 		{
-			status = VZCT_GetFrame(g_DeviceHandle, PsTransformDepthImgToColorCameraFrame, &transformedDepthFrame);
+			status = VZCT_GetFrame(g_DeviceHandle, VzTransformDepthImgToColorSensorFrame, &transformedDepthFrame);
 
 			if (transformedDepthFrame.pFrameData != NULL)
 			{
@@ -148,7 +148,7 @@ GET:
 		//Get IR frame, IR frame only output in following data mode
 		if (1 == frameReady.ir)
 		{
-			status = VZCT_GetFrame(g_DeviceHandle, PsIRFrame, &irFrame);
+			status = VZCT_GetFrame(g_DeviceHandle, VzIRFrame, &irFrame);
 
 			if (irFrame.pFrameData != NULL)
 			{
@@ -180,7 +180,7 @@ GET:
         //Get RGB frame, RGB frame only output in following data mode
         if (1 == frameReady.color)
         {
-            status = VZCT_GetFrame(g_DeviceHandle, PsColorFrame, &rgbFrame);
+            status = VZCT_GetFrame(g_DeviceHandle, VzColorFrame, &rgbFrame);
 
             if (rgbFrame.pFrameData != NULL)
             {
@@ -215,7 +215,7 @@ GET:
         }
 		if (1 == frameReady.transformedColor)
 		{
-			status = VZCT_GetFrame(g_DeviceHandle, PsTransformColorImgToDepthCameraFrame, &transformedRgbFrame);
+			status = VZCT_GetFrame(g_DeviceHandle, VzTransformColorImgToDepthSensorFrame, &transformedRgbFrame);
 
 			if (transformedRgbFrame.pFrameData != NULL)
 			{
@@ -272,13 +272,13 @@ GET:
             switch (index)
             {
             case 0:
-                VZCT_SetColorResolution(g_DeviceHandle, PsColor_Resolution_640_480);
+                VZCT_SetColorResolution(g_DeviceHandle, VzColor_Resolution_640_480);
                 break;
             case 1:
-                VZCT_SetColorResolution(g_DeviceHandle, PsColor_Resolution_800_600);
+                VZCT_SetColorResolution(g_DeviceHandle, VzColor_Resolution_800_600);
                 break;
             case 2:
-                VZCT_SetColorResolution(g_DeviceHandle, PsColor_Resolution_1600_1200);
+                VZCT_SetColorResolution(g_DeviceHandle, VzColor_Resolution_1600_1200);
                 break;
             default:
                 cout << "input is invalid." << endl;
@@ -293,9 +293,9 @@ GET:
 			{
                 ofstream PointCloudWriter;
 				PointCloudWriter.open("PointCloud.txt");
-				PsFrame &srcFrame = depthFrame;
+                VzFrame &srcFrame = depthFrame;
 				const int len = srcFrame.width * srcFrame.height;
-				PsVector3f* worldV = new PsVector3f[len];
+                VzVector3f* worldV = new VzVector3f[len];
 
 				VZCT_ConvertDepthFrameToPointCloudVector(g_DeviceHandle, srcFrame, worldV); //Convert Depth frame to World vectors.
 
@@ -319,14 +319,14 @@ GET:
         else if (key == 'Q' || key == 'q')
         {
 			static bool isTransformColorImgToDepthCameraEnabled = true;
-			VZCT_SetTransformColorImgToDepthCameraEnabled(g_DeviceHandle, isTransformColorImgToDepthCameraEnabled);
+			VZCT_SetTransformColorImgToDepthSensorEnabled(g_DeviceHandle, isTransformColorImgToDepthCameraEnabled);
 			cout << "SetTransformColorImgToDepthCameraEnabled " << ((true == isTransformColorImgToDepthCameraEnabled) ? "enable" : "disable") << endl;
 			isTransformColorImgToDepthCameraEnabled = !isTransformColorImgToDepthCameraEnabled;
         }
         else if (key == 'L' || key == 'l')
         {
 			static bool isTransformDepthImgToColorCameraEnabled = true;
-			VZCT_SetTransformDepthImgToColorCameraEnabled(g_DeviceHandle, isTransformDepthImgToColorCameraEnabled);
+			VZCT_SetTransformDepthImgToColorSensorEnabled(g_DeviceHandle, isTransformDepthImgToColorCameraEnabled);
 			cout << "SetTransformDepthImgToColorCameraEnabled " << ((true == isTransformDepthImgToColorCameraEnabled) ? "enable" : "disable") << endl;
 			isTransformDepthImgToColorCameraEnabled = !isTransformDepthImgToColorCameraEnabled;
         }		
@@ -353,19 +353,21 @@ bool InitDevice(const int deviceCount)
 {
 	VZCT_SetHotPlugStatusCallback(HotPlugStateCallback, nullptr);
 
-	g_pDeviceListInfo = new PsDeviceInfo[deviceCount];
-	PsReturnStatus status = VZCT_GetDeviceListInfo(g_pDeviceListInfo, deviceCount);
+	g_pDeviceListInfo = new VzDeviceInfo[deviceCount];
+    VzReturnStatus status = VZCT_GetDeviceInfoList(g_pDeviceListInfo, deviceCount);
 	g_DeviceHandle = 0;
 	status = VZCT_OpenDevice(g_pDeviceListInfo[0].uri, &g_DeviceHandle);
-	if (status != PsReturnStatus::PsRetOK)
+	if (status != VzReturnStatus::VzRetOK)
 	{
 		cout << "OpenDevice failed!" << endl;
 		system("pause");
 		return false;
 	}
-        
-	PsCameraParameters cameraParameters;
-	status = VZCT_GetCameraParameters(g_DeviceHandle, PsToFSensor, &cameraParameters);
+    
+    cout << "sn  ==  " << g_pDeviceListInfo[0].serialNumber << endl;
+
+	VzSensorIntrinsicParameters cameraParameters;
+	status = VZCT_GetSensorIntrinsicParameters(g_DeviceHandle, VzToFSensor, &cameraParameters);
 
 	cout << "Get PsGetCameraParameters status: " << status << endl;
 	cout << "Depth Camera Intinsic: " << endl;
@@ -384,10 +386,6 @@ bool InitDevice(const int deviceCount)
 	cout << "K6: " << cameraParameters.k6 << endl;
 
     const int BufLen = 63;
-	char sn[BufLen] = {0};
-	VZCT_GetSerialNumber(g_DeviceHandle, sn, BufLen);
-	cout << "sn  ==  " << sn << endl;
-
 	char fw[BufLen] = { 0 };
 	VZCT_GetFirmwareVersionNumber(g_DeviceHandle, fw, BufLen);
 	cout << "fw  ==  " << fw << endl;
@@ -434,7 +432,7 @@ static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, c
 	putText(dispImg, text, pointxy, FONT_HERSHEY_DUPLEX, 2, Scalar(color, color, color));
 }
 
-void HotPlugStateCallback(const PsDeviceInfo* pInfo, int state, void* pUserData)
+void HotPlugStateCallback(const VzDeviceInfo* pInfo, int state, void* pUserData)
 {
 	cout << pInfo->uri<<" " << (state ==0? "add":"remove" )<<endl ;
 }
