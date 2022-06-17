@@ -198,30 +198,6 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetIRGMMGain(VzDeviceHandle device, uint8_
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetIRGMMGain(VzDeviceHandle device, uint8_t* pGmmgain);
 
 /**
-* @brief         Sets the color image pixel format on the device specified by <code>device</code>. Currently only RGB and BGR formats are supported.
-* @param[in]     device         The handle of the device to set the pixel format. 
-* @param[in]     pixelFormat    The color pixel format to use. Pass in one of the values defined by ::VzPixelFormat. Currently only <code>VzPixelFormatRGB888</code> and <code>VzPixelFormatBGR888</code> are supported.
-* @return        ::VzRetOK      if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetColorPixelFormat(VzDeviceHandle device, VzPixelFormat pixelFormat);
-
-/**
-* @brief        Sets the color frame Resolution.
-* @param[in]    device       The handle of the device.
-* @param[in]    resolution   The resolution value to set. See ::VzResolution for more information.
-* @return       ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetColorResolution(VzDeviceHandle device, VzResolution resolution);
-
-/**
-* @brief        Returns the the color frame Resolution.
-* @param[in]    device         The handle of the device.
-* @param[out]   pResolution    Pointer to a variable in which to store the returned resolution.
-* @return       ::VzRetOK      if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetColorResolution(VzDeviceHandle device, uint16_t* pResolution);
-
-/**
 * @brief         Sets the tof frame rate.The interface takes a long time, about 500 ms.
 * @param[in]     device       The handle of the device on which to set the framerate.
 * @param[in]     value        The rate value, in range [1,25].
@@ -347,54 +323,6 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetOverexposureFilterParams(VzDeviceHandle
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetOverexposureFilterParams(VzDeviceHandle device, VzOverexposureFilterParams* params);
-
-/**
-* @brief         Enables or disables transforms a color image into the geometry of the depth sensor. When enabled, VZ_GetFrame() can\n
-*                be invoked passing ::VzTransformedColorFrame as the frame type for get a color image which each pixel matches the \n
-*                corresponding pixel coordinates of the depth sensor. The resolution of the transformed color frame is the same as that\n
-*                of the depth image.
-* @param[in]     device       The handle of the device on which to enable or disable mapping.
-* @param[in]     bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
-* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetTransformColorImgToDepthSensorEnabled(VzDeviceHandle device, bool bEnabled);
-
-/**
-* @brief         Returns the Boolean value of whether the transformed of the color image to depth sensor space feature is enabled or disabled.
-* @param[in]     device       The handle of the device on which to enable or disable the feature.
-* @param[out]    bEnabled     Pointer to a variable in which to store the returned Boolean value.
-* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetTransformColorImgToDepthSensorEnabled(VzDeviceHandle device, bool *bEnabled);
-
-/**
-* @brief         Enables or disables transforms the depth map into the geometry of the color sensor. When enabled, VZ_GetFrame() can\n
-*                be invoked passing ::VzTransformedDepthFrame as the frame type for get a depth image which each pixel matches the \n
-*                corresponding pixel coordinates of the color sensor. The resolution of the transformed depth frame is the same as that\n
-*                of the color image.
-* @param[in]     device       The handle of the device on which to enable or disable mapping.
-* @param[in]     bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
-* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetTransformDepthImgToColorSensorEnabled(VzDeviceHandle device, bool bEnabled);
-
-/**
-* @brief         Returns the Boolean value of whether the transformed of the depth image to color space feature is enabled or disabled.
-* @param[in]     device       The handle of the device on which to enable or disable the feature.
-* @param[out]    bEnabled     Pointer to a variable in which to store the returned Boolean value.
-* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetTransformDepthImgToColorSensorEnabled(VzDeviceHandle device, bool *bEnabled);
-
-/**
-* @brief         Returns the point value of the frame that the mapping of the depth image to Color space.
-* @param[in]     device           The handle of the device on which to enable or disable the feature.
-* @param[in]     pointInDepth     The point in depth frame.
-* @param[in]     colorSize        The size(x = w,y = h) of color frame.
-* @param[out]    pPointInColor    The point in the color frame.
-* @return        ::VzRetOK        if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_TransformedDepthPointToColorPoint(const VzDeviceHandle device, const VzDepthVector3 depthPoint, const VzVector2u16 colorSize, VzVector2u16* pPointInColor);
 
 /**
 * @brief         Converts the input points from depth coordinate space to world coordinate space.

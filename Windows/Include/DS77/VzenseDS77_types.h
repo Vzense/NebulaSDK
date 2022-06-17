@@ -9,25 +9,6 @@ typedef uint16_t VzGray16Pixel; //!< Gray image pixel type in 16-bit
 typedef uint8_t VzGray8Pixel;   //!< Gray image pixel type in 8-bit
 
 #pragma pack (push, 1)
-/**
- * @brief Color image pixel type in 24-bit RGB format.
- */
-typedef struct
-{
-	uint8_t r;	//!< Red
-	uint8_t g;	//!< Green
-	uint8_t b;	//!< Blue
-} VzRGB888Pixel;
-
-/**
- * @brief Color image pixel type in 24-bit BGR format.
- */
-typedef struct
-{
-	uint8_t b;	//!< Blue
-	uint8_t g;	//!< Green
-	uint8_t r;	//!< Red
-} VzBGR888Pixel;
 
 /**
  * @brief Stores the x, y, and z components of a 3D vector.

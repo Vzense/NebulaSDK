@@ -6,12 +6,7 @@
  */
 typedef enum{
 	VzDepthFrame = 0,                           //!< Depth frame with 16 bits per pixel in millimeters.
-	VzIRFrame = 1,                              //!< IR frame with 16 bits per pixel.
-	VzColorFrame = 3,                           //!< Color frame with 24 bits per pixel in RGB/BGR format.
-    VzTransformColorImgToDepthSensorFrame = 4,  //!< Color frame with 24 bits per pixel in RGB/BGR format, that is transformed to depth sensor space where the resolution is the same as the depth frame's resolution.\n 
-	                                            //!< This frame type can be enabled using ::VZCT_SetTransformColorImgToDepthCameraEnabled().
-	VzTransformDepthImgToColorSensorFrame = 5,  //!< Depth frame with 16 bits per pixel, in millimeters, that is transformed to color sensor space where the resolution is same as the color frame's resolution.\n 
-	                                            //!< This frame type can be enabled using ::VZCT_SetTransformDepthImgToColorCameraEnabled().
+	VzIRFrame = 1,                              //!< IR frame with 8 bits per pixel.
 	VzConfidenceFrame = 8,                      //!< Confidence frame with 16 bits per pixel.
 }VzFrameType;
 

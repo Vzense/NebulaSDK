@@ -1,2 +1,5 @@
-﻿V1.0.5
+﻿Ver1.0.6
+Modify the SDK API
+
+Ver1.0.5
 First version
