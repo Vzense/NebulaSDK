@@ -98,17 +98,16 @@ typedef struct
  */
 typedef struct
 {
-	uint32_t       frameIndex;    //!< The index of the frame.
-	VzFrameType    frameType;     //!< The type of frame. See ::PsFrameType for more information.
-	VzPixelFormat  pixelFormat;   //!< The pixel format used by a frame. See ::PsPixelFormat for more information.
-	uint8_t        imuFrameNo;    //!< Used to synchronize with IMU, in the range of 0 to 255.
-	uint8_t*       pFrameData;    //!< A buffer containing the frame’s image data.
-	uint32_t       dataLen;       //!< The length of pFrame, in bytes.
-	float          exposureTime;  //!< The exposure time, in milliseconds.
-	VzDepthRange   depthRange;    //!< The depth range mode of the current frame. Used only for depth frames.
-	uint16_t       width;		  //!< The width of the frame, in pixels.
-	uint16_t       height;        //!< The height of the frame, in pixels.
-    uint64_t       timestamp;	  //!< The timestamp of the frame.
+	uint32_t       frameIndex;          //!< The index of the frame.
+	VzFrameType    frameType;           //!< The type of frame. See ::PsFrameType for more information.
+	VzPixelFormat  pixelFormat;         //!< The pixel format used by a frame. See ::PsPixelFormat for more information.
+	uint8_t*       pFrameData;          //!< A buffer containing the frame’s image data.
+	uint32_t       dataLen;             //!< The length of pFrame, in bytes.
+	float          exposureTime;        //!< The exposure time, in milliseconds.
+    uint8_t        depthRange;          //!< The depth range mode of the current frame. Used only for depth frames.
+	uint16_t       width;               //!< The width of the frame, in pixels.
+	uint16_t       height;              //!< The height of the frame, in pixels.
+    uint64_t       deviceTimestamp;     //!< The timestamp of the frame from the device.
 }VzFrame;
 
 typedef struct
@@ -123,8 +122,7 @@ typedef struct
 	uint32_t reserved : 25;
 }VzFrameReady;
 
-struct Device;
-typedef Device* VzDeviceHandle;
+typedef void* VzDeviceHandle;
 
 typedef struct
 {

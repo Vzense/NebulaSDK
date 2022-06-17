@@ -28,21 +28,6 @@ typedef enum{
 }VzPixelFormat;
 
 /**
- * @brief Depth range setting.\n
- *        These set estimated ranges. Detection distances may be greater than what is listed for the given setting. \n
- *        Precision and minimum distance for depth detection varies with longer ranges.
- */
-typedef enum {
-    PsUnknown = -1,
-    PsNearRange = 0,
-    PsMidRange = 1,
-    PsFarRange = 2,
-    PsXNearRange = 3,
-    PsXMidRange = 4,
-    PsXFarRange = 5
-}VzDepthRange;
-
-/**
  * @brief Specifies the type of sensor.
  */
 typedef enum {
@@ -68,7 +53,7 @@ typedef enum
     VzRetPropertyPointerIsNull      = -8,   //!< The input property value buffer pointer is null.
     VzRetPropertySizeNotEnough      = -9,   //!< The input property value buffer size is too small to store the specified property value.
     VzRetInvalidDepthRange          = -10,  //!< The input depth range mode is invalid.
-    VzRetReadNextFrameTimeOut       = -11,  //!< Capture the next image frame time out.
+    VzRetGetFrameReadyTimeOut       = -11,  //!< Capture the next image frame time out.
     VzRetInputPointerIsNull         = -12,  //!< An input pointer parameter is null.
     VzRetCameraNotOpened            = -13,  //!< The camera has not been opened.
     vzRetInvalidCameraType          = -14,  //!< The specified type of camera is invalid.
