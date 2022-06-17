@@ -1,5 +1,5 @@
-#ifndef VZENSE_DEFINE_H
-#define VZENSE_DEFINE_H
+#ifndef VZENSEDS_DEFINE_H
+#define VZENSEDS_DEFINE_H
 
 #include "VzenseDS77_enums.h"
 #include "VzenseDS77_types.h"
@@ -25,4 +25,4 @@
 #define bool uint8_t
 #endif
 
-#endif /* VZENSE_DEFINE_H */
+#endif /* VZENSEDS_DEFINE_H */

@@ -108,7 +108,7 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_StopStream(VzDeviceHandle device);
 * @param[in]     waitTime       The unit is millisecond, the value is in the range (0,65535).
 *                               You can change the value according to the frame rate. For example,the frame rate is 30, so the theoretical waittime interval is 33ms, but if set the time value is 20ms,
 *                               it means the max wait time is 20 ms when capturing next frame, so when call the VZ_GetFrameReady, it may return VzRetGetFrameReadyTimeOut(-11).
-*                               so the value that recommended is 2 * 1000/fps.
+*                               So the recommended value is 2 * 1000/ FPS.
 * @param[out]    pFrameReady    Pointer to a buffer in which to store the signal on which image is ready to be get.
 * @return        ::VzRetOK      if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */

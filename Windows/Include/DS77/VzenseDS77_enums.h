@@ -103,9 +103,9 @@ typedef enum
 
 typedef enum
 {
-    ActiveMode = 0x00,                     //enter the active mode
-    SlaveForHardwareTriggerMode = 0x01,    //enter the hardware salve mode, at this time need to connect the hardware trigger wire, provide hardware signal, to trigger the image
-    SlaveForSoftwareTriggerMode = 0x02,    //enter the software salve mode, at this time need to invoke VZCT_SetSoftwareSlaveTrigger, to trigger the image
+    ActiveMode = 0x00,             //enter the active mode
+    HardwareTriggerMode = 0x01,    //enter the hardware salve mode, at this time need to connect the hardware trigger wire, provide hardware signal, to trigger the image
+    SoftwareTriggerMode = 0x02,    //enter the software salve mode, at this time need to invoke VZCT_SetSoftwareSlaveTrigger, to trigger the image
 }VzWorkMode;
 
 #endif /* VZENSEDS_ENUMS_H */
