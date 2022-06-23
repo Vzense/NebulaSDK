@@ -50,8 +50,6 @@ bool InitDevice(const int deviceCount)
 		return false;
 	}
 
-	sessionIndex = 0;
-
 	status = VZ_StartStream(deviceHandle);
 
 	if (status != VzReturnStatus::VzRetOK)
