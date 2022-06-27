@@ -64,16 +64,7 @@ typedef struct
 	double rotation[9];     //!< Orientation stored as an array of 9 double representing a 3x3 rotation matrix.
 	double translation[3];  //!< Location stored as an array of 3 double representing a 3-D translation vector.
 }VzSensorExtrinsicParameters;
-/**
-* @brief
-*/
-typedef struct
-{
-	uint16_t tm_sec;   // seconds after the minute - [0, 60] including leap second
-	uint16_t tm_min;   // minutes after the hour - [0, 59]
-	uint16_t tm_hour;  // hours since midnight - [0, 23]
-	uint16_t tm_msec;  // millisecond after the second - [0, 999]
-}VzTimeStamp;
+
 /**
  * @brief Depth/IR/Color image frame data.
  */
@@ -98,9 +89,8 @@ typedef struct
 	uint32_t color : 1;
 	uint32_t transformedColor : 1;
 	uint32_t transformedDepth : 1;
-	uint32_t transformedIR : 1;
 	uint32_t confidence : 1;
-	uint32_t reserved : 25;
+	uint32_t reserved : 26;
 }VzFrameReady;
 
 typedef void* VzDeviceHandle;
@@ -144,23 +134,6 @@ typedef struct
     int doCount;
 } VzFillHoleFilterParams;
 
-typedef struct
-{
-    bool enable;
-    int threshold;
-} VzOverexposureFilterParams;
-
-union VzIPAddr
-{
-	uint32_t ip_int32;
-	struct
-	{
-		uint8_t s3;
-		uint8_t s2;
-		uint8_t s1;
-		uint8_t s0;
-	}ip_int8;
-};
 #pragma pack (pop)
 
 /**

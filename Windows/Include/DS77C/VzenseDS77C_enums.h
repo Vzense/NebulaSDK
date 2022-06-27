@@ -49,7 +49,7 @@ typedef enum
     VzRetInvalidFrameType           = -4,   //!< The input frame type is invalid.
     VzRetFramePointerIsNull         = -5,   //!< The output frame buffer is null.
     VzRetNoPropertyValueGet         = -6,   //!< Cannot get the value for the specified property.
-    VzsRetNoPropertyValueSet         = -7,   //!< Cannot set the value for the specified property.
+    VzRetNoPropertyValueSet         = -7,   //!< Cannot set the value for the specified property.
     VzRetPropertyPointerIsNull      = -8,   //!< The input property value buffer pointer is null.
     VzRetPropertySizeNotEnough      = -9,   //!< The input property value buffer size is too small to store the specified property value.
     VzRetInvalidDepthRange          = -10,  //!< The input depth range mode is invalid.

@@ -140,7 +140,7 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetWorkMode(VzDeviceHandle device, VzWorkM
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetWorkMode(VzDeviceHandle device, VzWorkMode* pMode);
 
 /**
-* @brief        Trigger frame data once in software slave mode using invoke this API.
+* @brief        Triggering a frame of image is only useful if the camera is in SoftwareTriggerMode
 * @param[in]    device      The handle of the device.
 * @return       ::VzRetOK   if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
@@ -309,22 +309,6 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetSpatialFilterParams(VzDeviceHandle devi
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetSpatialFilterParams(VzDeviceHandle device, VzSpatialFilterParams* params);
 
 /**
-* @brief        Set the parameters of the Overexposure filter.
-* @param[in]    device       The handle of the device.
-* @param[out]   params       Pointer to a variable in which to store the parameters.
-* @return       ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetOverexposureFilterParams(VzDeviceHandle device, const VzOverexposureFilterParams params);
-
-/**
-* @brief         Get the parameters of the Overexposure filter.
-* @param[in]     device       The handle of the device
-* @param[out]    pParams      Pointer to a variable in which to store the returned value.
-* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
-*/
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetOverexposureFilterParams(VzDeviceHandle device, VzOverexposureFilterParams* params);
-
-/**
 * @brief         Converts the input points from depth coordinate space to world coordinate space.
 * @param[in]     device          The handle of the device on which to perform the operation.
 * @param[in]     pDepthVector    Pointer to a buffer containing the x, y, and z values of the depth coordinates to be converted. \n
@@ -340,11 +324,11 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthToPointCloud(VzDeviceHandle de
 /**
 * @brief         Converts the input Depth frame from depth coordinate space to world coordinate space on the device.
 * @param[in]     device          The handle of the device on which to perform the operation.
-* @param[in]     depthFrame      The depth frame.
+* @param[in]     pDepthFrame      The depth frame.
 * @param[out]    pWorldVector    Pointer to a buffer in which to output the converted x, y, and z values of the world coordinates, measured in millimeters.
 * @return        ::VzRetOK       if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthFrameToPointCloudVector(VzDeviceHandle device, const VzFrame& depthFrame, VzVector3f* pWorldVector);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthFrameToPointCloudVector(VzDeviceHandle device, const VzFrame* pDepthFrame, VzVector3f* pWorldVector);
 
 /**
 * @brief        Sets hotplug status callback function

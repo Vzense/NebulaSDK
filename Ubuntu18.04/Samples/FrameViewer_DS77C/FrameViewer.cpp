@@ -296,7 +296,7 @@ GET:
 				const int len = srcFrame.width * srcFrame.height;
                 VzVector3f* worldV = new VzVector3f[len];
 
-				VZ_ConvertDepthFrameToPointCloudVector(g_DeviceHandle, srcFrame, worldV); //Convert Depth frame to World vectors.
+				VZ_ConvertDepthFrameToPointCloudVector(g_DeviceHandle, &srcFrame, worldV); //Convert Depth frame to World vectors.
 
 				for (int i = 0; i < len; i++)
 				{ 

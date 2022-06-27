@@ -115,7 +115,7 @@ GET:
 			&& RGBFrame.width==640 )
 			{
 				cout << "get Frame successful,status:" << status << "  "
-					 << "resolution： "<< RGBFrame.width  <<"x"<<RGBFrame.height<< endl;	
+					 << "resolution: "<< RGBFrame.width  <<"x"<<RGBFrame.height<< endl;	
 			}
 		}
 
@@ -152,7 +152,7 @@ GET:
 
 			{
 				cout << "get Frame successful,status:" << status << "  "
-					<< "resolution： "<< RGBFrame.width  <<"x"<<RGBFrame.height<< endl;	
+					<< "resolution: "<< RGBFrame.width  <<"x"<<RGBFrame.height<< endl;	
 			}
 		}
 

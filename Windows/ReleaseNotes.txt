@@ -1,3 +1,6 @@
+Ver1.0.7
+Modify the SDK API
+
 Ver1.0.6
 Modify the SDK API
 
