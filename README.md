@@ -6,10 +6,15 @@
 
 ### Supported Platform
 
+- AArch64
 - Ubuntu18.04 (x86_64 platform), e.g. intel i5,i7
 - Windows 10 platform
 
 ### Folder description
+-  **AArch64** 
+
+    Ubuntu18.04 arm64 SDK package that is developed for personal computer platform(arm64), use standard compiler aarch64-linux-gnu(v7.5.0)
+   
 -  **Ubuntu18.04** 
 
     Ubuntu18.04 PC SDK package that is developed for personal computer platform(x86_64), use standard compiler x86_64-linux-gnu(v7.5.0)
