@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-	cout << "---MultiConnection---\n";
+	cout << "---MultiConnection---"<< endl;
 
 	//about dev
 	uint32_t deviceCount = 0;
@@ -57,10 +57,10 @@ GET:
 	}
 	else
 	{
-		if (Connected != pDeviceListInfo[0].status)
+		if (VzConnected != pDeviceListInfo[0].status)
 		{
 			cout << "connect statu" << pDeviceListInfo[0].status << endl;
-			cout << "Call VZ_OpenDevice with connect status :" << Connected << endl;
+			cout << "Call VZ_OpenDevice with connect status :" << VzConnected << endl;
 			return -1;
 		}
 	}
@@ -147,7 +147,7 @@ GET:
 		return -1;
 	}
 
-	cout << "--end--";
+	cout << "--end--"<< endl;
 
 	return 0;
 }

@@ -134,6 +134,12 @@ typedef struct
     int doCount;
 } VzFillHoleFilterParams;
 
+typedef struct
+{
+    VzExposureControlMode mode;
+    int	exposureTime;              //For color Sensor, When the control mode is AE, exposureTime represents maximum exposure time.
+                                   //For ToF Sensor, When the control mode is AE, exposureTime is useless.
+} VzExposureTimeParams;
 #pragma pack (pop)
 
 /**

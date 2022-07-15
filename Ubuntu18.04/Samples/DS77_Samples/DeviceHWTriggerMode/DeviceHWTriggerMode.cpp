@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-	cout << "---DeviceHWTriggerMode---\n";
+	cout << "---DeviceHWTriggerMode---"<< endl;
 
 	//about dev
 	uint32_t deviceCount;
@@ -56,10 +56,10 @@ GET:
 	}
 	else
 	{
-		if (Connected != pDeviceListInfo[0].status)
+		if (VzConnected != pDeviceListInfo[0].status)
 		{
 			cout << "connect statu" << pDeviceListInfo[0].status << endl;
-			cout << "Call VZ_OpenDevice with connect status :" << Connected << endl;
+			cout << "Call VZ_OpenDevice with connect status :" << VzConnected << endl;
 			return -1;
 		}
 	}
@@ -85,7 +85,7 @@ GET:
 	}
 
 	//set slave true
-	status = VZ_SetWorkMode(deviceHandle, HardwareTriggerMode);
+	status = VZ_SetWorkMode(deviceHandle, VzHardwareTriggerMode);
 	if (status != VzReturnStatus::VzRetOK)
 	{
 		cout << "VZ_SetWorkMode failed status:" << status << endl;
@@ -122,7 +122,7 @@ GET:
 	}
 	
 	//set slave false
-	status = VZ_SetWorkMode(deviceHandle, ActiveMode);
+	status = VZ_SetWorkMode(deviceHandle, VzActiveMode);
 	if (status != VzReturnStatus::VzRetOK)
 	{
 		cout << "VZ_SetWorkMode failed status:" << status << endl;
@@ -149,7 +149,7 @@ GET:
 		cout << "VZ_Shutdown failed status:" << status << endl;
 		return -1;
 	}
-	cout << endl << "---end---";
+	cout << "---end---"<< endl;
 
 	return 0;
 }

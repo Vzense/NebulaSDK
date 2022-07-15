@@ -11,12 +11,13 @@ VzDeviceInfo* g_pDeviceListInfo = NULL;
 VzDeviceHandle g_DeviceHandle = 0;
 Point g_Pos(320, 240);
 int g_Slope = 7495;
+bool g_IsSavePointCloud = false;
 
 bool InitDevice(const int deviceCount);
 void ShowMenu();
 static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, cv::Mat& dispImg);
-
 void HotPlugStateCallback(const VzDeviceInfo* pInfo, int state, void* pUserData);
+void SavePointCloud(const char* pFileName, const VzFrame& depthFrame);
 
 void on_MouseHandle(int event, int x, int y, int flags, void * param)
 {
@@ -86,6 +87,12 @@ GET:
 
 			if (depthFrame.pFrameData != NULL)
 			{
+				if (true == g_IsSavePointCloud)
+				{
+					g_IsSavePointCloud = (1 == frameReady.transformedDepth) ? true : false;
+					SavePointCloud("pointCloud.txt", depthFrame);
+				}
+
                 static int index = 0;
                 static float fps = 0;
                 static int64 start = cv::getTickCount();
@@ -118,6 +125,12 @@ GET:
 
 			if (transformedDepthFrame.pFrameData != NULL)
 			{
+				if (true == g_IsSavePointCloud)
+				{
+					g_IsSavePointCloud = false;
+					SavePointCloud("transformedPointCloud.txt", transformedDepthFrame);
+				}
+
 				static int index = 0;
 				static float fps = 0;
 				static int64 start = cv::getTickCount();
@@ -257,7 +270,7 @@ GET:
             cin >> index;
             if (cin.fail())
             {
-                std::cout << "Unexpected input\n";
+                std::cout << "Unexpected input"<< endl;
                 cin.clear();
                 cin.ignore(1024, '\n');
                 continue;
@@ -287,33 +300,7 @@ GET:
         }
 		else if (key == 'P' || key == 'p')
 		{
-			//Save the pointcloud
-			if (depthFrame.pFrameData != NULL)
-			{
-                ofstream PointCloudWriter;
-				PointCloudWriter.open("PointCloud.txt");
-                VzFrame &srcFrame = depthFrame;
-				const int len = srcFrame.width * srcFrame.height;
-                VzVector3f* worldV = new VzVector3f[len];
-
-				VZ_ConvertDepthFrameToPointCloudVector(g_DeviceHandle, &srcFrame, worldV); //Convert Depth frame to World vectors.
-
-				for (int i = 0; i < len; i++)
-				{ 
-                    if (0 < worldV[i].z && worldV[i].z < g_Slope)
-                    {
-                        PointCloudWriter << worldV[i].x << "\t" << worldV[i].y << "\t" << worldV[i].z << std::endl;
-                    }
-				}
-				delete[] worldV;
-				worldV = NULL;
-				std::cout << "Save point cloud successful in PointCloud.txt" << std::endl;
-				PointCloudWriter.close();
-			}
-			else
-			{
-				std::cout << "Current Depth Frame is NULL" << endl;
-			}
+			g_IsSavePointCloud = true;
 		}
         else if (key == 'Q' || key == 'q')
         {
@@ -434,4 +421,33 @@ static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, c
 void HotPlugStateCallback(const VzDeviceInfo* pInfo, int state, void* pUserData)
 {
 	cout << pInfo->uri<<" " << (state ==0? "add":"remove" )<<endl ;
+}
+
+void SavePointCloud(const char* pFileName, const VzFrame& depthFrame)
+{
+	if (depthFrame.pFrameData != NULL && pFileName != NULL)
+	{
+		ofstream PointCloudWriter;
+		PointCloudWriter.open(pFileName);
+		const int len = depthFrame.width * depthFrame.height;
+		VzVector3f *worldV = new VzVector3f[len];
+
+		VZ_ConvertDepthFrameToPointCloudVector(g_DeviceHandle, &depthFrame, worldV); // Convert Depth frame to World vectors.
+
+		for (int i = 0; i < len; i++)
+		{
+			if (0 < worldV[i].z && worldV[i].z < g_Slope)
+			{
+				PointCloudWriter << worldV[i].x << "\t" << worldV[i].y << "\t" << worldV[i].z << std::endl;
+			}
+		}
+		delete[] worldV;
+		worldV = NULL;
+		std::cout << "Save point cloud successful in " <<pFileName<< std::endl;
+		PointCloudWriter.close();
+	}
+	else
+	{
+		std::cout << "Current Depth Frame is NULL" << endl;
+	}
 }

@@ -83,30 +83,37 @@ typedef enum {
 }VzResolution;
 
 typedef enum {
-	ConnectUNKNOWN,
-	Unconnected,
-	Connected,
-	Opened,
-	UpgradeUnconnected,
-	UpgradeConnected,
+	VzConnectUNKNOWN = 0,
+    VzUnconnected = 1,
+    VzConnected = 2,
+    VzOpened = 3,
+    VzUpgradeUnconnected = 4,
+    VzUpgradeConnected = 5,
 }VzConnectStatus;
 
 typedef enum
 {
-	NONE,
-    DS77Lite = 770,
-    DS77CLite = 771,
-    DS77Pro = 772,
-    DS77CPro = 773,
-	MAX,
+    VzDeviceTypeNONE = 0,
+    VzDS77Lite = 770,
+    VzDS77CLite = 771,
+    VzDS77Pro = 772,
+    VzDS77CPro = 773,
+    VzDeviceTypeMAX = 0xFFFF,
 }VzDeviceType;
 
 typedef enum
 {
-    ActiveMode = 0x00,             //enter the active mode
-    HardwareTriggerMode = 0x01,    //enter the hardware salve mode, at this time need to connect the hardware trigger wire, provide hardware signal, to trigger the image
-    SoftwareTriggerMode = 0x02,    //enter the software salve mode, at this time need to invoke VZCT_SetSoftwareSlaveTrigger, to trigger the image
+    VzActiveMode = 0x00,             //enter the active mode
+    VzHardwareTriggerMode = 0x01,    //enter the hardware salve mode, at this time need to connect the hardware trigger wire, provide hardware signal, to trigger the image
+    VzSoftwareTriggerMode = 0x02,    //enter the software salve mode, at this time need to invoke VZCT_SetSoftwareSlaveTrigger, to trigger the image
 }VzWorkMode;
+
+typedef enum
+{
+    VzExposureControlMode_Auto = 0,
+    VzExposureControlMode_Manual = 1,
+}VzExposureControlMode;
+
 
 #endif /* VZENSEDS_ENUMS_H */
 

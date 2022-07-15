@@ -1,3 +1,8 @@
+Ver1.0.8
+1.add VZ_S/GetExposureControlMode
+2.Modify the API of VZ_SetExposureTime
+3.Modify the API of VZ_ConvertDepthFrameToPointCloudVector for support VzTransformDepthImgToColorSensorFrame
+
 Ver1.0.7
 Modify the SDK API
 

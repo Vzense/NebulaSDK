@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-	cout << "---DeviceSearchAndConnect---\n";
+	cout << "---DeviceSearchAndConnect---"<< endl;
 
 	uint32_t deviceCount;
 	VzDeviceInfo* pDeviceInfo = NULL;
@@ -76,7 +76,7 @@ GET:
 		cout << "VZ_Shutdown failed status:" << status << endl;
 		return -1;
 	}
-	cout << "--end--";
+	cout << "--end--"<< endl;
 
 	return 0;
 }

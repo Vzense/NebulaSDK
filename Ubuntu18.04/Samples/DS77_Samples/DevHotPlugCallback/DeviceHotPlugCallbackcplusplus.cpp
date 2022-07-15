@@ -27,10 +27,10 @@ bool InitDevice(const int deviceCount)
 	}
 	else
 	{
-		if (Connected != pDeviceListInfo[0].status)
+		if (VzConnected != pDeviceListInfo[0].status)
 		{
 			cout << "connect statu" << pDeviceListInfo[0].status << endl;
-			cout << "Call VZ_OpenDevice with connect status :" << Connected << endl;
+			cout << "Call VZ_OpenDevice with connect status :" << VzConnected << endl;
 			return -1;
 		}
 	}

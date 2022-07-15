@@ -164,7 +164,6 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_GetSensorIntrinsicParameters(VzDeviceHandl
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetSensorExtrinsicParameters(VzDeviceHandle device, VzSensorExtrinsicParameters* pSensorExtrinsicParameters);
 
 /**
-/**
 * @brief         Gets the firmware version number.
 * @param[in]     device              The handle of the device on which to set the pulse count.
 * @param[in]     pFirmwareVersion    Pointer to a variable in which to store the returned fw value.
@@ -184,7 +183,7 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_GetDeviceMACAddress(VzDeviceHandle device,
 /**
 * @brief        Sets the device GMM gain on a device.
 * @param[in]    device       The handle of the device on which to set the GMM gain.
-* @param[in]    gmmgain      The GMM gain value to set. See ::VzGMMGain for more information.The GMM gain value is in the range [0,4095].
+* @param[in]    gmmgain      The GMM gain value to set. See ::VzGMMGain for more information.The GMM gain value is in the range [0,255].
 * @return       ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_SetIRGMMGain(VzDeviceHandle device, uint8_t gmmgain);
@@ -219,7 +218,7 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetColorResolution(VzDeviceHandle device, 
 * @param[out]   pResolution    Pointer to a variable in which to store the returned resolution.
 * @return       ::VzRetOK      if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetColorResolution(VzDeviceHandle device, uint16_t* pResolution);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetColorResolution(VzDeviceHandle device, VzResolution* pResolution);
 
 /**
 * @brief         Sets the tof frame rate.The interface takes a long time, about 500 ms.
@@ -227,30 +226,50 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_GetColorResolution(VzDeviceHandle device, 
 * @param[in]     value        The rate value, in range [1,25].
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetFrameRate(VzDeviceHandle device, uint8_t value);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetFrameRate(VzDeviceHandle device, int value);
 /**
 * @brief         Gets the tof frame rate.
 * @param[in]     device       The handle of the device on which to get the framerate.
 * @param[in]     pValue       The rate value.
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetFrameRate(VzDeviceHandle device, uint8_t* pValue);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetFrameRate(VzDeviceHandle device, int* pValue);
 
 /**
 * @brief        Set the exposure time of Tofsensor.
-* @param[in]    device          The handle of the device on which to set the exposure time(ns).
-* @param[in]    exposureTime    the exposure time.
+* @param[in]    device          The handle of the device on which to set the exposure control mode.
+* @param[in]    sensorType      The type of sensor (depth or color) from which to get parameter information. Pass in the applicable value defined by ::VzSensorType.
+* @param[in]    exposureType    the exposure control mode.
 * @return       ::VzRetOK       if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetToFExposureTime(VzDeviceHandle device, uint32_t exposureTime);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetExposureControlMode(VzDeviceHandle device, VzSensorType sensorType, VzExposureControlMode controlMode);
 
 /**
 * @brief         Get the exposure time of Tofsensor.
-* @param[in]     device           The handle of the device on which to get the exposure time(ns).
+* @param[in]     device           The handle of the device on which to get the exposure control mode.
+* @param[in]     sensorType       The type of sensor (depth or color) from which to get parameter information. Pass in the applicable value defined by ::VzSensorType.
+* @param[out]    pControlMode     the exposure control mode.
+* @return        ::VzRetOK        if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetExposureControlMode(VzDeviceHandle device, VzSensorType sensorType, VzExposureControlMode* pControlMode);
+
+/**
+* @brief        Set the exposure time of Tofsensor.
+* @param[in]    device          The handle of the device on which to set the exposure time  in microseconds.
+* @param[in]    sensorType      The type of sensor (depth or color) from which to get parameter information. Pass in the applicable value defined by ::VzSensorType.
+* @param[in]    exposureTime    the exposure time.
+* @return       ::VzRetOK       if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetExposureTime(VzDeviceHandle device, VzSensorType sensorType, VzExposureTimeParams exposureTime);
+
+/**
+* @brief         Get the exposure time of Tofsensor.
+* @param[in]     device           The handle of the device on which to get the exposure time in microseconds.
+* @param[in]     sensorType       The type of sensor (depth or color) from which to get parameter information. Pass in the applicable value defined by ::VzSensorType.
 * @param[out]    pExposureTime    the exposure time.
 * @return        ::VzRetOK        if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetToFExposureTime(VzDeviceHandle device, uint32_t* pExposureTime);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetExposureTime(VzDeviceHandle device, VzSensorType sensorType, VzExposureTimeParams* pExposureTime);
 
 /**
 * @brief        Enables or disables the Time filter.
@@ -394,10 +413,10 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_TransformedDepthPointToColorPoint(const Vz
 VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthToPointCloud(VzDeviceHandle device, VzDepthVector3* pDepthVector, VzVector3f* pWorldVector, int32_t pointCount, VzSensorIntrinsicParameters* pSensorParam);
 
 /**
-* @brief         Converts the input Depth frame from depth coordinate space to world coordinate space on the device.
+* @brief         Converts the input Depth frame from depth coordinate space to world coordinate space on the device. Currently supported depth image types are VzDepthFrame and VzTransformDepthImgToColorSensorFrame.
 * @param[in]     device          The handle of the device on which to perform the operation.
 * @param[in]     pDepthFrame      The depth frame.
-* @param[out]    pWorldVector    Pointer to a buffer in which to output the converted x, y, and z values of the world coordinates, measured in millimeters.
+* @param[out]    pWorldVector    Pointer to a buffer in which to output the converted x, y, and z values of the world coordinates, measured in millimeters. The length of pWorldVector must is (VzFrame.width * VzFrame.height).
 * @return        ::VzRetOK       if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthFrameToPointCloudVector(VzDeviceHandle device, const VzFrame* pDepthFrame, VzVector3f* pWorldVector);
