@@ -1,5 +1,5 @@
-#ifndef VZENSEDS_ENUMS_H
-#define VZENSEDS_ENUMS_H
+#ifndef VZENSEDS77C_ENUMS_H
+#define VZENSEDS77C_ENUMS_H
 
 /**
  * @brief Specifies the type of image frame.
@@ -112,8 +112,9 @@ typedef enum
 {
     VzExposureControlMode_Auto = 0,
     VzExposureControlMode_Manual = 1,
+    VzExposureControlMode_Max = 0xFF,
 }VzExposureControlMode;
 
 
-#endif /* VZENSEDS_ENUMS_H */
+#endif /* VZENSEDS77C_ENUMS_H */
 

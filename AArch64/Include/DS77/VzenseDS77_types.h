@@ -1,5 +1,5 @@
-#ifndef VZENSEDS_TYPES_H
-#define VZENSEDS_TYPES_H
+#ifndef VZENSEDS77_TYPES_H
+#define VZENSEDS77_TYPES_H
 
 #include <stdint.h>
 #include "VzenseDS77_enums.h"
@@ -137,8 +137,9 @@ typedef struct
 typedef struct
 {
     VzExposureControlMode mode;
-    int	exposureTime;              //For color Sensor, When the control mode is AE, exposureTime represents maximum exposure time.
-                                   //For ToF Sensor, When the control mode is AE, exposureTime is useless.
+    int	exposureTime;              //When the control mode is AE, the function is undefined.
+                                   //When the control mode is Manual, exposureTime represents the current exposure time.
+                                   //When the control mode is Max, exposureTime represents the max exposure time.
 } VzExposureTimeParams;
 #pragma pack (pop)
 
@@ -152,4 +153,4 @@ typedef void(*PtrHotPlugStatusCallback)(const VzDeviceInfo* pInfo, int state, vo
 
 typedef void(*PtrUpgradeStatusCallback)(int status, int params, void* pUserData);
 
-#endif /* VZENSEDS_TYPES_H */
+#endif /* VZENSEDS77_TYPES_H */

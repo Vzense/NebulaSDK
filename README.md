@@ -2,13 +2,14 @@
 
 ### Supported Devices
 
-- DS77 Support FirmwareVersion: Firmware_DS77_20220530_emmc_B16.img and later
+- DS77 (DS77_S_20220530_B16  and later) 
+- DS77C (DS77_S_20220530_B16  and later )
 
 ### Supported Platform
 
 - AArch64
 - Ubuntu18.04 (x86_64 platform), e.g. intel i5,i7
-- Windows 10 platform
+- Windows 7/10/11
 
 ### Folder description
 -  **AArch64** 
@@ -22,7 +23,7 @@
 
 -  **Windows** 
 
-    Windows PC SDK package that is developed for personal computer platform(x86_64), use standard compiler vs2017
+    Windows PC SDK package that is developed for personal computer platform(x86_64), use standard compiler VS2017
 
 
 ### Summary Of The Guidelines
@@ -35,6 +36,6 @@
 
 - Homepage: https://www.vzense.com/
 - Order: https://www.vzense.com/
-- Docs:
+- Docs: [Vzense ToF Sensor and Application](https://vzense.com/Downloads.html)
 - Develop tools: https://github.com/Vzense , https://gitee.com/Vzense
-- Q&A forum: 
+- Q&A forum: [FAQ - 青岛维感科技有限公司 (vzense.com)](https://vzense.com/Newsdispalys_faq.html)

@@ -1,3 +1,7 @@
+Ver1.0.9
+1.Change the library name frome vzenseDS_api to NebulaSDK
+2.Adjust the file directory structure
+
 Ver1.0.8
 1.add VZ_S/GetExposureControlMode
 2.Modify the API of VZ_SetExposureTime

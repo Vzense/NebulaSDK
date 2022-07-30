@@ -1,17 +1,17 @@
-#ifndef VZENSEDS_API_H
-#define VZENSEDS_API_H
+#ifndef VZENSEDS77_API_H
+#define VZENSEDS77_API_H
 
 /**
-* @file VzenseDS_api.h
-* @brief Vzense API header file.
+* @file VzenseDS77_api.h
+* @brief VzenseDS77 API header file.
 * Copyright (c) 2019-2022 Vzense Interactive, Inc.
 */
 
-/*! \mainpage VzenseDS API Documentation
+/*! \mainpage VzenseDS77 API Documentation
 *
 * \section intro_sec Introduction
 *
-* Welcome to the VzenseDS API documentation. This documentation enables you to quickly get started in your development efforts to programmatically interact with the Vzense CW TOF Camera (eg:DS77).
+* Welcome to the VzenseDS77 API documentation. This documentation enables you to quickly get started in your development efforts to programmatically interact with the Vzense CW TOF Camera (eg:DS77).
 */
 
 #include "VzenseDS77_define.h"
@@ -357,4 +357,4 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthFrameToPointCloudVector(VzDevi
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_SetHotPlugStatusCallback(PtrHotPlugStatusCallback pCallback, const void* pUserData);
 
-#endif /* VZENSEDS_API_H */
+#endif /* VZENSEDS77_API_H */
