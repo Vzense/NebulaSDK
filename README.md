@@ -1,4 +1,4 @@
-## Vzense DS TOF Camera Software Develop Kit
+## Vzense Nebula Software Develop Kit
 
 ### Supported Devices
 
