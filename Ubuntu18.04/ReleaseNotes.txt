@@ -1,3 +1,7 @@
+Ver1.1.0
+1.Optimizing the SDK Architecture
+2.Modify the API of VZ_SetColorResolution/VZ_GetColorResolution
+
 Ver1.0.9
 1.Change the library name frome vzenseDS_api to NebulaSDK
 2.Adjust the file directory structure

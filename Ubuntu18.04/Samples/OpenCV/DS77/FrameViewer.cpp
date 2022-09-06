@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <opencv2/opencv.hpp>
-#include "VzenseDS77_api.h"
+#include "VzenseDS_api.h"
 #include <thread>
 
 using namespace std;

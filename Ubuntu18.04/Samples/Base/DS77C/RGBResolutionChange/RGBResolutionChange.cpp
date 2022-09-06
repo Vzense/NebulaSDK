@@ -1,6 +1,6 @@
 ﻿#include <thread>
 #include <iostream>
-#include "DS77C/VzenseDS77C_api.h"
+#include "VzenseDS_api.h"
 #define frameSpace 10
 using namespace std;
 
@@ -84,10 +84,10 @@ GET:
 	cout << "open device successful,status :" << status << endl;
 
 	//switch RGBResolution
-	VzResolution resolution = VzColor_Resolution_640_480;
+	int resolution_w = 640;
+	int resolution_h = 480;
 	//1.640_480
-	resolution = VzColor_Resolution_640_480;
-	status = VZ_SetColorResolution(deviceHandle, resolution);
+	status = VZ_SetColorResolution(deviceHandle, resolution_w, resolution_h);
 	if (status != VzReturnStatus::VzRetOK)
 	{
 		cout << "VZ_SetColorResolution failed status:" <<status<< endl;
@@ -121,9 +121,10 @@ GET:
 
 	}
 
-	resolution = VzColor_Resolution_1600_1200;
+	resolution_w = 1600;
+	resolution_h = 1200;
 	//2.1600_1200
-	status = VZ_SetColorResolution(deviceHandle, resolution);
+	status = VZ_SetColorResolution(deviceHandle, resolution_w, resolution_h);
 	if (status != VzReturnStatus::VzRetOK)
 	{
 		cout << "VZ_SetColorResolution failed status:" <<status<< endl;

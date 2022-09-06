@@ -1,6 +1,6 @@
 ﻿#include <thread>
 #include <iostream>
-#include "DS77/VzenseDS77_api.h"
+#include "VzenseDS_api.h"
 #define frameSpace 10
 using namespace std;
 

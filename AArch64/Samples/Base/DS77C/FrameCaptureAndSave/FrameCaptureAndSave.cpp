@@ -2,7 +2,7 @@
 
 #include <thread>
 #include <iostream>
-#include "DS77C/VzenseDS77C_api.h"
+#include "VzenseDS_api.h"
 #include <fstream>
 #include <sstream>
 #define frameSpace 20

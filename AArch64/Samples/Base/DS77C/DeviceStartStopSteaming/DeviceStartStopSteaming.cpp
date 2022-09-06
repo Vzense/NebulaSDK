@@ -1,10 +1,10 @@
 ﻿#include <thread>
 #include <iostream>
-#include "DS77C/VzenseDS77C_api.h"
+#include "VzenseDS_api.h"
 using namespace std;
 
 int main() {
-	cout << "---DeviceStartStoVzteaming---"<< endl;
+	cout << "---DeviceStartStoVzStreaming---"<< endl;
 
 	//about dev
 	uint32_t deviceCount;

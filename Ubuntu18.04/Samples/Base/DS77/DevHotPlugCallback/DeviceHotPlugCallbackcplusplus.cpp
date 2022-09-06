@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
-#include "DS77/VzenseDS77_api.h"
+#include "VzenseDS_api.h"
 #include <thread>
 
 using namespace std;

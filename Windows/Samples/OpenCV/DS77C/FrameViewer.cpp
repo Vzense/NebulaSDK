@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <opencv2/opencv.hpp>
-#include "VzenseDS77C_api.h"
+#include "VzenseDS_api.h"
 #include <thread>
 
 using namespace std;
@@ -284,13 +284,13 @@ GET:
             switch (index)
             {
             case 0:
-                VZ_SetColorResolution(g_DeviceHandle, VzColor_Resolution_640_480);
+                VZ_SetColorResolution(g_DeviceHandle, 640, 480);
                 break;
             case 1:
-                VZ_SetColorResolution(g_DeviceHandle, VzColor_Resolution_800_600);
+                VZ_SetColorResolution(g_DeviceHandle, 800, 600);
                 break;
             case 2:
-                VZ_SetColorResolution(g_DeviceHandle, VzColor_Resolution_1600_1200);
+                VZ_SetColorResolution(g_DeviceHandle, 1600, 1200);
                 break;
             default:
                 cout << "input is invalid." << endl;
