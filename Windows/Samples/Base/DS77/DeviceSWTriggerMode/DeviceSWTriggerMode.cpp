@@ -1,6 +1,6 @@
 ﻿#include <thread>
 #include <iostream>
-#include "VzenseDS_api.h"
+#include "VzenseNebula_api.h"
 #define frameSpace 10
 
 using namespace std;
@@ -85,6 +85,11 @@ GET:
 		return -1;
 	}
 
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+    cout << "Software trigger test begins" << endl;
+
 	//set slave true
 	status = VZ_SetWorkMode(deviceHandle, VzSoftwareTriggerMode);
 	if (status != VzReturnStatus::VzRetOK)
@@ -93,20 +98,33 @@ GET:
 		return -1;
 	}
 
+    //Clearing cached images
+    for (int i = 0; i < 5; i++)
+    {
+        status = VZ_GetFrameReady(deviceHandle, 200, &FrameReady);
+    }
+
 	//1.software trigger.
 	//2.ReadNextFrame.
 	//3.GetFrame acoording to Ready flag and Frametype.
 	for (int i = 0; i < frameSpace;	i++)
 	{
-		//call the below api to trigger one frame, then the frame will be sentry
-		// if do not call this function, the frame will not be sent and the below call will return timeout fail
+		
+        //The minimum time interval to trigger a signal is 1000/FPS milliseconds
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
+        //call the below api to trigger one frame, then the frame will be sent
+        // if do not call this function, the frame will not be sent and the below call will return timeout fail
 		status = VZ_SetSoftwareSlaveTrigger(deviceHandle);
+
 		if (status != VzReturnStatus::VzRetOK)
 		{ 
 			cout << "VZ_SetSoftwareSlaveTrigger failed status:" <<status<< endl;
 			continue;
 		}
-		status = VZ_GetFrameReady(deviceHandle, 80, &FrameReady);
+
+		//If no image is ready within 1000ms, the function will return VzRetGetFrameReadyTimeOut
+		status = VZ_GetFrameReady(deviceHandle, 1200, &FrameReady);
 		if (status != VzReturnStatus::VzRetOK)
 		{ 
 			cout << "VZ_GetFrameReady failed status:" << status << endl;
@@ -123,7 +141,6 @@ GET:
 				cout << "get Frame successful,status:" << status << "  "
 					<< "frameTpye:" << depthFrame.frameType << "  "
 					<< "frameIndex:" << depthFrame.frameIndex << endl;
-			
 			}
 		}
 
@@ -135,6 +152,7 @@ GET:
 		cout << "VZ_SetWorkMode failed status:" <<status<< endl;
 		return -1;
 	}
+
 	status = VZ_StopStream(deviceHandle);
 	if (status != VzReturnStatus::VzRetOK)
 	{

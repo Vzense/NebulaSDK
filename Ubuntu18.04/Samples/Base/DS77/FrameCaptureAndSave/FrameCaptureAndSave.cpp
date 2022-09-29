@@ -2,7 +2,7 @@
 
 #include <thread>
 #include <iostream>
-#include "VzenseDS_api.h"
+#include "VzenseNebula_api.h"
 #include <fstream>
 #include <sstream>
 #define frameSpace 20
@@ -87,11 +87,14 @@ GET:
 		return -1;
 	}
 
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
 	//1.ReadNextFrame.
 	//2.GetFrame acoording to Ready flag and Frametype.
 	for(int i = 0;i < frameSpace;i++)
 	{
-		status = VZ_GetFrameReady(deviceHandle, 80, &FrameReady);
+		status = VZ_GetFrameReady(deviceHandle, 1200, &FrameReady);
 		if (status != VzReturnStatus::VzRetOK)
 		{
 			cout << "VZ_GetFrameReady failed status:" <<status<< endl;

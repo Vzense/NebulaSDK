@@ -1,6 +1,6 @@
 ﻿#include <thread>
 #include <iostream>
-#include "VzenseDS_api.h"
+#include "VzenseNebula_api.h"
 #define frameSpace 20
 
 using namespace std;
@@ -84,6 +84,9 @@ GET:
 		return -1;
 	}
 
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
 	//set slave true
 	status = VZ_SetWorkMode(deviceHandle, VzHardwareTriggerMode);
 	if (status != VzReturnStatus::VzRetOK)
@@ -92,19 +95,26 @@ GET:
 		return -1;
 	}
 
+    //Clearing cached images
+    for (int i = 0; i < 5; i++)
+    {
+        status = VZ_GetFrameReady(deviceHandle, 200, &FrameReady);
+    }
+
+    cout << "Please trigger the hardware signal to start the hardware trigger test" << endl;
+
 	//1.hardware trigger.
 	//2.ReadNextFrame.
 	//3.GetFrame acoording to Ready flag and Frametype.
-	for(int i = 0;i < frameSpace;i++)
+	for(int i = 0;i < frameSpace; i++)
 	{
-		//wait for the external trigger signal
-		//if the trigger is none, the below call will return timeout
-		//please check the external connection
-		status = VZ_GetFrameReady(deviceHandle, 80, &FrameReady);
+        //The minimum time interval to trigger a signal is 1000/FPS milliseconds
+		//Wait for an external trigger signal. If the external signal is triggered once, the device sends a frame
+		//If no image is ready within 1200ms, the function will return VzRetGetFrameReadyTimeOut
+		status = VZ_GetFrameReady(deviceHandle, 1200, &FrameReady);
 		if (status != VzReturnStatus::VzRetOK)
 		{
 			cout << "VZ_GetFrameReady failed status:" <<status<<endl;
-			this_thread::sleep_for(chrono::seconds(1));
 			continue;
 		}
 

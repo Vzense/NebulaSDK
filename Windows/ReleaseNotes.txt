@@ -1,3 +1,7 @@
+Ver1.1.13
+1.Change the name of the header file
+2.Modify filter error
+
 Ver1.1.0
 1.Optimizing the SDK Architecture
 2.Modify the API of VZ_SetColorResolution/VZ_GetColorResolution

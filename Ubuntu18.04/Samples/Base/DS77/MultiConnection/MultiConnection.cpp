@@ -1,6 +1,6 @@
 ﻿#include <thread>
 #include <iostream>
-#include "VzenseDS_api.h"
+#include "VzenseNebula_api.h"
 #define frameSpace 10
 using namespace std;
 
@@ -40,7 +40,7 @@ GET:
 		goto GET;
 	}
 	cout << "Get device count: " << deviceCount << endl;
-	if (0 == deviceCount)
+	if (deviceCount < 2)
 	{
 		this_thread::sleep_for(chrono::seconds(1));
 		goto GET;
@@ -78,16 +78,23 @@ GET:
 		{
 			cout << "OpenDevice failed status:" <<status << endl;
 			return -1;
-		}	
-		//Starts capturing the image stream
-		status = VZ_StartStream(deviceHandle[i]);
-		if (status != VzReturnStatus::VzRetOK)
-		{
-			cout << "VZ_StartStream failed status:" <<status<< endl;
-			return -1;
 		}
 	}
-	
+
+    for (int i = 0; i < deviceCount; i++)
+    {
+        //Starts capturing the image stream
+        status = VZ_StartStream(deviceHandle[i]);
+        if (status != VzReturnStatus::VzRetOK)
+        {
+            cout << "VZ_StartStream failed status:" << status << endl;
+            return -1;
+        }
+    }
+
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+
 	//1.ReadNextFrame.
 	//2.Get depth Frame acoording to Ready flag.
 	for (int j = 0; j < frameSpace; j++)
@@ -98,7 +105,7 @@ GET:
 			{
 				VzFrame depthFrame = { 0 };
 				VzFrameReady frameReady = { 0 };
-				status = VZ_GetFrameReady(deviceHandle[i], 80, &frameReady);
+				status = VZ_GetFrameReady(deviceHandle[i], 1200, &frameReady);
 
 				if (status != VzRetOK)
 				{

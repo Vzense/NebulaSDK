@@ -1,6 +1,6 @@
 ﻿#include <thread>
 #include <iostream>
-#include "VzenseDS_api.h"
+#include "VzenseNebula_api.h"
 #define frameSpace 10
 using namespace std;
 
@@ -74,6 +74,8 @@ GET:
 		return false;
 	}
 
+    cout << "open device successful,status :" << status << endl;
+
 	//Starts capturing the image stream
 	status = VZ_StartStream(deviceHandle);
 	if (status != VzReturnStatus::VzRetOK)
@@ -81,7 +83,6 @@ GET:
 		cout << "VZ_StartStream failed status:" <<status<< endl;
 		return -1;
 	}
-	cout << "open device successful,status :" << status << endl;
 
 	//switch RGBResolution
 	int resolution_w = 640;
@@ -98,9 +99,12 @@ GET:
 		cout << "set to 640_480" << endl;
 	}
 
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+
 	for (int i = 0; i < frameSpace; i++)
 	{
-		status = VZ_GetFrameReady(deviceHandle, 80, &FrameReady);
+		status = VZ_GetFrameReady(deviceHandle, 1200, &FrameReady);
 		if (status != VzReturnStatus::VzRetOK)
 		{
 			cout << "VZ_GetFrameReady failed status:" <<status<< endl;
@@ -135,12 +139,15 @@ GET:
 		cout << "set to 1600_1200" << endl;
 	}
 
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(1500));
+
 	for (int i = 0; i < frameSpace; i++)
 	{
-		status = VZ_GetFrameReady(deviceHandle, 80, &FrameReady);
+		status = VZ_GetFrameReady(deviceHandle, 1200, &FrameReady);
 		if (status != VzReturnStatus::VzRetOK)
 		{
-			cout << "Ps2_ReadNextFrame failed status:" <<status<< endl;
+			cout << "VZ_GetFrameReady failed status:" <<status<< endl;
 			continue;
 		}
 

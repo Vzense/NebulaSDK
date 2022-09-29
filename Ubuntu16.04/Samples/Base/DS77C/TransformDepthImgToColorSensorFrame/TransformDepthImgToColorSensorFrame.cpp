@@ -1,6 +1,6 @@
 ﻿#include <thread>
 #include <iostream>
-#include "VzenseDS_api.h"
+#include "VzenseNebula_api.h"
 #define frameSpace 20
 
 using namespace std;
@@ -75,6 +75,8 @@ GET:
 		return false;
 	}
 
+    cout << "open device successful,status :" << status << endl;
+
 	//Starts capturing the image stream
 	status = VZ_StartStream(deviceHandle);
 	if (status != VzReturnStatus::VzRetOK)
@@ -83,6 +85,8 @@ GET:
 		return -1;
 	}
 
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 	//set Mapper
 	status = VZ_SetTransformDepthImgToColorSensorEnabled(deviceHandle, true);
@@ -95,10 +99,10 @@ GET:
 	//2.GetFrame acoording to Ready flag and Frametype.
 	for (int i = 0; i < frameSpace; i++)
 	{
-		status = VZ_GetFrameReady(deviceHandle, 80, &FrameReady);
+		status = VZ_GetFrameReady(deviceHandle, 1200, &FrameReady);
 		if (status != VzReturnStatus::VzRetOK)
 		{
-			cout << "Ps2_ReadNextFrame failed status:" <<status<< endl;
+			cout << "VZ_GetFrameReady failed status:" <<status<< endl;
 			continue;
 		}
 

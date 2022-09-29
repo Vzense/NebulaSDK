@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <opencv2/opencv.hpp>
-#include "VzenseDS_api.h"
+#include "VzenseNebula_api.h"
 #include <thread>
 
 using namespace std;
@@ -73,7 +73,7 @@ GET:
 
 		// Read one frame before call VzGetFrame
 		VzFrameReady frameReady = {0};
-		status = VZ_GetFrameReady(g_DeviceHandle, 2*1000/25, &frameReady);
+		status = VZ_GetFrameReady(g_DeviceHandle, 1200, &frameReady);
 		
 		//Get depth frame, depth frame only output in following data mode
 		if (1 == frameReady.depth)
@@ -115,6 +115,20 @@ GET:
 
 			if (irFrame.pFrameData != NULL)
 			{
+                static int index = 0;
+                static float fps = 0;
+                static int64 start = cv::getTickCount();
+
+                int64 current = cv::getTickCount();
+                int64 diff = current - start;
+                index++;
+                if (diff > cv::getTickFrequency())
+                {
+                    fps = index * cv::getTickFrequency() / diff;
+                    index = 0;
+                    start = current;
+                }
+
 				//Display the IR Image
                 char text[30] = "";
                 imageMat = cv::Mat(irFrame.height, irFrame.width, CV_8UC1, irFrame.pFrameData);
@@ -132,6 +146,11 @@ GET:
 
 				circle(imageMat, g_Pos, 4, color, -1, 8, 0);
 				putText(imageMat, text, g_Pos, FONT_HERSHEY_DUPLEX, 2, color);
+
+                memset(text, 0, sizeof(text));
+                sprintf(text, "%.2f", fps);
+                putText(imageMat, text, Point(0, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255));
+
 				cv::imshow(irImageWindow, imageMat);
 			}
 			else
@@ -175,6 +194,9 @@ GET:
 			break;
 		}
 	}
+
+	status = VZ_StopStream(g_DeviceHandle);
+    cout << "VZ_StopStream status: " << status << endl;
 
     status = VZ_CloseDevice(&g_DeviceHandle);
     cout << "CloseDevice status: " << status << endl;
@@ -229,6 +251,10 @@ bool InitDevice(const int deviceCount)
 	char fw[BufLen] = { 0 };
 	VZ_GetFirmwareVersion(g_DeviceHandle, fw, BufLen);
 	cout << "fw  ==  " << fw << endl;
+
+    VZ_StartStream(g_DeviceHandle);
+    //Wait for the device to upload image data
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
  	return true;
 }
