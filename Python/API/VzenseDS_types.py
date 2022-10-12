@@ -85,7 +85,7 @@ class VzFrameReady(Structure):
 
 class VzDeviceInfo(Structure):
     _pack_ = 1
-    _fields_ = [("devicetype", c_int32),
+    _fields_ = [("productName", c_char * 64),
                 ("uri", c_char * 256),
                 ("alias", c_char * 64),                
                 ("serialNumber", c_char * 64),
