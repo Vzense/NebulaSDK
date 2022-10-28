@@ -1,0 +1,8 @@
+<launch>
+    <!-- device_index used in  Ps2_GetDeviceInfo -->
+    <arg name="device_index" default="0"/>    
+
+    <node pkg="vzense_camera" type="vzense_camera" name="vzense_manager" output="screen" required="true">
+        <param name="device_index" value="$(arg device_index)" type="int"/>
+    </node>
+</launch>
