@@ -29,6 +29,7 @@ This ROS package facilitates depth IR and RGB data acquisition and processing fo
     cd ROS/src
     catkin_init_workspace
     ```
+    After run <b>catkin_init_workspace</b>, it will generate the <b>CmakeLists.txt</b> in the <b>ROS/src</b> folder
     <p align="center"><img src="./doc/img/step1.png" /></p>
 
     ```console
@@ -36,7 +37,7 @@ This ROS package facilitates depth IR and RGB data acquisition and processing fo
     ```
     <p align="center"><img src="./doc/img/step2.png" /></p>
 
-    <b>install.py</b>: copy <b>NebulaSDK</b> to <b>dependencies</b>,such as：
+    <b>install.py</b>: copy <b>NebulaSDK</b> (match with your operating system) to <b>dependencies</b>, with the cmd "<b>python install.py (your operating system)</b>", take <b>Ubuntu18.04</b> as an example：
     ```console
     python install.py Ubuntu18.04
     ```
@@ -77,7 +78,6 @@ This ROS package facilitates depth IR and RGB data acquisition and processing fo
     ```console
     roslaunch vzense_camera vzense_pointCloudxyz.launch
     ```
-    - <b>With Rviz show PointCloud</b>
     <p align="center"><img src="./doc/img/step10.png" /></p>
     <p align="center"><img src="./doc/img/step11.png" /></p>
 - **Show PointCloud with RGB**
@@ -97,6 +97,7 @@ The vzense_manager publishes messages defined by the [sensor_msgs](http://wiki.r
 - /Vzense/transformedColor/image_raw
 
 ## Programming guide
+If developers need to set camera parameters or algorithm switches, please refer to the following process.
 Take calling <b>VZ_SetSpatialFilterParams</b> as an example
 - Find the api From **dependencies/Include/VzenseNebula_api.h**
 <p align="center"><img src="./doc/img/step13.png" /></p>
