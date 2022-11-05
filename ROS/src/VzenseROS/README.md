@@ -1,8 +1,8 @@
 
-# ROS Wrapper for the Vzense ToF library
+# ROS Wrapper for NebulaSDK
 
 ## Overview
-This ROS package facilitates depth IR and RGB data acquisition and processing for the DS77C depth cameras.
+This ROS package facilitates depth IR and RGB data acquisition and processing for NebulaSDK.
 
 ## Installation
 
