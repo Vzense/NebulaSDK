@@ -43,7 +43,7 @@ if  VzConnectStatus.Connected.value != device_info.status:
 	print("Call VZ_OpenDeviceByUri with connect status :",VzConnectStatus.Connected.value)
 	exit()
 else:
-    print('cam devicetype:' + str(device_info.devicetype))
+    print('cam productName:' + str(device_info.productName))
     print('cam uri:' + str(device_info.uri))
     print('cam alias:' + str(device_info.alias))
     print('cam serialNumber:' + str(device_info.serialNumber))

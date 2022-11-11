@@ -30,7 +30,7 @@ if camera_count > 1:
 elif camera_count == 1:
     ret,device_info=camera.VZ_GetDeviceInfo()
     if ret==0:
-        print('cam devicetype:' + str(device_info.devicetype))
+        print('cam productName:' + str(device_info.productName))
         print('cam uri:' + str(device_info.uri))
         print('cam alias:' + str(device_info.alias))
         print('cam serialNumber:' + str(device_info.serialNumber))

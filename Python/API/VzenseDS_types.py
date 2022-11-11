@@ -102,22 +102,13 @@ class VzFlyingPixelFilterParams(Structure):
     _fields_ = [("enable", c_bool),
                 ("threshold", c_int32)]
 
-class VzSpatialFilterParams(Structure):
-    _pack_ = 1
-    _fields_ = [("enable", c_bool),
-                ("validCount", c_int32),
-                ("threshold", c_int32),
-                ("doCount", c_int32)]
-
-class VzFillHoleFilterParams(Structure):
-    _pack_ = 1
-    _fields_ = [("enable", c_bool),
-                ("validCount", c_int32),
-                ("threshold", c_int32),
-                ("doCount", c_int32)]
- 
-class VzOverexposureFilterParams(Structure):
+class VzTimeFilterParams(Structure):
     _pack_ = 1
     _fields_ = [("enable", c_bool),
                 ("threshold", c_int32)]
+
+class VzExposureTimeParams(Structure):
+    _pack_ = 1
+    _fields_ = [("mode", c_int32),
+                ("exposureTime", c_int32)]
  

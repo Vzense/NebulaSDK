@@ -48,6 +48,7 @@ class VzReturnStatus(Enum):
     VzRetCmdSyncTimeOut				= -105
     VzRetIPNotMatch					= -106
     VzRetNotStopStream              = -107
+    VzRetNotStartStream             = -108
     VzRetOthers                     = -255
     
 class VzConnectStatus(Enum):
@@ -69,5 +70,9 @@ class VzWorkMode(Enum):
     ActiveMode          = 0x00
     HardwareTriggerMode = 0x01
     SoftwareTriggerMode = 0x02
+    
+class VzExposureControlMode(Enum):
+    VzExposureControlMode_Auto   = 0
+    VzExposureControlMode_Manual = 1
  
 

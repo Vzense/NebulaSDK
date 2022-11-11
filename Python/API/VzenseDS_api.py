@@ -159,19 +159,19 @@ class VzenseTofCam():
         value = c_uint8(1)
         return self.vz_cam_lib.VZ_GetFrameRate(self.device_handle, byref(value)), value
     
-    def VZ_SetToFExposureTime(self, value = c_uint32(1000)):
-        return self.vz_cam_lib.VZ_SetToFExposureTime(self.device_handle, value) 
+    def VZ_SetExposureTime(self, sensorType = VzSensorType.VzDepthSensor, params = VzExposureTimeParams()):
+        return self.vz_cam_lib.VZ_SetExposureTime(self.device_handle, sensorType, params) 
      
-    def VZ_GetToFExposureTime(self):
-        value = c_uint32(1)
-        return self.vz_cam_lib.VZ_GetToFExposureTime(self.device_handle, byref(value)), value
+    def VZ_GetExposureTime(self, sensorType = VzSensorType.VzDepthSensor):
+        params = VzExposureTimeParams()
+        return self.vz_cam_lib.VZ_GetToFExposureTime(self.device_handle, sensorType, byref(params)), params
  
-    def VZ_SetTimeFilterEnabled(self, enabled = c_bool(True)): 
-        return self.vz_cam_lib.VZ_SetTimeFilterEnabled(self.device_handle, enabled)
+    def VZ_SetTimeFilterEnabled(self, params = VzTimeFilterParams()): 
+        return self.vz_cam_lib.VZ_SetTimeFilterEnabled(self.device_handle, params)
     
     def VZ_GetTimeFilterEnabled(self): 
-        enabled = c_bool(True)
-        return self.vz_cam_lib.VZ_GetTimeFilterEnabled(self.device_handle, byref(enabled)),enabled
+        params = VzTimeFilterParams(True)
+        return self.vz_cam_lib.VZ_GetTimeFilterEnabled(self.device_handle, byref(params)),params
 
     def VZ_SetConfidenceFilterParams(self, params = VzConfidenceFilterParams()): 
         return self.vz_cam_lib.VZ_SetConfidenceFilterParams(self.device_handle, params)
@@ -187,26 +187,19 @@ class VzenseTofCam():
         params = VzFlyingPixelFilterParams()
         return self.vz_cam_lib.VZ_GetFlyingPixelFilterParams(self.device_handle, byref(params)),params
 
-    def VZ_SetFillHoleFilterParams(self, params = VzFillHoleFilterParams()): 
-        return self.vz_cam_lib.VZ_SetFillHoleFilterParams(self.device_handle, params)
+    def VZ_SetFillHoleFilterEnabled(self, enable = c_bool(True)): 
+        return self.vz_cam_lib.VZ_SetFillHoleFilterEnabled(self.device_handle, enable)
     
-    def VZ_GetFillHoleFilterParams(self): 
-        params = VzFillHoleFilterParams()
-        return self.vz_cam_lib.VZ_GetFillHoleFilterParams(self.device_handle, byref(params)),params
+    def VZ_GetFillHoleFilterEnabled(self): 
+        enable = c_bool(True)
+        return self.vz_cam_lib.VZ_GetFillHoleFilterEnabled(self.device_handle, byref(enable)),enable
 
-    def VZ_SetSpatialFilterParams(self, params = VzSpatialFilterParams()): 
-        return self.vz_cam_lib.VZ_SetSpatialFilterParams(self.device_handle, params)
+    def VZ_SetSpatialFilterEnabled(self, enable = c_bool(True)): 
+        return self.vz_cam_lib.VZ_SetSpatialFilterEnabled(self.device_handle, enable)
     
-    def VZ_GetSpatialFilterParams(self): 
-        params = VzSpatialFilterParams()
-        return self.vz_cam_lib.VZ_GetSpatialFilterParams(self.device_handle, byref(params)),params
-    
-    def VZ_SetOverexposureFilterParams(self, params = VzOverexposureFilterParams()): 
-        return self.vz_cam_lib.VZ_SetOverexposureFilterParams(self.device_handle, params)
-    
-    def VZ_GetOverexposureFilterParams(self): 
-        params = VzOverexposureFilterParams()
-        return self.vz_cam_lib.VZ_GetOverexposureFilterParams(self.device_handle, byref(params)),params
+    def VZ_GetSpatialFilterEnabled(self): 
+        enable = c_bool(True)
+        return self.vz_cam_lib.VZ_GetSpatialFilterEnabled(self.device_handle, byref(enable)),enable
 
     def VZ_SetTransformColorImgToDepthSensorEnabled(self, enabled = c_bool(True)): 
         return self.vz_cam_lib.VZ_SetTransformColorImgToDepthSensorEnabled(self.device_handle,  enabled)

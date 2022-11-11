@@ -100,7 +100,7 @@ if  ret == 0:
             if  key == 27:
                 cv2.destroyAllWindows()
                 print("---end---")
-                exit()
+                break;
                    
     except Exception as e :
         print(e)
