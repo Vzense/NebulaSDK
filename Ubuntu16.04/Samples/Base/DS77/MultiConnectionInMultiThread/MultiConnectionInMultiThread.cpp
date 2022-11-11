@@ -162,7 +162,7 @@ GET:
 
 		for(uint32_t i = 0; i < deviceCount; i++)
 		{
-            thread(&Device::TestDevice, std::ref(pDevice[i]), &pDeviceListInfo[i]).detach();
+            thread(&Device::TestDevice, &(pDevice[i]), &pDeviceListInfo[i]).detach();
 		}
 
 		for(uint32_t i = 0; i < deviceCount; i++)

@@ -72,6 +72,7 @@ typedef enum
 	VzRetCmdSyncTimeOut				= -105,	//!< Set cmd ok.but time out for the sync return 
     VzRetIPNotMatch                 = -106, //!< IP is not in the same network segment
     VzRetNotStopStream              = -107, //!< Please invoke VZ_StopStream first to close the data stream
+    VzRetNotStartStream             = -108, //!< Please invoke VZ_StartStream first to get the data stream
 
 	VzRetOthers = -255,	             //!< An unknown error occurred.
 }VzReturnStatus;

@@ -144,37 +144,26 @@ typedef struct
 typedef struct
 {
     bool enable;
-    int threshold;
+    int threshold;//[0, 3],The larger the value is, the more obvious the filtering effect is and The smaller the point cloud wobble
+} VzTimeFilterParams;
+
+typedef struct
+{
+    bool enable;
+    int threshold;//[0, 100],The larger the value is, the more obvious the filtering effect is and the more points are filtered out
 } VzConfidenceFilterParams;
 
 typedef struct
 {
     bool enable;
-    int	threshold;
+    int	threshold;//[0, 49],The larger the value is, the more obvious the filtering effect is and the more points are filtered out
 } VzFlyingPixelFilterParams;
-
-typedef struct
-{
-    bool enable;
-    int	validCount;
-    int threshold;
-    int doCount;
-} VzSpatialFilterParams;
-
-typedef struct
-{
-    bool enable;
-    int	validCount;
-    int	threshold;
-    int doCount;
-} VzFillHoleFilterParams;
 
 typedef struct
 {
     VzExposureControlMode mode;
     int	exposureTime;              //When the control mode is AE,  exposureTime represents the maximum exposure time.
                                    //When the control mode is Manual, exposureTime represents the current exposure time.
-                                   //When the control mode is Max, exposureTime represents the maximum exposure time allowed at the current frame rate In manual exposure mode.
 } VzExposureTimeParams;
 
 

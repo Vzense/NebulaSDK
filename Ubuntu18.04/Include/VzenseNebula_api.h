@@ -282,20 +282,20 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetExposureTime(VzDeviceHandle device, VzS
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetExposureTime(VzDeviceHandle device, VzSensorType sensorType, VzExposureTimeParams* pExposureTime);
 
 /**
-* @brief        Enables or disables the Time filter.
+* @brief        Set the parameters of the Time filter.
 * @param[in]    device       The handle of the device
-* @param[in]    bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
+* @param[in]    params       Pointer to a variable in which to store the parameters.
 * @return       ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */ 
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetTimeFilterEnabled(VzDeviceHandle device, bool bEnabled);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetTimeFilterParams(VzDeviceHandle device, VzTimeFilterParams params);
 
 /**
-* @brief         Returns the Boolean value of whether the TimeFilter feature is enabled or disabled.
+* @brief         Get the parameters of the Time Filter feature.
 * @param[in]     device       The handle of the device
-* @param[out]    pEnabled     Pointer to a variable in which to store the returned Boolean value.
+* @param[out]    pParams      Pointer to a variable in which to store the returned value.
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetTimeFilterEnabled(VzDeviceHandle device, bool *pEnabled);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetTimeFilterParams(VzDeviceHandle device, VzTimeFilterParams *pParams);
 
 /**
 * @brief         Set the parameters of the Confidence filter.
@@ -330,36 +330,36 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetFlyingPixelFilterParams(VzDeviceHandle 
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetFlyingPixelFilterParams(VzDeviceHandle device, VzFlyingPixelFilterParams* params);
 
 /**
-* @brief        Set the parameters of the FillHole filter.
+* @brief        Enables or disables the FillHole filter
 * @param[in]    device       The handle of the device.
-* @param[out]   params       Pointer to a variable in which to store the parameters.
+* @param[in]    bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
 * @return       ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetFillHoleFilterParams(VzDeviceHandle device, const VzFillHoleFilterParams params);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetFillHoleFilterEnabled(VzDeviceHandle device, bool bEnabled);
 
 /**
-* @brief         Get the parameters of the FillHole filter.
+* @brief         Returns the Boolean value of whether the FillHole Filter feature is enabled or disabled.
 * @param[in]     device       The handle of the device
-* @param[out]    pParams      Pointer to a variable in which to store the returned value.
+* @param[out]    pEnabled     Pointer to a variable in which to store the returned Boolean value.
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetFillHoleFilterParams(VzDeviceHandle device, VzFillHoleFilterParams* params);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetFillHoleFilterEnabled(VzDeviceHandle device, bool *pEnabled);
 
 /**
-* @brief        Set the parameters of the Spatial filter.
+* @brief        Enables or disables the Spatial filter
 * @param[in]    device       The handle of the device.
-* @param[out]   params       Pointer to a variable in which to store the parameters.
+* @param[in]    bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
 * @return       ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_SetSpatialFilterParams(VzDeviceHandle device, const VzSpatialFilterParams params);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetSpatialFilterEnabled(VzDeviceHandle device, bool bEnabled);
 
 /**
-* @brief         Get the parameters of the Spatial filter.
+* @brief         Returns the Boolean value of whether the Spatial Filter feature is enabled or disabled.
 * @param[in]     device       The handle of the device
-* @param[out]    pParams      Pointer to a variable in which to store the returned value.
+* @param[out]    pEnabled     Pointer to a variable in which to store the returned Boolean value.
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
-VZENSE_C_API_EXPORT VzReturnStatus VZ_GetSpatialFilterParams(VzDeviceHandle device, VzSpatialFilterParams* params);
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetSpatialFilterEnabled(VzDeviceHandle device, bool *pEnabled);
 
 /**
 * @brief         Enables or disables transforms a color image into the geometry of the depth sensor. When enabled, VZ_GetFrame() can\n
