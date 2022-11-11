@@ -87,7 +87,7 @@ The vzense_manager publishes messages defined by the [sensor_msgs](http://wiki.R
  
 ## Programming guide
 If developers need to set camera parameters or algorithm switches, please refer to the following process.
-Take calling <b>VZ_SetSpatialFilterParams</b> as an example
+Take calling <b>VZ_SetSpatialFilterEnabled</b> as an example
 - Find the api From **dependencies/Include/VzenseNebula_api.h**
 <p align="center"><img src="./doc/img/step13.png" /></p>
 

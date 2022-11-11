@@ -89,11 +89,11 @@ GET:
     VZ_StartStream(deviceHandle_);
     
     /* add user define api call start*/
-    // such as call the VZ_SetSpatialFilterParams
+    // such as call the VZ_SetSpatialFilterEnabled
    
     /*
-    status= VZ_SetSpatialFilterParams(deviceHandle_,true);
-    RCLCPP_INFO( "SetSpatialFilterParams status: " << status);
+    status= VZ_SetSpatialFilterEnabled(deviceHandle_,true);
+    RCLCPP_INFO( "SetSpatialFilterEnabled status: " << status);
     */
   
     /* add user define api call end*/

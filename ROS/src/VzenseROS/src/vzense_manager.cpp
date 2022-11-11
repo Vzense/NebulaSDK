@@ -158,11 +158,11 @@ GET:
     status= VZ_StartStream(deviceHandle_);
     ROS_INFO_STREAM( "Start Depth Frame status: " << status);
     /* add user define api call start*/
-    // such as call the VZ_SetSpatialFilterParams
+    // such as call the VZ_SetSpatialFilterEnabled
    
     /*
-    status= VZ_SetSpatialFilterParams(deviceHandle_,true);
-    ROS_INFO_STREAM( "SetSpatialFilterParams status: " << status);
+    status= VZ_SetSpatialFilterEnabled(deviceHandle_,true);
+    ROS_INFO_STREAM( "SetSpatialFilterEnabled status: " << status);
     */
   
     /* add user define api call end*/
