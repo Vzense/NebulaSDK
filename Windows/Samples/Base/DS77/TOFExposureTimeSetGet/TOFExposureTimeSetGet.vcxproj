@@ -18,11 +18,14 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TOFExposureTimeSetGet.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{B5045479-B0C4-493D-9CA5-11202543CCBF}</ProjectGuid>
+    <ProjectGuid>{8AEAC161-83C7-4579-B879-ACB03D1B0884}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>DevHotPlugCallbackC</RootNamespace>
+    <RootNamespace>TOFExposureTimeSetGet</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -72,27 +75,27 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\..\Bin\x86\</OutDir>
     <IncludePath>..\..\..\..\Include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\Lib\x86;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\..\..\Bin\x86\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\..\Bin\x64\</OutDir>
     <IncludePath>..\..\..\..\Include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\Lib\x64;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\..\..\Bin\x64\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\..\Bin\x86\</OutDir>
     <IncludePath>..\..\..\..\Include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\Lib\x86;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\..\..\Bin\x86\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\..\Bin\x64\</OutDir>
     <IncludePath>..\..\..\..\Include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\..\Lib\x64;$(LibraryPath)</LibraryPath>
-    <OutDir>..\..\..\..\Bin\x64\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -166,9 +169,6 @@
       <AdditionalDependencies>Nebula_api.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="DeviceHotPlugCallbackC.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

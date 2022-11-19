@@ -11,8 +11,9 @@ class VzFrameType(Enum):
     VzConfidenceFrame  = 8 	
         
 class VzSensorType(Enum):
-    VzDepthSensor = 0x01
-
+    VzToFSensor = 0x01
+    VzColorSensor = 0x02
+    
 class VzPixelFormat(Enum):
     VzPixelFormatDepthMM16 = 0
     VzPixelFormatGray8     = 2   

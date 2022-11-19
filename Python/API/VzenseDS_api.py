@@ -116,7 +116,7 @@ class VzenseTofCam():
     def VZ_RebootDevie(self):
         return self.vz_cam_lib.VZ_RebootDevie(self.device_handle)
     
-    def VZ_GetSensorIntrinsicParameters(self, sensorType = VzSensorType.VzDepthSensor):
+    def VZ_GetSensorIntrinsicParameters(self, sensorType = VzSensorType.VzToFSensor):
         CameraParameters = VzSensorIntrinsicParameters()
         return self.vz_cam_lib.VZ_GetSensorIntrinsicParameters(self.device_handle, sensorType.value, byref(CameraParameters)), CameraParameters
 
@@ -158,20 +158,24 @@ class VzenseTofCam():
     def VZ_GetFrameRate(self):
         value = c_uint8(1)
         return self.vz_cam_lib.VZ_GetFrameRate(self.device_handle, byref(value)), value
+
+    def VZ_SetExposureControlMode(self, sensorType = VzSensorType.VzToFSensor, mode = VzExposureControlMode.VzExposureControlMode_Manual):
+        return self.vz_cam_lib.VZ_SetExposureControlMode(self.device_handle, sensorType.value, mode.value) 
     
-    def VZ_SetExposureTime(self, sensorType = VzSensorType.VzDepthSensor, params = VzExposureTimeParams()):
-        return self.vz_cam_lib.VZ_SetExposureTime(self.device_handle, sensorType, params) 
+    def VZ_SetExposureTime(self, sensorType = VzSensorType.VzToFSensor, params = c_int32(0)):
+        ExposureTime = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Manual.value,params) 
+        return self.vz_cam_lib.VZ_SetExposureTime(self.device_handle, sensorType.value, ExposureTime) 
      
-    def VZ_GetExposureTime(self, sensorType = VzSensorType.VzDepthSensor):
-        params = VzExposureTimeParams()
-        return self.vz_cam_lib.VZ_GetToFExposureTime(self.device_handle, sensorType, byref(params)), params
+    def VZ_GetExposureTime(self, sensorType = VzSensorType.VzToFSensor):
+        params = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Manual.value,0)
+        return self.vz_cam_lib.VZ_GetExposureTime(self.device_handle, sensorType.value, byref(params)), params
  
-    def VZ_SetTimeFilterEnabled(self, params = VzTimeFilterParams()): 
-        return self.vz_cam_lib.VZ_SetTimeFilterEnabled(self.device_handle, params)
+    def VZ_SetTimeFilterParams(self, params = VzTimeFilterParams()): 
+        return self.vz_cam_lib.VZ_SetTimeFilterParams(self.device_handle, params)
     
-    def VZ_GetTimeFilterEnabled(self): 
+    def VZ_GetTimeFilterParams(self): 
         params = VzTimeFilterParams(True)
-        return self.vz_cam_lib.VZ_GetTimeFilterEnabled(self.device_handle, byref(params)),params
+        return self.vz_cam_lib.VZ_GetTimeFilterParams(self.device_handle, byref(params)),params
 
     def VZ_SetConfidenceFilterParams(self, params = VzConfidenceFilterParams()): 
         return self.vz_cam_lib.VZ_SetConfidenceFilterParams(self.device_handle, params)
@@ -226,6 +230,11 @@ class VzenseTofCam():
         gCallbackFuncList.append(callbackFunc_)
         return self.vz_cam_lib.VZ_SetHotPlugStatusCallback(callbackFunc_)
 
+    def VZ_GetManaulMaxExposureTime(self):     
+        tmp = r"Py_ToFExposureTimeMax"
+        propertyKey = (c_char * 100)(*bytes(tmp, 'utf-8')) 
+        maxExposureTime = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Manual.value) 
+        return self.vz_cam_lib.VZ_GetProperty(self.device_handle,   byref(propertyKey),  byref(maxExposureTime),8),maxExposureTime.exposureTime
  
 
 
