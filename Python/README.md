@@ -2,7 +2,7 @@
 
 Python wrapper is an opensource project of Vzense Nebula API.
 
-The goal of this project is to help developers use Vzense TOF camera via python method easily.
+The goal of this project is to help developers use Vzense ToF camera via python method easily.
 
 PythonSDK version: V1.0.8
 

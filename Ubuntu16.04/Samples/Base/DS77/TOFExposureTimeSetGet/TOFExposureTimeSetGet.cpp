@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-	cout << "---- TOFExposureTimeSetGet ----"<< endl;
+	cout << "---- ToFExposureTimeSetGet ----"<< endl;
 
 	//about dev
 	uint32_t deviceCount;
@@ -106,7 +106,7 @@ GET:
 	}
 	cout << "Get dfault frame rate: " << defaultframeRate  << endl;
 
-	//Get the range of the TOF exposure time 
+	//Get the range of the ToF exposure time 
 	VzExposureTimeParams maxExposureTime = { VzExposureControlMode_Manual,0 };
 	status = VZ_GetProperty(deviceHandle, "Py_ToFExposureTimeMax", &maxExposureTime, sizeof(maxExposureTime));
 	if (status != VzReturnStatus::VzRetOK)

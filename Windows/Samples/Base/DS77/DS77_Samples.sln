@@ -35,9 +35,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointCloudVectorAndSave", "
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeviceStartStopStreaming", "DeviceStartStopStreaming\DeviceStartStopSteaming.vcxproj", "{C3A7256B-066F-45BA-99C2-87F771CC2C0F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TOFFiltersSetGet", "TOFFiltersSetGet\TOFFiltersSetGet.vcxproj", "{46ED4BB9-D36C-4457-9D86-0ABB9FEAD84D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ToFFiltersSetGet", "ToFFiltersSetGet\ToFFiltersSetGet.vcxproj", "{46ED4BB9-D36C-4457-9D86-0ABB9FEAD84D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TOFExposureTimeSetGet", "TOFExposureTimeSetGet\TOFExposureTimeSetGet.vcxproj", "{8AEAC161-83C7-4579-B879-ACB03D1B0884}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ToFExposureTimeSetGet", "ToFExposureTimeSetGet\ToFExposureTimeSetGet.vcxproj", "{8AEAC161-83C7-4579-B879-ACB03D1B0884}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

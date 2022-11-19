@@ -4,7 +4,7 @@
 using namespace std;
 
 int main() {
-	cout << "--------------TOFFiltersSetGet-------------"<< endl;
+	cout << "--------------ToFFiltersSetGet-------------"<< endl;
 
 	//about dev
 	uint32_t deviceCount;

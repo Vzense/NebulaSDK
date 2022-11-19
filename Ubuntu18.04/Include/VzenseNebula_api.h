@@ -11,7 +11,7 @@
 *
 * \section intro_sec Introduction
 *
-* Welcome to the VzenseDS API documentation. This documentation enables you to quickly get started in your development efforts to programmatically interact with the Vzense CW TOF Camera (eg:DS77).
+* Welcome to the VzenseDS API documentation. This documentation enables you to quickly get started in your development efforts to programmatically interact with the Vzense CW ToF Camera (eg:DS77).
 */
 
 #include "VzenseNebula_define.h"
