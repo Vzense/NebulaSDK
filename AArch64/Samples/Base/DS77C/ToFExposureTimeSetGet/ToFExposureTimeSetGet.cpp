@@ -104,7 +104,7 @@ GET:
 		cout << "VZ_GetFrameRate failed status:" << status << endl;
 		return -1;
 	}
-	cout << "Get dfault frame rate: " << defaultframeRate  << endl;
+	cout << "Get default frame rate: " << defaultframeRate  << endl;
 
 	//Get the range of the ToF exposure time 
 	VzExposureTimeParams maxExposureTime = { VzExposureControlMode_Manual,0 };

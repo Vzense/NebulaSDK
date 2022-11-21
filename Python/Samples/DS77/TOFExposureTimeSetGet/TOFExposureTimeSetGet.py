@@ -67,7 +67,7 @@ else:
 
 ret,frameRate = camera.VZ_GetFrameRate()
 if  ret == 0:
-    print("Get dfault frame rate:"+ str(frameRate))   
+    print("Get default frame rate:"+ str(frameRate))   
 else:
     print("VZ_GetFrameRate failed:"+ str(ret))   
 
