@@ -60,9 +60,9 @@ else:
     print("VZ_StartStream failed:",ret)     
 
 
-ret, params = camera.VZ_GetSensorIntrinsicParameters(VzSensorType.VzDepthSensor)
+ret, params = camera.VZ_GetSensorIntrinsicParameters(VzSensorType.VzToFSensor)
 if  ret == 0:
-    print("VZ_GetSensorIntrinsicParameters PsDepthSensor :",
+    print("VZ_GetSensorIntrinsicParameters VzToFSensor :",
     params.fx,
     params.fy,
     params.cx,
@@ -76,7 +76,7 @@ if  ret == 0:
     params.k5,
     params.k6)
 else:
-    print("VZ_GetSensorIntrinsicParameters PsDepthSensor failed:",ret)
+    print("VZ_GetSensorIntrinsicParameters VzToFSensor failed:",ret)
 
 ret, gmmgain = camera.VZ_GetIRGMMGain()
 if  ret == 0:
