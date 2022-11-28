@@ -1,3 +1,7 @@
+Ver1.1.17
+1.Optimizate code
+2.Add Samples ToFExposureTimeSetGet & ToFFiltersSetGet
+
 Ver1.1.16
 1.Modify the api of filters
 2.fix some errors
