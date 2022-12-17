@@ -1,5 +1,5 @@
 Ver1.1.19
-1.Add HDR Mode VZ_SetHDRModeEnabled/VZ_GetHDRModeEnabled
+1.Add HDR Mode VZ_SetHDRModeEnabled/VZ_GetHDRModeEnabled,(support firmware version: after 20221207)
 2.Optimizate code
 
 Ver1.1.17
