@@ -231,14 +231,14 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_GetColorResolution(VzDeviceHandle device, 
 VZENSE_C_API_EXPORT VzReturnStatus VzGetSupportedResolutionList(VzDeviceHandle device, VzSensorType type, VzResolutionList* pList);
 
 /**
-* @brief         Sets the tof frame rate.The interface takes a long time, about 500 ms.
+* @brief         Sets the ToF frame rate.The interface takes a long time, about 500 ms.
 * @param[in]     device       The handle of the device on which to set the framerate.
 * @param[in]     value        The rate value, in range [1,25].
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_SetFrameRate(VzDeviceHandle device, int value);
 /**
-* @brief         Gets the tof frame rate.
+* @brief         Gets the ToF frame rate.
 * @param[in]     device       The handle of the device on which to get the framerate.
 * @param[in]     pValue       The rate value.
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
@@ -465,4 +465,21 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetProperty(VzDeviceHandle device, const c
 * @return 		::VzRetOK		if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetProperty(VzDeviceHandle device, const char* propertyKey, void* pData, uint32_t dataSize);
+
+/**
+* @brief         Enables or disables the HDR Mode of the ToF sensor. 
+* @param[in]     device       The handle of the device on which to enable or disable the feature.
+* @param[in]     bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetHDRModeEnabled(VzDeviceHandle device, bool bEnabled);
+/**
+* @brief         Returns the Boolean value of whether the HDRMode of ToF sensor feature is enabled or disabled.
+* @param[in]     device       The handle of the device on which to enable or disable the feature.
+* @param[in]     bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetHDRModeEnabled(VzDeviceHandle device, bool *bEnabled);
+
+
 #endif /* VZENSEDS_API_H */

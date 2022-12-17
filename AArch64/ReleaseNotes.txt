@@ -1,3 +1,7 @@
+Ver1.1.19
+1.Add HDR Mode VZ_SetHDRModeEnabled/VZ_GetHDRModeEnabled
+2.Optimizate code
+
 Ver1.1.17
 1.Optimizate code
 2.Add Samples ToFExposureTimeSetGet & ToFFiltersSetGet
