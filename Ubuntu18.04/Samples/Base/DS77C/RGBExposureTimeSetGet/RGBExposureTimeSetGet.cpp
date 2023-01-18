@@ -91,7 +91,7 @@ GET:
 		cout << "switch to manual" << endl;
 	}
 
-	VzExposureTimeParams params = {VzExposureControlMode_Manual, 4000};
+	VzExposureTimeParams params = {VzExposureControlMode_Manual, 3000};
 	status = VZ_SetExposureTime(deviceHandle, VzColorSensor, params);
 	if (status != VzReturnStatus::VzRetOK)
 	{

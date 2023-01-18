@@ -1,3 +1,8 @@
+Ver1.1.20
+1.Fix bug in VZ_ConvertDepthFrameToPointCloudVector api with VzTransformDepthImgToColorSensorFrame
+2.Add samples PointCloudCaptureAndSaveDepthImgToColorSensor and PointCloudVectorAndSaveDepthImgToColorSensor
+3.Optimizate code
+
 Ver1.1.19
 1.Add HDR Mode VZ_SetHDRModeEnabled/VZ_GetHDRModeEnabled,(support firmware version: after 20221207)
 2.Optimizate code
