@@ -64,7 +64,7 @@ if  ret != 0:
     print("VZ_SetWorkMode failed:",ret)
 
 for i in range(300000):
-    ret, frameready = camera.VZ_GetFrameReady(c_uint16(80)) 
+    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000)) 
     if  ret !=0:
         print("VZ_GetFrameReady failed:",ret)
         time.sleep(1)

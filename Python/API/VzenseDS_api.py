@@ -16,9 +16,18 @@ class VzenseTofCam():
         print('architecture:',architecture_)
         if system_ == 'linux':
             if machine_ == 'x86_64':
-                libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Ubuntu18.04/Lib/libNebula_api.so"
-                print(libpath)
-                self.vz_cam_lib = cdll.LoadLibrary(libpath)
+                os_info = os.uname()
+                print('os_info:',type(os_info))
+                system_info = os_info.version
+                print('version:',system_info)
+                if system_info.find('18.04') != -1 or system_info.find('20.04') != -1:
+                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Ubuntu18.04/Lib/libNebula_api.so"
+                    print(libpath)
+                    self.vz_cam_lib = cdll.LoadLibrary(libpath)
+                else:
+                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Ubuntu16.04/Lib/libNebula_api.so"
+                    print(libpath)
+                    self.vz_cam_lib = cdll.LoadLibrary(libpath)
             elif machine_ == 'aarch64':
                 libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/AArch64/Lib/libNebula_api.so"
                 print(libpath)

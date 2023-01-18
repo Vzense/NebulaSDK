@@ -47,6 +47,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ToFFiltersSetGet", "ToFFilt
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ToFExposureTimeSetGet", "ToFExposureTimeSetGet\ToFExposureTimeSetGet.vcxproj", "{8AEAC161-83C7-4579-B879-ACB03D1B0884}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointCloudCaptureAndSaveDepthImgToColorSensor", "PointCloudCaptureAndSaveDepthImgToColorSensor\PointCloudCaptureAndSaveDepthImgToColorSensor.vcxproj", "{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointCloudVectorAndSaveDepthImgToColorSensor", "PointCloudVectorAndSaveDepthImgToColorSensor\PointCloudVectorAndSaveDepthImgToColorSensor.vcxproj", "{45A6D6DE-9899-429F-8939-B42B5154CC52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -231,6 +235,22 @@ Global
 		{8AEAC161-83C7-4579-B879-ACB03D1B0884}.Release|x64.Build.0 = Release|x64
 		{8AEAC161-83C7-4579-B879-ACB03D1B0884}.Release|x86.ActiveCfg = Release|Win32
 		{8AEAC161-83C7-4579-B879-ACB03D1B0884}.Release|x86.Build.0 = Release|Win32
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Debug|x64.ActiveCfg = Debug|x64
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Debug|x64.Build.0 = Debug|x64
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Debug|x86.ActiveCfg = Debug|Win32
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Debug|x86.Build.0 = Debug|Win32
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Release|x64.ActiveCfg = Release|x64
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Release|x64.Build.0 = Release|x64
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Release|x86.ActiveCfg = Release|Win32
+		{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}.Release|x86.Build.0 = Release|Win32
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Debug|x64.ActiveCfg = Debug|x64
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Debug|x64.Build.0 = Debug|x64
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Debug|x86.ActiveCfg = Debug|Win32
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Debug|x86.Build.0 = Debug|Win32
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Release|x64.ActiveCfg = Release|x64
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Release|x64.Build.0 = Release|x64
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Release|x86.ActiveCfg = Release|Win32
+		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

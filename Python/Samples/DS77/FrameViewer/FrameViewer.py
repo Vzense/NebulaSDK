@@ -54,7 +54,7 @@ if  ret == 0:
     try:
         while 1:
 
-            ret, frameready = camera.VZ_GetFrameReady(c_uint16(80))
+            ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
             if  ret !=0:
                 print("VZ_GetFrameReady failed:",ret)
                 time.sleep(1)
