@@ -4,6 +4,7 @@ using System.Threading;
 using VzenseNebula_enums;
 using VzenseNebula_types;
 using VzenseNebula_api;
+using System.Runtime.InteropServices;
 
 namespace RGBExposureTimeSetGet
 {
@@ -86,7 +87,15 @@ namespace RGBExposureTimeSetGet
                 Console.WriteLine("VN_StartStream failed status:" + status);
                 return;
             }
-
+            //Get default frame rate
+            Int32 rate = 10;
+            status = VNAPI.VN_GetFrameRate(deviceHandle, ref rate);
+            if (status != VzReturnStatus.VzRetOK)
+            {
+                Console.WriteLine("VN_GetFrameRate failed status:" + status);
+                return;
+            }
+            Console.WriteLine("---- To  VzExposureControlMode_Manual ----");
             //switch exposure mode to manual
             status = VNAPI.VN_SetExposureControlMode(deviceHandle, VzSensorType.VzColorSensor, VzExposureControlMode.VzExposureControlMode_Manual);
             if (status != VzReturnStatus.VzRetOK)
@@ -96,9 +105,29 @@ namespace RGBExposureTimeSetGet
             }
             else
             {
-                Console.WriteLine("switch to manual");
+                Console.WriteLine("VN_SetExposureControlMode  ok");
             }
+            Console.WriteLine("* step1. Get Color exposure time range with frameRate " + rate + "*");
 
+            //Get the range of the Auto Color exposure time 
+            VzExposureTimeParams maxExposureTime = new VzExposureTimeParams();
+            maxExposureTime.mode = VzExposureControlMode.VzExposureControlMode_Manual;
+            maxExposureTime.exposureTime = 0;
+            UInt32 uRGBExposureTimeMax = (UInt32)Marshal.SizeOf(maxExposureTime);
+            Int32 iRGBExposureTimeMax = (Int32)uRGBExposureTimeMax;
+            IntPtr pRGBExposureTimeMax = Marshal.AllocHGlobal(iRGBExposureTimeMax);
+            status = VNAPI.VN_GetProperty(deviceHandle, "Py_RGBExposureTimeMax", pRGBExposureTimeMax, uRGBExposureTimeMax);
+            if (status != VzReturnStatus.VzRetOK)
+            {
+                Console.WriteLine("VN_GetProperty get Py_RGBExposureTimeMax failed status:" + status);
+                return;
+            }
+            maxExposureTime = (VzExposureTimeParams)Marshal.PtrToStructure(pRGBExposureTimeMax, typeof(VzExposureTimeParams));
+            Marshal.FreeHGlobal(pRGBExposureTimeMax);
+            Console.WriteLine("Recommended scope: 100 - " + maxExposureTime.exposureTime);
+
+            Console.WriteLine("* step2. Set and Get new ExposureTime *");
+            //Set new ExposureTime
             VzExposureTimeParams Params = new VzExposureTimeParams();
             Params.mode = VzExposureControlMode.VzExposureControlMode_Manual;
             Params.exposureTime = 3000;
@@ -112,7 +141,7 @@ namespace RGBExposureTimeSetGet
             {
                 Console.WriteLine("SetExposureTime:" + Params.exposureTime);
             }
-
+            
             Params.exposureTime = 0;
             status = VNAPI.VN_GetExposureTime(deviceHandle, VzSensorType.VzColorSensor, ref Params);
             if (status != VzReturnStatus.VzRetOK)
@@ -125,18 +154,65 @@ namespace RGBExposureTimeSetGet
                 Console.WriteLine("GetExposureTime:" + Params.exposureTime);
             }
 
+            Console.WriteLine("---- To VzExposureControlMode_Auto ----");
             //switch exposure mode to auto
             status = VNAPI.VN_SetExposureControlMode(deviceHandle, VzSensorType.VzColorSensor, VzExposureControlMode.VzExposureControlMode_Auto);
             if (status != VzReturnStatus.VzRetOK)
             {
-                Console.WriteLine("VN_SetExposureControlMode failed status:" + status);
+                Console.WriteLine("VZ_SetExposureControlMode failed status:" + status);
+                return ;
+            }
+            else
+            {
+                Console.WriteLine("VZ_SetExposureControlMode ok");
+            }
+
+            Console.WriteLine("* step1. Get Color exposure time range *");
+            //Get the range of the Auto Color exposure time 
+            VzExposureTimeParams vmaxExposureTime = new VzExposureTimeParams();
+            vmaxExposureTime.mode = VzExposureControlMode.VzExposureControlMode_Manual;
+            vmaxExposureTime.exposureTime = 0;
+            UInt32 vuRGBExposureTimeMax = (UInt32)Marshal.SizeOf(vmaxExposureTime);
+            Int32 viRGBExposureTimeMax = (Int32)vuRGBExposureTimeMax;
+            IntPtr vpRGBExposureTimeMax = Marshal.AllocHGlobal(viRGBExposureTimeMax);
+            status = VNAPI.VN_GetProperty(deviceHandle, "Py_RGBExposureTimeMax", vpRGBExposureTimeMax, vuRGBExposureTimeMax);
+            if (status != VzReturnStatus.VzRetOK)
+            {
+                Console.WriteLine("VN_GetProperty get Py_RGBExposureTimeMax failed status:" + status);
+                return;
+            }
+            vmaxExposureTime = (VzExposureTimeParams)Marshal.PtrToStructure(vpRGBExposureTimeMax, typeof(VzExposureTimeParams));
+            Marshal.FreeHGlobal(vpRGBExposureTimeMax);
+            Console.WriteLine("Recommended scope: 100 - " + maxExposureTime.exposureTime);
+
+            Console.WriteLine("* step2. Set and Get new Auto Max Color exposure time range *");
+            //set new range of Auto Color exposure time. [100  maxExposureTime.exposureTime]
+            Params.mode = VzExposureControlMode.VzExposureControlMode_Auto;
+            Params.exposureTime = 10000;
+            status = VNAPI.VN_SetExposureTime(deviceHandle, VzSensorType.VzColorSensor, Params);
+            if (status != VzReturnStatus.VzRetOK)
+            {
+                Console.WriteLine("VN_SetExposureTimeAutoMax failed status:" + status);
+                return ;
+            }
+            else
+            {
+                Console.WriteLine("SetExposureTimeAutoMax:" + Params.exposureTime);
+            }
+
+            //Get the new range of the Auto Color exposure time .
+            Params.mode = VzExposureControlMode.VzExposureControlMode_Auto;
+            status = VNAPI.VN_GetExposureTime(deviceHandle, VzSensorType.VzColorSensor, ref Params);
+            if (status != VzReturnStatus.VzRetOK)
+            {
+                Console.WriteLine("VN_GetExposureTimeAutoMax failed status:" + status);
                 return;
             }
             else
             {
-                Console.WriteLine("switch to auto");
+                Console.WriteLine("GetExposureTimeAutoMax:" + Params.exposureTime);
             }
-
+            
             //Stop capturing the image stream
             status = VNAPI.VN_StopStream(deviceHandle);
             if (status != VzReturnStatus.VzRetOK)

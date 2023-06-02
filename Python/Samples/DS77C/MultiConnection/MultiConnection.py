@@ -53,7 +53,6 @@ while 1:
         ret, frameready = cameras[i].VZ_GetFrameReady(c_uint16(1000))   
         if  ret !=0:
             print("VZ_GetFrameReady failed:",ret)
-            time.sleep(1)
             continue
                         
         if  frameready.depth:      

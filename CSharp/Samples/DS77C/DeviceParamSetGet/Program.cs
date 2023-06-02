@@ -11,7 +11,7 @@ namespace DeviceParamSetGet
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("---DeviceParamGet---");
+            Console.WriteLine("---DeviceParamSetGet---");
 
             //about dev
             VzenseNebulaAPI VNAPI = new VzenseNebulaAPI();

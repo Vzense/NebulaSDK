@@ -112,7 +112,7 @@ namespace ToFFiltersSetGet
                 TimeFilterParams.enable = 0;
             }
             
-            status = VNAPI.VN_SetTimeFilterParams(deviceHandle, ref TimeFilterParams);
+            status = VNAPI.VN_SetTimeFilterParams(deviceHandle, TimeFilterParams);
             if (status != VzReturnStatus.VzRetOK)
             {
                 Console.WriteLine("VN_SetTimeFilterParams failed status:" + status);
@@ -142,7 +142,7 @@ namespace ToFFiltersSetGet
                 confidenceFilterParams.enable = 0;
             }
             
-            status = VNAPI.VN_SetConfidenceFilterParams(deviceHandle, ref confidenceFilterParams);
+            status = VNAPI.VN_SetConfidenceFilterParams(deviceHandle, confidenceFilterParams);
             if (status != VzReturnStatus.VzRetOK)
             {
                 Console.WriteLine("VN_SetConfidenceFilterParams failed status:" + status);
@@ -174,7 +174,7 @@ namespace ToFFiltersSetGet
                 flyingPixelFilterParams.enable = 0;
             }
 
-            status = VNAPI.VN_SetFlyingPixelFilterParams(deviceHandle, ref flyingPixelFilterParams);
+            status = VNAPI.VN_SetFlyingPixelFilterParams(deviceHandle, flyingPixelFilterParams);
             if (status != VzReturnStatus.VzRetOK)
             {
                 Console.WriteLine("VN_SetFlyingPixelFilterParams failed status:" + status);

@@ -97,22 +97,22 @@ GET:
 		cout << "VZ_SetWorkMode failed status:" <<status<< endl;
 		return -1;
 	}
-
-    //Clearing cached images
-    for (int i = 0; i < 5; i++)
-    {
-        status = VZ_GetFrameReady(deviceHandle, 200, &FrameReady);
-    }
+	// get frameRate
+	int frameRate = 5;
+	status = VZ_GetFrameRate(deviceHandle, &frameRate);
+	if (status != VzReturnStatus::VzRetOK)
+	{
+		cout << "VZ_SetFrameRate failed status:" << status << endl;
+		return -1;
+	}
+	cout << "frameRate :" << frameRate << endl;
 
 	//1.software trigger.
 	//2.ReadNextFrame.
 	//3.GetFrame acoording to Ready flag and Frametype.
+	//4.sleep 1000/frameRate (ms)
 	for (int i = 0; i < frameSpace;	i++)
 	{
-		
-        //The minimum time interval to trigger a signal is 1000/FPS milliseconds
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
-
         //call the below api to trigger one frame, then the frame will be sent
         // if do not call this function, the frame will not be sent and the below call will return timeout fail
 		status = VZ_SetSoftwareSlaveTrigger(deviceHandle);
@@ -144,6 +144,7 @@ GET:
 			}
 		}
 
+		this_thread::sleep_for(chrono::milliseconds(1000 / frameRate));
 	}
 	//set slave false
 	status = VZ_SetWorkMode(deviceHandle, VzActiveMode);

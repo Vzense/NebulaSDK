@@ -82,7 +82,7 @@ namespace DeviceSetFrameRate
             }
 
             int frameRate = new int();
-            frameRate = 15;
+            frameRate = 5;
             status = VNAPI.VN_SetFrameRate(deviceHandle, frameRate);
             if (status != VzReturnStatus.VzRetOK)
             {

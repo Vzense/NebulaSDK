@@ -31,7 +31,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevHotPlugCallbackC", "DevH
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DevHotPlugCallbackCpp", "DevHotPlugCallbackCpp\DevHotPlugCallbackCpp.vcxproj", "{980D4056-3C94-4D42-9A0F-EB9368F6F62F}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeviceParamSetGet", "DeviceParamSetGet\DeviceParamGet.vcxproj", "{1FA7F40D-27D0-4120-B8C6-FE203521270F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeviceParamSetGet", "DeviceParamSetGet\DeviceParamSetGet.vcxproj", "{1FA7F40D-27D0-4120-B8C6-FE203521270F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RGBExposureTimeSetGet", "RGBExposureTimeSetGet\RGBExposureTimeSetGet.vcxproj", "{1A04CA7F-B29C-43CE-AB08-C4E5FBD3BDD8}"
 EndProject
@@ -50,6 +50,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointCloudCaptureAndSaveDepthImgToColorSensor", "PointCloudCaptureAndSaveDepthImgToColorSensor\PointCloudCaptureAndSaveDepthImgToColorSensor.vcxproj", "{F0A5E6A3-3F33-49F4-8415-7CAE24BAE785}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PointCloudVectorAndSaveDepthImgToColorSensor", "PointCloudVectorAndSaveDepthImgToColorSensor\PointCloudVectorAndSaveDepthImgToColorSensor.vcxproj", "{45A6D6DE-9899-429F-8939-B42B5154CC52}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DeviceSetParamsByJson", "DeviceSetParamsByJson\DeviceSetParamsByJson.vcxproj", "{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -251,6 +253,14 @@ Global
 		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Release|x64.Build.0 = Release|x64
 		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Release|x86.ActiveCfg = Release|Win32
 		{45A6D6DE-9899-429F-8939-B42B5154CC52}.Release|x86.Build.0 = Release|Win32
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Debug|x64.ActiveCfg = Debug|x64
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Debug|x64.Build.0 = Debug|x64
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Debug|x86.ActiveCfg = Debug|Win32
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Debug|x86.Build.0 = Debug|Win32
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Release|x64.ActiveCfg = Release|x64
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Release|x64.Build.0 = Release|x64
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Release|x86.ActiveCfg = Release|Win32
+		{1E0DBE17-7C6C-471A-A0D2-A3B52D908FA1}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

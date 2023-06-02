@@ -6,7 +6,7 @@
 using namespace std;
 
 int main() {
-	cout << "---MappedDepthFrameCapture---"<< endl;
+	cout << "---TransformColorImgToDepthSensorFrame---"<< endl;
 
 	//about dev
 	uint32_t deviceCount;

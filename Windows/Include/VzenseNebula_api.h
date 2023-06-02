@@ -126,7 +126,7 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_GetFrame(VzDeviceHandle device, VzFrameTyp
 /**
 * @brief        Set the working mode of the camera.
 * @param[in]    device      The handle of the device
-* @param[in]    mode      The work mode of camera.
+* @param[in]    mode        The work mode of camera. For ActiveMode, set the Time filter default true, for SlaveMode, set the Time filter default false.
 * @return       ::VzRetOK   if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_SetWorkMode(VzDeviceHandle device, VzWorkMode mode);
@@ -430,7 +430,6 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthToPointCloud(VzDeviceHandle de
 * @return        ::VzRetOK       if the function succeeded, or one of the error values defined by ::VzReturnStatus.
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_ConvertDepthFrameToPointCloudVector(VzDeviceHandle device, const VzFrame* pDepthFrame, VzVector3f* pWorldVector);
-
 /**
 * @brief        Sets hotplug status callback function
 * @param[in]    pCallback    Pointer to the callback function. See ::PtrHotPlugStatusCallback 
@@ -467,7 +466,7 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetProperty(VzDeviceHandle device, const c
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetProperty(VzDeviceHandle device, const char* propertyKey, void* pData, uint32_t dataSize);
 
 /**
-* @brief         Enables or disables the HDR Mode of the ToF sensor. 
+* @brief         Enables or disables the HDR Mode of the ToF sensor with VzExposureControlMode_Manual. Default enabled,  so if you want switch to the VzExposureControlMode_Auto, set HDR Mode disable firstly.
 * @param[in]     device       The handle of the device on which to enable or disable the feature.
 * @param[in]     bEnabled     Set to <code>true</code> to enable the feature or <code>false</code> to disable the feature.
 * @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
@@ -481,5 +480,60 @@ VZENSE_C_API_EXPORT VzReturnStatus VZ_SetHDRModeEnabled(VzDeviceHandle device, b
 */
 VZENSE_C_API_EXPORT VzReturnStatus VZ_GetHDRModeEnabled(VzDeviceHandle device, bool *bEnabled);
 
+/**
+* @brief         Set the input signal parameters for Hardware Trigger.
+* @param[in]     device       The handle of the device
+* @param[in]     params       Pointer to a variable in which to store the parameters.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetInputSignalParamsForHWTrigger(VzDeviceHandle device, VzInputSignalParamsForHWTrigger params);
+
+/**
+* @brief         Get the Input signal parameters for Hardware Trigger.
+* @param[in]     device       The handle of the device
+* @param[out]    pParams      Pointer to a variable in which to store the returned value.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetInputSignalParamsForHWTrigger(VzDeviceHandle device, VzInputSignalParamsForHWTrigger *pParams);
+
+/**
+* @brief         Set the output signal parameters.
+* @param[in]     device       The handle of the device
+* @param[in]     params       Pointer to a variable in which to store the parameters.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetOutputSignalParams(VzDeviceHandle device, VzOutputSignalParams params);
+
+/**
+* @brief         Get the output signal parameters.
+* @param[in]     device       The handle of the device
+* @param[out]    pParams      Pointer to a variable in which to store the returned value.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetOutputSignalParams(VzDeviceHandle device, VzOutputSignalParams *pParams);
+
+/**
+* @brief         Set the parameters by Json file that can be saved by NebulaGUITool.
+* @param[in]     device       The handle of the device.
+* @param[in]     pfilePath    Pointer to the path of Json file.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetParamsByJson(VzDeviceHandle device, char* pfilePath);
+
+/**
+* @brief         Set the color Gain with the exposure mode of RGB sensor in VzExposureControlMode_Manual.
+* @param[in]     device       The handle of the device.
+* @param[in]     params       The value of color Gain.Value range: [1.0 15.5]
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_SetColorGain(VzDeviceHandle device, float params);
+
+/**
+* @brief         Get the color Gain.
+* @param[in]     device       The handle of the device.
+* @param[out]    params       The value of color Gain.
+* @return        ::VzRetOK    if the function succeeded, or one of the error values defined by ::VzReturnStatus.
+*/
+VZENSE_C_API_EXPORT VzReturnStatus VZ_GetColorGain(VzDeviceHandle device, float *pParams);
 
 #endif /* VZENSEDS_API_H */

@@ -1,3 +1,33 @@
+Ver1.2.4
+1.Optimizate code check the time from frame ready to get frame is out of 1s or not
+
+Ver1.2.3
+1.Optimizate softwaretrigger
+2.Support jsonfile update
+3.Fix some errors
+4.Support Arm32 (arm-linux-gnueabihf)
+
+Ver1.2.2
+1.Add the sn field in the Log module
+2.Add API VZ_SetParamsByJson, the json file can be saved by NebulaGUITool(V1.2.2)
+3.Fix some errors
+4.Add API VZ_SetColorGain/VZ_GetColorGain which is used in VzExposureControlMode_Manual
+
+Ver1.2.1
+1.For VZ_SetWorkMode API: 
+	to set ActiveMode, the Firmware set the Time filter default true; 
+	to set SlaveMode, the Firmware set the Time filter default false.
+  if need change the the Time filter status,call the API VZ_SetTimeFilterParams
+2.Optimizate code
+
+Ver1.2.0
+1.Support DS86 & DS87
+2.Add API for DS86 & DS87
+	VZ_SetInputSignalParamsForHWTrigger
+	VZ_GetInputSignalParamsForHWTrigger
+	VZ_SetOutputSignalParams
+	VZ_GetOutputSignalParams
+
 Ver1.1.20
 1.Fix bug in VZ_ConvertDepthFrameToPointCloudVector api with VzTransformDepthImgToColorSensorFrame
 2.Add samples PointCloudCaptureAndSaveDepthImgToColorSensor and PointCloudVectorAndSaveDepthImgToColorSensor

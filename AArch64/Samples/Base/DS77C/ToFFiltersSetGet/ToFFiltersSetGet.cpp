@@ -83,7 +83,7 @@ GET:
 
 	cout << endl << "-------------1------------ test TimeFilter --------------------------" << endl;
 
-	VzTimeFilterParams TimeFilterParams = { true, 1 };
+	VzTimeFilterParams TimeFilterParams = { 1,true };
 	status = VZ_GetTimeFilterParams(deviceHandle, &TimeFilterParams);
 	if (status != VzReturnStatus::VzRetOK)
 	{
@@ -103,7 +103,7 @@ GET:
 
 	cout << endl << "-------------2--------- test ConfidenceFilter -----------------------" << endl;
 
-	VzConfidenceFilterParams confidenceFilterParams = { true, 15 };
+	VzConfidenceFilterParams confidenceFilterParams = { 15, true };
 	status = VZ_GetConfidenceFilterParams(deviceHandle, &confidenceFilterParams);
 	if (status != VzReturnStatus::VzRetOK)
 	{
@@ -124,7 +124,7 @@ GET:
 
 	cout << endl << "-------------3--------- test FlyingPixelFilter ----------------------" << endl;
 
-	VzFlyingPixelFilterParams flyingPixelFilterParams = { true, 15 };
+	VzFlyingPixelFilterParams flyingPixelFilterParams = { 15, true };
 	status = VZ_GetFlyingPixelFilterParams(deviceHandle, &flyingPixelFilterParams);
 	if (status != VzReturnStatus::VzRetOK)
 	{

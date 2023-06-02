@@ -89,7 +89,7 @@ namespace ToFExposureTimeSetGet
 
             //1.Default FrameRate
             //2.Set new ExposureTime
-            //3.Change FrameRate to 15
+            //3.Change FrameRate to 5
             //4.Set new ExposureTime
 
             Console.WriteLine("---- Default FrameRate ----");
@@ -107,7 +107,7 @@ namespace ToFExposureTimeSetGet
 
             //Get default frame rate
             int defaultframeRate = new int();
-            defaultframeRate = 20;
+            defaultframeRate = 10;
             status = VNAPI.VN_GetFrameRate(deviceHandle, ref defaultframeRate);
             if (status != VzReturnStatus.VzRetOK)
             {
@@ -149,10 +149,10 @@ namespace ToFExposureTimeSetGet
                 Console.WriteLine("Set exposure time " + Params.exposureTime + " is OK.");
             }
 
-            Console.WriteLine("---- Set FrameRate to 15 ----");
+            Console.WriteLine("---- Set FrameRate to 5 ----");
             //Set new FrameRate
             int frameRate = new int();  //New frame rate, can change it
-            frameRate = 15;
+            frameRate = 5;
             status = VNAPI.VN_SetFrameRate(deviceHandle, frameRate);
             if (status != VzReturnStatus.VzRetOK)
             {

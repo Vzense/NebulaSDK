@@ -143,20 +143,20 @@ typedef struct
 
 typedef struct
 {
+	int threshold;//[0, 3],The larger the value is, the more obvious the filtering effect is and The smaller the point cloud wobble
     bool enable;
-    int threshold;//[0, 3],The larger the value is, the more obvious the filtering effect is and The smaller the point cloud wobble
 } VzTimeFilterParams;
 
 typedef struct
 {
+	int threshold;//[0, 100],The larger the value is, the more obvious the filtering effect is and the more points are filtered out
     bool enable;
-    int threshold;//[0, 100],The larger the value is, the more obvious the filtering effect is and the more points are filtered out
 } VzConfidenceFilterParams;
 
 typedef struct
 {
-    bool enable;
     int	threshold;//[0, 49],The larger the value is, the more obvious the filtering effect is and the more points are filtered out
+    bool enable;
 } VzFlyingPixelFilterParams;
 
 typedef struct
@@ -177,6 +177,19 @@ typedef struct
     char errorMessage[10][64];          //The maximum length of each error message is 64(contains '\0').
 } VzDeviceErrorInfo;
 
+typedef struct
+{	
+	uint16_t width;                      //[1,65535],The width of input signal.
+	uint16_t interval;                   //[34000,65535],The interval of input signal.
+	uint8_t polarity;                    //[0,1],0 for active low, 1 for active high.
+}VzInputSignalParamsForHWTrigger;        //Input signal parameters for Hardware Trigger.
+
+typedef struct
+{
+	uint16_t width;                      //[1,65535],The width of output signal.
+	uint16_t delay;                      //[0,65535],The delay time of output signal.
+	uint8_t polarity;                    //[0,1],0 for active low, 1 for active high.
+}VzOutputSignalParams;                   //Output signal parameters.
 
 #pragma pack (pop)
 

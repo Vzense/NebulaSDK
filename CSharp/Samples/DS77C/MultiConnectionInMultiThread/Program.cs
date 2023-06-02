@@ -11,7 +11,7 @@ namespace MultiConnectionInMultiThread
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("---MultiConnection---");
+            Console.WriteLine("---MultiConnectionInMultiThread---");
 
             //about dev
             VzenseNebulaAPI VNAPI = new VzenseNebulaAPI();

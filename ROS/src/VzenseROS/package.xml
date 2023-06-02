@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>vzense_camera</name>
-  <version>1.0.0</version>
-  <description>vzense_camera package</description>
+  <name>VzenseROS</name>
+  <version>1.0.1</version>
+  <description>VzenseROS package</description>
   <maintainer email="info@vzense.com">vzense</maintainer>
   <license>TODO</license>
 

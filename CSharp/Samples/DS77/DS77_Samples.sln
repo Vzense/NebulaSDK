@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToFExposureTimeSetGet", "To
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToFFiltersSetGet", "ToFFiltersSetGet\ToFFiltersSetGet.csproj", "{A3741B3F-C769-430F-9D2E-EF15C8DD1E89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DeviceSetParamsByJson", "DeviceSetParamsByJson\DeviceSetParamsByJson.csproj", "{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -191,6 +193,14 @@ Global
 		{A3741B3F-C769-430F-9D2E-EF15C8DD1E89}.Release|x64.Build.0 = Release|x64
 		{A3741B3F-C769-430F-9D2E-EF15C8DD1E89}.Release|x86.ActiveCfg = Release|Any CPU
 		{A3741B3F-C769-430F-9D2E-EF15C8DD1E89}.Release|x86.Build.0 = Release|Any CPU
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Debug|x64.ActiveCfg = Debug|x64
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Debug|x64.Build.0 = Debug|x64
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Debug|x86.Build.0 = Debug|Any CPU
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Release|x64.ActiveCfg = Release|x64
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Release|x64.Build.0 = Release|x64
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Release|x86.ActiveCfg = Release|Any CPU
+		{AE46A408-38BD-4381-ABA8-A4A54E8AB42C}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -81,7 +81,6 @@ if  ret == 0 or ret == -103:
         ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
         if  ret !=0:
             print("VZ_GetFrameReady failed:",ret)
-            time.sleep(1)
             continue
   
         if  frameready.depth:      
@@ -90,7 +89,6 @@ if  ret == 0 or ret == -103:
                 print("frameIndex: ",frame.frameIndex)
             else:
                 print("get depth frame failed ",ret)
-            time.sleep(1)
             continue
 else:
     print('VZ_OpenDeviceByUri failed: ' + str(ret))  

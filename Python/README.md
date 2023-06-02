@@ -11,7 +11,9 @@ PythonSDK version: V1.0.8
 - DS77Lite 
 - DS77CLite
 - DS77Pro  
-- DS77CPro  
+- DS77CPro
+- DS86
+- DS87  
 
 ### Requirements
 
@@ -22,6 +24,7 @@ PythonSDK version: V1.0.8
 
 - **DS77**: the API and Sample code for DS77Lite/DS77Pro
 - **DS77C**: the API and Sample code for DS77CLite/DS77CPro
+- **DS86**: the API and Sample code for DS86 & DS87
 
 ### Quick Start
 
@@ -32,3 +35,5 @@ pip install opencv-python
 ```
 2. switch to Samples under the product directory, run the sample that you need. 
 For example, go to the DS77/Samples/FrameViewer, then run 'python FrameViewer_DS77.py'
+
+3. When using multiple network cards, set different IP network segments

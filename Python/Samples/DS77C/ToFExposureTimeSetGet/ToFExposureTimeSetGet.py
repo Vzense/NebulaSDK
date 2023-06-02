@@ -83,9 +83,9 @@ if  ret == 0:
 else:
     print("VZ_SetExposureTime failed:"+ str(ret))   
 
-ret = camera.VZ_SetFrameRate(15)
+ret = camera.VZ_SetFrameRate(5)
 if  ret == 0:
-    print("Set frame rate 15 is ok")   
+    print("Set frame rate 5 is ok")   
 else:
     print("VZ_SetFrameRate failed:"+ str(ret))   
 

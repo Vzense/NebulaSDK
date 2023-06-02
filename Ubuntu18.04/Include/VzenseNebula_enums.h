@@ -63,7 +63,11 @@ typedef enum
     VzRetUpgradeImgPathTooLong      = -18,  //!< Upgrade file path length greater than 260.
 	VzRetUpgradeCallbackNotSet		= -19,  //!< VZ_SetUpgradeStatusCallback is not called.
 	VzRetProductNotSupport          = -20,  //!< The current product does not support this operation.
-	VzRetNoProductProfile			= -21,  //!< No product profile found.
+	VzRetNoConfigFolder				= -21,  //!< No product profile found.
+	VzRetWebServerStartError        = -22,  //!< WebServer Start/Restart error(IP or PORT).
+	VzRetGetOverStayFrame           = -23,  //!< The time from frame ready to get frame is out of 1s
+	VzRetCreateLogDirError          = -24,  //!< Create log directory error
+	VzRetCreateLogFileError			= -25,  //!< Create log file error
 	VzRetNoAdapterConnected			= -100,	//!< There is no adapter connected
 	VzRetReInitialized				= -101,	//!< The SDK has been Initialized
 	VzRetNoInitialized				= -102,	//!< The SDK has not been Initialized
@@ -73,6 +77,7 @@ typedef enum
     VzRetIPNotMatch                 = -106, //!< IP is not in the same network segment
     VzRetNotStopStream              = -107, //!< Please invoke VZ_StopStream first to close the data stream
     VzRetNotStartStream             = -108, //!< Please invoke VZ_StartStream first to get the data stream
+	VzRetNoDriversFolder			= -109, //!< Please invoke VZ_StartStream first to get the data stream
 
 	VzRetOthers = -255,	             //!< An unknown error occurred.
 }VzReturnStatus;

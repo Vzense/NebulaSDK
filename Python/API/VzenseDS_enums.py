@@ -66,6 +66,8 @@ class VzDeviceType(Enum):
     DS77CLite = 0x0F
     DS77Pro   = 0x10
     DS77CPro  = 0x11
+    DS86      = 0x12
+    DS87      = 0x13
 
 class VzWorkMode(Enum):
     ActiveMode          = 0x00

@@ -43,7 +43,7 @@ This ROS2 package facilitates depth IR and RGB data acquisition and processing f
   ```
   ```console
   cd ../../
-  colcon build
+  colcon build --packages-select VzenseROS
   ```
   <p align="center"><img src="./doc/img/step4.png" /></p>
   
@@ -93,3 +93,6 @@ Take calling <b>VZ_SetSpatialFilterEnabled</b> as an example
 
 - Add the code into **/src/vzense_manager.cpp**
 <p align="center"><img src="./doc/img/step14.png" /></p>
+
+## Details
+- When using multiple network cards, set different IP network segments

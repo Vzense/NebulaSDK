@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(vzense_camera)
+project(VzenseROS)
 
 ## Add support for C++11, supported in ROS melodic and newer
 add_definitions(-std=c++11)

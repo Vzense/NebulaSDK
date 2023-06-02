@@ -46,7 +46,7 @@ This ROS package facilitates depth IR and RGB data acquisition and processing fo
  - **Build the VzenseROS package**
   ```console
   cd ../../
-  catkin_make
+  catkin_make -DCATKIN_WHITELIST_PACKAGES="VzenseROS"  
   ```
   <p align="center"><img src="./doc/img/step4.png" /></p>
   <p align="center"><img src="./doc/img/step5.png" /></p>
@@ -58,7 +58,7 @@ This ROS package facilitates depth IR and RGB data acquisition and processing fo
 ## Usage
 - **Starting camera node**
     ```console
-    roslaunch vzense_camera vzense_camera.launch
+    roslaunch VzenseROS vzense_camera.launch
     ```
     <p align="center"><img src="./doc/img/step6.png" /></p>
     - <b>With Rviz show frame</b>
@@ -74,19 +74,29 @@ This ROS package facilitates depth IR and RGB data acquisition and processing fo
     rosrun rqt_reconfigure rqt_reconfigure
     ```
     <p align="center"><img src="./doc/img/step9.png" /></p>
+    
+    >**Instructions:**
+    >
+    >- Modifying the **FrameRate** will affect the maximum of **ToFExposureTime** and **RGBExposureTime**
+    >- The value is invalid when **ToFExposureTime** or **RGBExposureTime**  is set above the maximum value
+    >- **HDRMode** takes effect only when **ToFManual** is True
+    >- **ToFManual** set to false is invalid when **HDRMode** is True
+    
 - **Show PointCloud**
+  
     ```console
-    roslaunch vzense_camera vzense_pointCloudxyz.launch
+    roslaunch VzenseROS vzense_pointCloudxyz.launch
     ```
     <p align="center"><img src="./doc/img/step10.png" /></p>
     <p align="center"><img src="./doc/img/step11.png" /></p>
+    
 - **Show PointCloud with RGB**
 
     ```console
-    roslaunch vzense_camera vzense_pointCloudxyzrgb.launch
+    roslaunch VzenseROS vzense_pointCloudxyzrgb.launch
     ```
     <p align="center"><img src="./doc/img/step12.png" /></p>
- 
+
 ## Published Topics
 The vzense_manager publishes messages defined by the [sensor_msgs](http://wiki.ros.org/sensor_msgs) package on the following topics
 - /Vzense/depth/camera_info
@@ -104,3 +114,6 @@ Take calling <b>VZ_SetSpatialFilterEnabled</b> as an example
 
 - Add the code into **/src/vzense_manager.cpp**
 <p align="center"><img src="./doc/img/step14.png" /></p>
+
+## Details
+- When using multiple network cards, set different IP network segments

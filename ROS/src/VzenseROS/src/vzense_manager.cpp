@@ -48,6 +48,14 @@ void VzenseManager::paramCallback(vzense_param::Vzensetof_roscppConfig& config,u
         VzReturnStatus status= VZ_SetColorResolution(deviceHandle_,w,h);
         ROS_INFO_STREAM( "SetColorResolution status: " << status);
     }
+     
+    if(config_.HDRMode != config.HDRMode)
+    {
+        config_.HDRMode = config.HDRMode;
+        VzReturnStatus status= VZ_SetHDRModeEnabled(deviceHandle_,(bool)config_.HDRMode);
+        ROS_INFO_STREAM( "VZ_SetHDRModeEnabled tof status: " << status);
+    }
+
     if(config_.ToFManual != config.ToFManual)
     {
         config_.ToFManual = config.ToFManual;
@@ -61,9 +69,22 @@ void VzenseManager::paramCallback(vzense_param::Vzensetof_roscppConfig& config,u
     if(config_.ToFExposureTime != config.ToFExposureTime&&config_.ToFManual==1)
     {
         config_.ToFExposureTime = config.ToFExposureTime;
-        VzExposureTimeParams exposureTime;
+        VzExposureTimeParams exposureTime = { VzExposureControlMode(0xFF) };
+		int retry = 0;
+		while (0 == exposureTime.exposureTime && retry < 3)
+        {
+            VZ_GetProperty(deviceHandle_,"Py_ToFExposureTimeMax", &exposureTime, sizeof(exposureTime));
+            retry++;
+        }
+        if (0 != exposureTime.exposureTime && config_.ToFExposureTime <= exposureTime.exposureTime)
+        {
+			exposureTime.exposureTime = config_.ToFExposureTime;
+		}
+        else
+        {
+            ROS_INFO_STREAM( "SetExposureTime tof Max Value: " << exposureTime.exposureTime);
+        }
         exposureTime.mode = VzExposureControlMode_Manual;
-        exposureTime.exposureTime = config_.ToFExposureTime;
         VzReturnStatus status= VZ_SetExposureTime(deviceHandle_,VzToFSensor,exposureTime);
         ROS_INFO_STREAM( "SetExposureTime tof status: " << status);
     }
@@ -79,10 +100,23 @@ void VzenseManager::paramCallback(vzense_param::Vzensetof_roscppConfig& config,u
     }
     if(config_.RGBExposureTime != config.RGBExposureTime&&config_.RGBManual==1)
     {
-        config_.RGBExposureTime = config.RGBExposureTime;
-        VzExposureTimeParams exposureTime;
+		config_.RGBExposureTime = config.RGBExposureTime;
+        VzExposureTimeParams exposureTime = { VzExposureControlMode(0xFF) };
+		int retry = 0;
+		while (0 == exposureTime.exposureTime && retry < 3)
+        {
+            VZ_GetProperty(deviceHandle_,"Py_RGBExposureTimeMax", &exposureTime, sizeof(exposureTime));
+            retry++;
+        }
+        if (0 != exposureTime.exposureTime && config_.RGBExposureTime <= exposureTime.exposureTime)
+        {
+			exposureTime.exposureTime = config_.RGBExposureTime;
+		}
+        else
+        {
+            ROS_INFO_STREAM( "SetExposureTime color Max Value: " << exposureTime.exposureTime);
+        }
         exposureTime.mode = VzExposureControlMode_Manual;
-        exposureTime.exposureTime = config_.RGBExposureTime;
         VzReturnStatus status= VZ_SetExposureTime(deviceHandle_,VzColorSensor,exposureTime);
         ROS_INFO_STREAM( "SetExposureTime color status: " << status);
     }
@@ -376,18 +410,7 @@ void VzenseManager::sigsegv_handler(int sig) {
 void VzenseManager::checkVzReturnStatus(VzReturnStatus status, const std::string &message_on_fail) {
     if (status == VzReturnStatus::VzRetOK)
         return;
-    ROS_ERROR(message_on_fail.c_str());
-    if (0 != deviceHandle_)
-    {
-        VZ_StopStream(deviceHandle_);
-        ROS_INFO_STREAM("Stop Depth Frame status: " << status);
-        VZ_CloseDevice(&deviceHandle_);
-        ROS_INFO_STREAM("CloseDevice status: " << status);
-    }
-    VZ_Shutdown();
-    ROS_INFO_STREAM("Shutdown status: " << status);
-
-    throw std::runtime_error(message_on_fail);
+    ROS_ERROR(message_on_fail.c_str()); 
 }
 
 void VzenseManager::set_sensor_intrinsics() {

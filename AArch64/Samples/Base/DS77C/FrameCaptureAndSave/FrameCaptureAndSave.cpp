@@ -116,7 +116,7 @@ GET:
 				framename >> fname;
 
 				//save
-				FILE *framefile = fopen(fname,"ab+");
+				FILE *framefile = fopen(fname,"wb+");
 				fwrite(depthFrame.pFrameData,sizeof(uint8_t) ,depthFrame.dataLen, framefile);
 
 				std::cout << "Save..." << std::endl;

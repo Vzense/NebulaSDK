@@ -10,6 +10,7 @@ using namespace cv;
 VzDeviceInfo* g_pDeviceListInfo = NULL;
 VzDeviceHandle g_DeviceHandle = 0;
 Point g_Pos(320, 240);
+Point g_TransPos(800, 600);
 int g_Slope = 7495;
 bool g_IsSavePointCloud = false;
 
@@ -17,7 +18,7 @@ static const cv::Point2i TransformedDepthPoint[4] = {{160, 120}, {480, 120}, {16
 
 bool InitDevice(const int deviceCount);
 void ShowMenu();
-static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, cv::Mat& dispImg);
+static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, cv::Mat& dispImg, Point point);
 void HotPlugStateCallback(const VzDeviceInfo* pInfo, int state, void* pUserData);
 void SavePointCloud(const char* pFileName, const VzFrame& depthFrame);
 
@@ -26,7 +27,15 @@ void on_MouseHandle(int event, int x, int y, int flags, void * param)
 	if (EVENT_RBUTTONDOWN == event)
 	{
 		g_Pos.x = x;
-		g_Pos.y = y;
+		g_Pos.y = y;		
+	}
+}
+void on_TransMouseHandle(int event, int x, int y, int flags, void * param)
+{
+	if (EVENT_RBUTTONDOWN == event)
+	{
+		g_TransPos.x = x;
+		g_TransPos.y = y;
 	}
 }
 
@@ -65,11 +74,13 @@ GET:
 	const string irImageWindow = "IR Image";
 	const string depthImageWindow = "Depth Image";
     const string rgbImageWindow = "RGB Image";
+	const string transformedDepthWindow = "TransformedDepth";
 	cv::namedWindow(depthImageWindow, cv::WINDOW_AUTOSIZE);
 	cv::namedWindow(irImageWindow, cv::WINDOW_AUTOSIZE);
 	setMouseCallback(depthImageWindow, on_MouseHandle, nullptr);
 	setMouseCallback(irImageWindow, on_MouseHandle, nullptr);
 	bool isTransformedDepthPointToColorPointEnable = false;
+	VzVector2u16 rgbFrameWH = {640,480};
 
 	for (;;)
 	{
@@ -123,7 +134,7 @@ GET:
 				}
 
 				//Display the Depth Image
-				Opencv_Depth(g_Slope, depthFrame.height, depthFrame.width, depthFrame.pFrameData, imageMat);
+				Opencv_Depth(g_Slope, depthFrame.height, depthFrame.width, depthFrame.pFrameData, imageMat,g_Pos);
                 char text[30] = "";
                 sprintf(text, "%.2f", fps);
                 putText(imageMat, text, Point(0, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255));
@@ -166,11 +177,11 @@ GET:
 				}
 
 				//Display the Depth Image
-				Opencv_Depth(g_Slope, transformedDepthFrame.height, transformedDepthFrame.width, transformedDepthFrame.pFrameData, imageMat);
+				Opencv_Depth(g_Slope, transformedDepthFrame.height, transformedDepthFrame.width, transformedDepthFrame.pFrameData, imageMat,g_TransPos);
 				char text[30] = "";
 				sprintf(text, "%.2f", fps);
 				putText(imageMat, text, Point(0, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255));
-				cv::imshow("TransformedDepth", imageMat);
+				cv::imshow(transformedDepthWindow, imageMat);				
 			}
 			else
 			{
@@ -253,7 +264,8 @@ GET:
 
                 //Display the RGB Image
                 imageMat = cv::Mat(rgbFrame.height, rgbFrame.width, CV_8UC3, rgbFrame.pFrameData);
-
+				rgbFrameWH.x = rgbFrame.width;
+				rgbFrameWH.y = rgbFrame.height;
                 char text[30] = "";
                 sprintf(text, "%.2f", fps);
                 putText(imageMat, text, Point(0, 15), FONT_HERSHEY_PLAIN, 1, Scalar(255, 255, 255));
@@ -349,12 +361,18 @@ GET:
             switch (index)
             {
             case 0:
+				g_TransPos.x = g_TransPos.x *640 / rgbFrameWH.x;
+				g_TransPos.y = g_TransPos.y* 480 /rgbFrameWH.y;
                 VZ_SetColorResolution(g_DeviceHandle, 640, 480);
                 break;
             case 1:
+				g_TransPos.x = g_TransPos.x * 800 / rgbFrameWH.x;
+				g_TransPos.y = g_TransPos.y * 600 / rgbFrameWH.y;
                 VZ_SetColorResolution(g_DeviceHandle, 800, 600);
                 break;
             case 2:
+				g_TransPos.x = g_TransPos.x * 1600 / rgbFrameWH.x;
+				g_TransPos.y = g_TransPos.y * 1200 / rgbFrameWH.y;
                 VZ_SetColorResolution(g_DeviceHandle, 1600, 1200);
                 break;
             default:
@@ -376,7 +394,17 @@ GET:
         }
         else if (key == 'L' || key == 'l')
         {
-			static bool isTransformDepthImgToColorSensorEnabled = true;
+			cv::namedWindow(transformedDepthWindow, cv::WINDOW_AUTOSIZE);
+			setMouseCallback(transformedDepthWindow, on_TransMouseHandle, nullptr);
+			if (800 == g_TransPos.x && 600 == g_TransPos.y)
+			{
+				if (rgbFrameWH.x <= 800 && rgbFrameWH.y <= 600)
+				{
+					g_TransPos.x = rgbFrameWH.x / 2;
+					g_TransPos.y = rgbFrameWH.y / 2;
+				}
+			}
+			static bool isTransformDepthImgToColorSensorEnabled = true;			
 			VZ_SetTransformDepthImgToColorSensorEnabled(g_DeviceHandle, isTransformDepthImgToColorSensorEnabled);
 			cout << "SetTransformDepthImgToColorSensorEnabled " << ((true == isTransformDepthImgToColorSensorEnabled) ? "enable" : "disable") << endl;
 			isTransformDepthImgToColorSensorEnabled = !isTransformDepthImgToColorSensorEnabled;
@@ -474,10 +502,10 @@ void ShowMenu()
 	cout << "--------------------------------------------------------------------\n" << endl;
 }
 
-static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, cv::Mat& dispImg)
+static void Opencv_Depth(uint32_t slope, int height, int width, uint8_t*pData, cv::Mat& dispImg,Point point)
 {
 	dispImg = cv::Mat(height, width, CV_16UC1, pData);
-	Point2d pointxy = g_Pos;
+	Point2d pointxy = point;	
 	int val = dispImg.at<ushort>(pointxy);
 	char text[20];
 #ifdef _WIN32

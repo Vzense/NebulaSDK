@@ -148,7 +148,7 @@ class VzenseTofCam():
      
     def VZ_GetIRGMMGain(self):
         gmmgain = c_uint8(1)
-        return self.vz_cam_lib.VZ_GetIRGMMGain(self.device_handle, byref(gmmgain)), gmmgain
+        return self.vz_cam_lib.VZ_GetIRGMMGain(self.device_handle, byref(gmmgain)), gmmgain.value
 
     def VZ_SetColorPixelFormat(self,pixelFormat=VzPixelFormat.VzPixelFormatBGR888):
         return self.vz_cam_lib.VZ_SetColorPixelFormat(self.device_handle, pixelFormat)
@@ -166,7 +166,7 @@ class VzenseTofCam():
      
     def VZ_GetFrameRate(self):
         value = c_uint8(1)
-        return self.vz_cam_lib.VZ_GetFrameRate(self.device_handle, byref(value)), value
+        return self.vz_cam_lib.VZ_GetFrameRate(self.device_handle, byref(value)), value.value
 
     def VZ_SetExposureControlMode(self, sensorType = VzSensorType.VzToFSensor, mode = VzExposureControlMode.VzExposureControlMode_Manual):
         return self.vz_cam_lib.VZ_SetExposureControlMode(self.device_handle, sensorType.value, mode.value) 
@@ -183,7 +183,7 @@ class VzenseTofCam():
         return self.vz_cam_lib.VZ_SetTimeFilterParams(self.device_handle, params)
     
     def VZ_GetTimeFilterParams(self): 
-        params = VzTimeFilterParams(True)
+        params = VzTimeFilterParams()
         return self.vz_cam_lib.VZ_GetTimeFilterParams(self.device_handle, byref(params)),params
 
     def VZ_SetConfidenceFilterParams(self, params = VzConfidenceFilterParams()): 
@@ -205,14 +205,14 @@ class VzenseTofCam():
     
     def VZ_GetFillHoleFilterEnabled(self): 
         enable = c_bool(True)
-        return self.vz_cam_lib.VZ_GetFillHoleFilterEnabled(self.device_handle, byref(enable)),enable
+        return self.vz_cam_lib.VZ_GetFillHoleFilterEnabled(self.device_handle, byref(enable)),enable.value
 
     def VZ_SetSpatialFilterEnabled(self, enable = c_bool(True)): 
         return self.vz_cam_lib.VZ_SetSpatialFilterEnabled(self.device_handle, enable)
     
     def VZ_GetSpatialFilterEnabled(self): 
         enable = c_bool(True)
-        return self.vz_cam_lib.VZ_GetSpatialFilterEnabled(self.device_handle, byref(enable)),enable
+        return self.vz_cam_lib.VZ_GetSpatialFilterEnabled(self.device_handle, byref(enable)),enable.value
 
     def VZ_SetTransformColorImgToDepthSensorEnabled(self, enabled = c_bool(True)): 
         return self.vz_cam_lib.VZ_SetTransformColorImgToDepthSensorEnabled(self.device_handle,  enabled)
@@ -244,14 +244,40 @@ class VzenseTofCam():
         propertyKey = (c_char * 100)(*bytes(tmp, 'utf-8')) 
         maxExposureTime = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Manual.value) 
         return self.vz_cam_lib.VZ_GetProperty(self.device_handle,   byref(propertyKey),  byref(maxExposureTime),8),maxExposureTime.exposureTime
- 
 
+    def VZ_SetParamsByJson(self, imgpath):
+        pimgpath = (c_char * 1000)(*bytes(imgpath, 'utf-8'))
+        return self.vz_cam_lib.VZ_SetParamsByJson(self.device_handle,  byref(pimgpath))
 
+    def VZ_SetColorGain(self, params = c_float(1.0)):
+        return self.vz_cam_lib.VZ_SetColorGain(self.device_handle,  params)
 
+    def VZ_GetColorGain(self):
+        tmp = c_float*1
+        params = tmp()
+        return self.vz_cam_lib.VZ_GetColorGain(self.device_handle,  params), params
 
+    def VZ_GetProperty(self, propertyKey=c_char_p(), pData= c_void_p, dataSize = c_int32(8)):
+        return self.vz_cam_lib.VZ_GetProperty(self.device_handle,  propertyKey, pData, dataSize),pData
 
+    def VZ_GetAutoMaxExposureTime(self):
+        tmp = r"Py_RGBExposureTimeMax"
+        propertyKey = (c_char * 100)(*bytes(tmp, 'utf-8'))
+        maxExposureTime = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Auto.value)
+        return self.vz_cam_lib.VZ_GetProperty(self.device_handle, byref(propertyKey), byref(maxExposureTime),
+                                              8), maxExposureTime.exposureTime
 
+    def VZ_GetManualMaxExposureTime(self):
+        tmp = r"Py_RGBExposureTimeMax"
+        propertyKey = (c_char * 100)(*bytes(tmp, 'utf-8'))
+        maxExposureTime = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Manual.value)
+        return self.vz_cam_lib.VZ_GetProperty(self.device_handle, byref(propertyKey), byref(maxExposureTime),
+                                              8), maxExposureTime.exposureTime
 
+    def VZ_SetAutoExposureTime(self, sensorType = VzSensorType.VzColorSensor, params = c_int32(0)):
+        ExposureTime = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Auto.value,params)
+        return self.vz_cam_lib.VZ_SetExposureTime(self.device_handle, sensorType.value, ExposureTime)
 
-
-
+    def VZ_GetAutoExposureTime(self, sensorType = VzSensorType.VzColorSensor):
+        params = VzExposureTimeParams(VzExposureControlMode.VzExposureControlMode_Auto.value,0)
+        return self.vz_cam_lib.VZ_GetExposureTime(self.device_handle, sensorType.value, byref(params)), params

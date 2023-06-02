@@ -78,7 +78,20 @@ GET:
 		cout << "VZ_StartStream failed status:" <<status<< endl;
 		return -1;
 	}
-
+	//Get default frame rate
+	int rate = 10;
+	status = VZ_GetFrameRate(deviceHandle, &rate);
+	if (status != VzReturnStatus::VzRetOK)
+	{
+		cout << "VZ_GetFrameRate failed status:" << status << endl;
+		return -1;
+	}
+	// if need change the framerate, do first 
+	/*
+	rate = 5;
+	VZ_SetFrameRate(deviceHandle, rate);
+	*/
+	cout << endl << "---- To  VzExposureControlMode_Manual ----" << endl;
 	//switch exposure mode to manual
 	status = VZ_SetExposureControlMode(deviceHandle, VzColorSensor, VzExposureControlMode_Manual);
 	if (status != VzReturnStatus::VzRetOK)
@@ -88,9 +101,23 @@ GET:
 	}
 	else
 	{
-		cout << "switch to manual" << endl;
+		cout << "VZ_SetExposureControlMode  ok" << endl;
 	}
 
+	
+	cout << "* step1. Get Color exposure time range with frameRate " << rate <<"*" << endl;
+ 	//Get the range of the Color exposure time 
+	VzExposureTimeParams maxExposureTime = { VzExposureControlMode_Manual,0 };
+	status = VZ_GetProperty(deviceHandle, "Py_RGBExposureTimeMax", &maxExposureTime, sizeof(maxExposureTime));
+	if (status != VzReturnStatus::VzRetOK)
+	{
+		cout << "VZ_GetProperty get Py_RGBExposureTimeMax failed status:" << status << endl;
+		return -1;
+	}
+	cout << "Recommended scope: 100 - " << maxExposureTime.exposureTime << endl;
+
+	cout << "* step2. Set and Get new ExposureTime *" << endl;
+	//Set new ExposureTime
 	VzExposureTimeParams params = {VzExposureControlMode_Manual, 3000};
 	status = VZ_SetExposureTime(deviceHandle, VzColorSensor, params);
 	if (status != VzReturnStatus::VzRetOK)
@@ -114,7 +141,8 @@ GET:
 	{
 		cout << "GetExposureTime:"<< params.exposureTime << endl;
 	}
-
+	
+	cout << endl << "---- To VzExposureControlMode_Auto ----" << endl;	
 	//switch exposure mode to auto
 	status = VZ_SetExposureControlMode(deviceHandle, VzColorSensor, VzExposureControlMode_Auto);
 	if (status != VzReturnStatus::VzRetOK)
@@ -124,8 +152,47 @@ GET:
 	}
 	else
 	{
-		cout << "switch to auto" << endl;
+		cout << "VZ_SetExposureControlMode ok" << endl;
 	}
+	
+	cout << "* step1. Get Color exposure time range *" << endl;
+	//Get the range of the Auto Color exposure time 
+	maxExposureTime = { VzExposureControlMode_Auto,0 };
+	status = VZ_GetProperty(deviceHandle, "Py_RGBExposureTimeMax", &maxExposureTime, sizeof(maxExposureTime));
+	if (status != VzReturnStatus::VzRetOK)
+	{
+		cout << "VZ_GetProperty get Py_RGBExposureTimeMax failed status:" << status << endl;
+		return -1;
+	}
+	cout << "Recommended scope: 100 - " << maxExposureTime.exposureTime << endl;
+
+	cout << "* step2. Set and Get new Auto Max Color exposure time range *" << endl;
+	//set new range of Auto Color exposure time. [100  maxExposureTime.exposureTime]
+	params = { VzExposureControlMode_Auto , 10000};
+	status = VZ_SetExposureTime(deviceHandle, VzColorSensor, params);
+	if (status != VzReturnStatus::VzRetOK)
+	{
+		cout << "VZ_SetExposureTimeAutoMax failed status:" << status << endl;
+		return -1;
+	}
+	else
+	{
+		cout << "SetExposureTimeAutoMax:" << params.exposureTime << endl;
+	}
+
+	//Get the new range of the Auto Color exposure time .
+	params = { VzExposureControlMode_Auto };
+	status = VZ_GetExposureTime(deviceHandle, VzColorSensor, &params);
+	if (status != VzReturnStatus::VzRetOK)
+	{
+		cout << "VZ_GetExposureTimeAutoMax failed status:" << status << endl;
+		return -1;
+	}
+	else
+	{
+		cout << "GetExposureTimeAutoMax:" << params.exposureTime << endl;
+	}
+
 
 	//Stop capturing the image stream
 	status = VZ_StopStream(deviceHandle);

@@ -94,18 +94,18 @@ class VzDeviceInfo(Structure):
 
 class VzConfidenceFilterParams(Structure):
     _pack_ = 1
-    _fields_ = [("enable", c_bool),
-                ("threshold", c_int32)]
+    _fields_ = [("threshold", c_int32),
+                ("enable", c_bool)]
 
 class VzFlyingPixelFilterParams(Structure):
     _pack_ = 1
-    _fields_ = [("enable", c_bool),
-                ("threshold", c_int32)]
+    _fields_ = [("threshold", c_int32),
+                ("enable", c_bool)]
 
 class VzTimeFilterParams(Structure):
     _pack_ = 1
-    _fields_ = [("enable", c_bool),
-                ("threshold", c_int32)]
+    _fields_ = [("threshold", c_int32),
+                ("enable", c_bool)]
 
 class VzExposureTimeParams(Structure):
     _pack_ = 1

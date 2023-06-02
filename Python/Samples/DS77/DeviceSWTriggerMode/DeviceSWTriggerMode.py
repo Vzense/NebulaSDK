@@ -63,6 +63,9 @@ ret = camera.VZ_SetWorkMode(VzWorkMode.SoftwareTriggerMode)
 if  ret != 0:  
     print("VZ_SetWorkMode failed:",ret)
 
+frameRate = camera.VZ_GetFrameRate()
+print("VZ_GetFrameRate :", frameRate[1])
+
 for i in range(30):
 
     ret = camera.VZ_SetSoftwareSlaveTrigger()
@@ -79,6 +82,7 @@ for i in range(30):
             print("depth  id:",frame.frameIndex)  
         else:   
             print("depth  error:",ret)   
+    time.sleep(1/frameRate[1])
 
 ret = camera.VZ_SetWorkMode(VzWorkMode.ActiveMode)
 if  ret != 0:  

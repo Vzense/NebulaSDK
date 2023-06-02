@@ -97,7 +97,7 @@ private:
 };
 
 int main() {
-	cout << "---MultiConnection---"<< endl;
+	cout << "---MultiConnectionInMultiThread---"<< endl;
 
 	//about dev
 	uint32_t deviceCount = 0;

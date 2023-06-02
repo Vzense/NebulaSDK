@@ -57,7 +57,6 @@ if  ret == 0:
             ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
             if  ret !=0:
                 print("VZ_GetFrameReady failed:",ret)
-                time.sleep(1)
                 continue
 
             if  frameready.depth:
@@ -74,7 +73,7 @@ if  ret == 0:
                     img = numpy.uint8(img)
                     frametmp = cv2.applyColorMap(img, cv2.COLORMAP_RAINBOW)
  
-                    cv2.imshow("depthimage", frametmp)
+                    cv2.imshow("Depth Image", frametmp)
                 else:
                     print("get depth frame failed:",ret)
             if  frameready.ir:
@@ -84,7 +83,7 @@ if  ret == 0:
                     frametmp.dtype = numpy.uint8
                     frametmp.shape = (irframe.height, irframe.width)
                     
-                    cv2.imshow("irimage", frametmp)
+                    cv2.imshow("IR Image", frametmp)
                 else:
                     print("get ir frame failed:",ret)
 

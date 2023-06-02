@@ -80,7 +80,7 @@ GET:
 
 	//1.Default FrameRate
 	//2.Set new ExposureTime
-	//3.Change FrameRate to 15
+	//3.Change FrameRate to 5
 	//4.Set new ExposureTime
 
 	cout << endl << "---- Default FrameRate ----" << endl;
@@ -97,7 +97,7 @@ GET:
 	}
 
 	//Get default frame rate
-	int defaultframeRate = 20; 
+	int defaultframeRate = 10; 
 	status = VZ_GetFrameRate(deviceHandle, &defaultframeRate);
 	if (status != VzReturnStatus::VzRetOK)
 	{
@@ -129,9 +129,9 @@ GET:
 		cout << "Set exposure time "<< params.exposureTime << " is OK." << endl;
 	}
 
-	cout << endl << "---- Set FrameRate to 15 ----" << endl;
+	cout << endl << "---- Set FrameRate to 5 ----" << endl;
 	//Set new FrameRate
-	int frameRate = 15;  //New frame rate, can change it
+	int frameRate = 5;  //New frame rate, can change it
 	status = VZ_SetFrameRate(deviceHandle, frameRate);
 	if (status != VzReturnStatus::VzRetOK)
 	{

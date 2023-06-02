@@ -5,7 +5,7 @@
 using namespace std;
 
 int main() {
-	cout << "---DeviceParamGet---"<< endl;
+	cout << "---DeviceParamSetGet---"<< endl;
 
 	//about dev
 	uint32_t deviceCount;

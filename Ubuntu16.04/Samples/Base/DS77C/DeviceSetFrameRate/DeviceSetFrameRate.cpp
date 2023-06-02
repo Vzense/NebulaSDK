@@ -77,7 +77,7 @@ GET:
 		return -1;
 	}
 
-	int frameRate = 15;
+	int frameRate = 5;
 	status = VZ_SetFrameRate(deviceHandle, frameRate);
 	if (status != VzReturnStatus::VzRetOK)
 	{
