@@ -1,3 +1,14 @@
+Ver1.2.7
+1.Add sleep 1000ms in the VZ_SetWorkMode api
+2.Optimizate code and fix some errors
+
+Ver1.2.6
+1.Optimizate the code for checking the device remove
+
+Ver1.2.5
+1.Optimizate the code for checking the device status
+2.Add memset before memcy for IP
+
 Ver1.2.4
 1.Optimizate code check the time from frame ready to get frame is out of 1s or not
 

@@ -106,6 +106,8 @@ class VzenseTofCam():
          
     def VZ_GetFrameReady(self,waitTime = c_uint16(33)):
         frameready = VzFrameReady()
+        if not self.device_handle:
+            return -3, frameready
         return self.vz_cam_lib.VZ_GetFrameReady(self.device_handle, waitTime, byref(frameready)), frameready
 
     def VZ_GetFrame(self,  frametype = VzFrameType.VzDepthFrame):   

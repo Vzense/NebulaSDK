@@ -4,6 +4,10 @@
 #include <stdint.h>
 #include "VzenseNebula_enums.h"
 
+#ifndef __cplusplus
+#include <stdbool.h>
+#endif
+
 typedef uint16_t VzDepthPixel;  //!< Depth image pixel type in 16-bit
 typedef uint16_t VzGray16Pixel; //!< Gray image pixel type in 16-bit
 typedef uint8_t VzGray8Pixel;   //!< Gray image pixel type in 8-bit
@@ -165,9 +169,6 @@ typedef struct
     int	exposureTime;              //When the control mode is AE,  exposureTime represents the maximum exposure time.
                                    //When the control mode is Manual, exposureTime represents the current exposure time.
 } VzExposureTimeParams;
-
-
-
 /**
  * @brief Error informations about the device
  */

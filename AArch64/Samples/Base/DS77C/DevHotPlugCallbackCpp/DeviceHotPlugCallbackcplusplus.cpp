@@ -85,7 +85,7 @@ public:
 	void HandleCallback(const VzDeviceInfo* pInfo, int status)
 	{
 		cout << "uri " << status << "  " << pInfo->uri << "    " << (status == 0 ? "add" : "remove") << endl;
-		cout << "alia " << status << "  " << pInfo->alias << "    " << (status == 0 ? "add" : "remove") << endl;
+		cout << "alias " << status << "  " << pInfo->alias << "    " << (status == 0 ? "add" : "remove") << endl;
 
 		if (status == 0)
 		{

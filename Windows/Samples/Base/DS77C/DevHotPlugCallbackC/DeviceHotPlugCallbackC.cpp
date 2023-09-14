@@ -129,7 +129,7 @@ bool InitDevice(const int deviceCount)
 void HotPlugStateCallback(const VzDeviceInfo *pInfo, int status, void *contex)
 {
 	cout << "uri " << status << "  " << pInfo->uri << "    " << (status == 0 ? "add" : "remove") << endl;
-	cout << "alia " << status << "  " << pInfo->alias << "    " << (status == 0 ? "add" : "remove") << endl;
+	cout << "alias " << status << "  " << pInfo->alias << "    " << (status == 0 ? "add" : "remove") << endl;
 
 	if (status == 0)
 	{
