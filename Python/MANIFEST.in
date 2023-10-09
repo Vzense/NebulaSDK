@@ -1,0 +1,5 @@
+include API/LICENSE
+recursive-include API/Ubuntu18.04/Lib *
+recursive-include API/Ubuntu18.04/Include *
+recursive-include API/Ubuntu16.04/Lib *
+recursive-include API/Ubuntu16.04/Include *

@@ -21,15 +21,15 @@ class VzenseTofCam():
                 system_info = os_info.version
                 print('version:',system_info)
                 if system_info.find('18.04') != -1 or system_info.find('20.04') != -1:
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Ubuntu18.04/Lib/libNebula_api.so"
+                    libpath = (os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + os.path.sep))+"/Ubuntu18.04/Lib/libNebula_api.so"
                     print(libpath)
                     self.vz_cam_lib = cdll.LoadLibrary(libpath)
                 else:
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Ubuntu16.04/Lib/libNebula_api.so"
+                    libpath = (os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + os.path.sep))+"/Ubuntu16.04/Lib/libNebula_api.so"
                     print(libpath)
                     self.vz_cam_lib = cdll.LoadLibrary(libpath)
             elif machine_ == 'aarch64':
-                libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/AArch64/Lib/libNebula_api.so"
+                libpath = (os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + os.path.sep))+"/AArch64/Lib/libNebula_api.so"
                 print(libpath)
                 self.vz_cam_lib = cdll.LoadLibrary(libpath)
             else:
@@ -38,11 +38,11 @@ class VzenseTofCam():
         elif platform.system() == 'Windows':
             if machine_ == 'amd64':
                 if architecture_ == '64bit':
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Windows/Bin/x64/Nebula_api.dll"
+                    libpath = (os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + os.path.sep))+"/Windows/Bin/x64/Nebula_api.dll"
                     print(libpath)
                     self.vz_cam_lib = cdll.LoadLibrary(libpath)
                 else:
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Windows/Bin/x86/Nebula_api.dll"
+                    libpath = (os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + os.path.sep))+"/Windows/Bin/x86/Nebula_api.dll"
                     print(libpath)
                     self.vz_cam_lib = cdll.LoadLibrary(libpath)
             else:
