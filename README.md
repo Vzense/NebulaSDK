@@ -5,6 +5,7 @@
 - DS77 (DS77_S_20220530_B16  and later) 
 - DS77C (DS77_S_20220530_B16  and later )
 - DS86 (DS86_R_20230321  and later )
+- DCAM650 (DCAM650_R_20231214_B06  and later )
 
 ### Supported Platform
 

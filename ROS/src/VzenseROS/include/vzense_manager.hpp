@@ -51,6 +51,7 @@ private:
     unsigned int sessionIndex_;  
     VzSensorIntrinsicParameters depth_intrinsics_{}, color_intrinsics_{};
     VzSensorExtrinsicParameters extrinsics_{};
+	int nHRDEnable_; //0;1
 };
 
 

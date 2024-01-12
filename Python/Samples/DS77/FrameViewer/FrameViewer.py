@@ -51,42 +51,54 @@ if  ret == 0:
 
  
     colorSlope = c_uint16(7495)
+    
     try:
         while 1:
 
-            ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
+            ret, frameready = camera.VZ_GetFrameReady(c_uint16(1200))
             if  ret !=0:
                 print("VZ_GetFrameReady failed:",ret)
                 continue
-
-            if  frameready.depth:
+            hasDepth=0
+            hasIR =0
+            
+            if  frameready.depth:      
                 ret,depthframe = camera.VZ_GetFrame(VzFrameType.VzDepthFrame)
                 if  ret == 0:
-                    frametmp = numpy.ctypeslib.as_array(depthframe.pFrameData, (1, depthframe.width * depthframe.height * 2))
-                    frametmp.dtype = numpy.uint16
-                    frametmp.shape = (depthframe.height, depthframe.width)
-
-                    #convert ushort value to 0xff is just for display
-                    img = numpy.int32(frametmp)
-                    img = img*255/colorSlope
-                    img = numpy.clip(img, 0, 255)
-                    img = numpy.uint8(img)
-                    frametmp = cv2.applyColorMap(img, cv2.COLORMAP_RAINBOW)
- 
-                    cv2.imshow("Depth Image", frametmp)
+                    hasDepth=1
+                   
                 else:
                     print("get depth frame failed:",ret)
+ 
             if  frameready.ir:
                 ret,irframe = camera.VZ_GetFrame(VzFrameType.VzIRFrame)
                 if  ret == 0:
-                    frametmp = numpy.ctypeslib.as_array(irframe.pFrameData, (1, irframe.dataLen))
-                    frametmp.dtype = numpy.uint8
-                    frametmp.shape = (irframe.height, irframe.width)
-                    
-                    cv2.imshow("IR Image", frametmp)
+                    hasIR =1
+                  
                 else:
                     print("get ir frame failed:",ret)
+ 
+            if  hasDepth==1:
+                frametmp = numpy.ctypeslib.as_array(depthframe.pFrameData, (1, depthframe.width * depthframe.height * 2))
+                frametmp.dtype = numpy.uint16
+                frametmp.shape = (depthframe.height, depthframe.width)
 
+                #convert ushort value to 0xff is just for display
+                img = numpy.int32(frametmp)
+                img = img*255/colorSlope
+                img = numpy.clip(img, 0, 255)
+                img = numpy.uint8(img)
+                frametmp = cv2.applyColorMap(img, cv2.COLORMAP_RAINBOW)
+ 
+                cv2.imshow("Depth Image", frametmp)
+
+            if  hasIR==1:
+                frametmp = numpy.ctypeslib.as_array(irframe.pFrameData, (1, irframe.dataLen))
+                frametmp.dtype = numpy.uint8
+                frametmp.shape = (irframe.height, irframe.width)
+                    
+                cv2.imshow("IR Image", frametmp)
+ 
             key = cv2.waitKey(1)
             if  key == 27:
                 cv2.destroyAllWindows()
@@ -98,7 +110,4 @@ if  ret == 0:
     finally :
         print('end')
 else:
-    print('VZ_OpenDeviceByUri failed: ' + str(ret))   
-            
-
-        
+    print('VZ_OpenDeviceByUri failed: ' + str(ret))

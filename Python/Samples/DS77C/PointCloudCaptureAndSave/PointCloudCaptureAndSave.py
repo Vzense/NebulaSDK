@@ -61,7 +61,7 @@ else:
 
  
 while 1:
-    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
+    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1200))
     if  ret !=0:
         print("VZ_GetFrameReady failed:",ret)
         continue       

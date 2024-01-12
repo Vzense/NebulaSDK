@@ -52,8 +52,14 @@ void VzenseManager::paramCallback(vzense_param::Vzensetof_roscppConfig& config,u
     if(config_.HDRMode != config.HDRMode)
     {
         config_.HDRMode = config.HDRMode;
-        VzReturnStatus status= VZ_SetHDRModeEnabled(deviceHandle_,(bool)config_.HDRMode);
-        ROS_INFO_STREAM( "VZ_SetHDRModeEnabled tof status: " << status);
+		if(nHRDEnable_)
+		{
+			VzReturnStatus status= VZ_SetHDRModeEnabled(deviceHandle_,(bool)config_.HDRMode);
+			ROS_INFO_STREAM( "VZ_SetHDRModeEnabled tof status: " << status);
+		}
+		else{
+			ROS_INFO_STREAM( "VZ_SetHDRModeEnabled tof not supported");
+		}
     }
 
     if(config_.ToFManual != config.ToFManual)
@@ -150,7 +156,8 @@ VzenseManager::VzenseManager(int32_t device_index, const string &camera_name) :
         rgb_height_(-1),
         slope_(1450),
         deviceHandle_(0),
-        sessionIndex_(0)
+        sessionIndex_(0),
+		nHRDEnable_(1)
 {
     signal(SIGSEGV, VzenseManager::sigsegv_handler);
 
@@ -188,6 +195,14 @@ GET:
     checkVzReturnStatus(VZ_OpenDeviceByUri(pPsDeviceInfo->uri, &deviceHandle_), "OpenDevice failed!");
 
     ROS_INFO("Successfully connected to device %d", this->device_index_);
+	
+	string devicetype = pPsDeviceInfo->productName;
+	int npos = devicetype.find("650");	//is 650/660
+	int npos2 = devicetype.find("660");	//is 650/660
+	if(npos >= 0 || npos2 >= 0)
+	{
+		nHRDEnable_ = 0;
+	}
 
     status= VZ_StartStream(deviceHandle_);
     ROS_INFO_STREAM( "Start Depth Frame status: " << status);

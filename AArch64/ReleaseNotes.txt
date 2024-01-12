@@ -1,3 +1,12 @@
+Ver1.3.1
+1.Optimizate the code for upgrading the device FW
+
+Ver1.3.0
+1.Release for DCAM650 & DCAM660
+
+Ver1.2.8
+1.Support DCAM650 & DCAM660
+
 Ver1.2.7
 1.Add sleep 1000ms in the VZ_SetWorkMode api
 2.Optimizate code and fix some errors

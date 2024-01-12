@@ -14,6 +14,8 @@ PythonSDK version: V1.0.8
 - DS77CPro
 - DS86
 - DS87  
+- DCAM650
+- DCAM660
 
 ### Requirements
 

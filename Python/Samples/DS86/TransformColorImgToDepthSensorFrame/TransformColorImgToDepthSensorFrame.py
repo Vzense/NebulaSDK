@@ -5,6 +5,7 @@ sys.path.append('../../../')
 from API.VzenseDS_api import *
 import time
 
+frameSpace = 20
 camera = VzenseTofCam()
 
 
@@ -67,33 +68,22 @@ if  ret == 0:
     print("VZ_SetTransformColorImgToDepthSensorEnabled ok")
 else:
     print("VZ_SetTransformColorImgToDepthSensorEnabled failed:",ret)     
-
-while 1:
-    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
+ 
+for i in range(frameSpace):
+    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1200))
     if  ret !=0:
         print("VZ_GetFrameReady failed:",ret)
         continue       
-
+    
     if  frameready.transformedColor:      
         ret,frame = camera.VZ_GetFrame(VzFrameType.VzTransformColorImgToDepthSensorFrame)
         if  ret == 0:
-            curPath = os.getcwd()
-            print (curPath)
-            folder = curPath+ "/save"
-            if not os.path.exists(folder):
-                print("not exists")
-                os.makedirs(folder)
-            else:
-                print("already exists")
-            filename = folder + "/transformedColor.bin"
-            file = open(filename,"wb+")
-            for i in range(frame.dataLen):
-                file.write(c_uint8(frame.pFrameData[i]))
-                
-            print("save ok")
-            break
+            print("get Frame successful,status:" , ret , "  "
+					,"frameTpye:" , frame.frameType , "  "
+					,"frameIndex:" , frame.frameIndex )
         else:   
-            print("mappeddepth  error:",ret)  
+            print("transformedColor  error:",ret)  
+ 
 ret = camera.VZ_StopStream()       
 if  ret == 0:
     print("stop stream successful")

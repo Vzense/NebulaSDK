@@ -5,6 +5,7 @@ sys.path.append('../../../')
 from API.VzenseDS_api import *
 import time
 
+frameSpace = 10
 camera = VzenseTofCam()
 
 
@@ -64,9 +65,11 @@ ret = camera.VZ_SetColorResolution(640, 480)
 time.sleep(2)
 if  ret != 0:  
     print("VZ_SetColorResolution failed:",ret)
- 
-for i in range(30):
-    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
+else:
+    print("set to 640_480") 
+
+for i in range(frameSpace):
+    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1200))
     if  ret !=0:
         print("VZ_GetFrameReady failed:",ret)
         continue       
@@ -75,7 +78,7 @@ for i in range(30):
         ret,frame = camera.VZ_GetFrame(VzFrameType.VzColorFrame)
         if  ret == 0:
             if frame.width == 640 and frame.height == 480:
-                print("rgb  id:",frame.frameIndex)
+                print( "get Frame successful,status:" , ret, " resolution: ", frame.width  ,"x",frame.height)
             else:
                 print("rgb width ",frame.width,"  height ",frame.height)      
         else:   
@@ -85,9 +88,11 @@ ret = camera.VZ_SetColorResolution(1600, 1200)
 time.sleep(2)
 if  ret != 0:  
     print("VZ_SetColorResolution failed:",ret)
- 
-for i in range(30):
-    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1000))
+else:
+    print("set to 1600_1200") 
+
+for i in range(frameSpace):
+    ret, frameready = camera.VZ_GetFrameReady(c_uint16(1200))
     if  ret !=0:
         print("VZ_GetFrameReady failed:",ret)
         continue       
@@ -96,7 +101,7 @@ for i in range(30):
         ret,frame = camera.VZ_GetFrame(VzFrameType.VzColorFrame)
         if  ret == 0:
             if frame.width == 1600 and frame.height == 1200:
-                print("rgb  id:",frame.frameIndex)
+                print( "get Frame successful,status:" , ret, " resolution: ", frame.width  ,"x",frame.height)
             else:
                 print("rgb width ",frame.width,"  height ",frame.height)      
         else:   
