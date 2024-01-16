@@ -7,7 +7,7 @@ This CSharp package facilitates depth IR and RGB data acquisition and processing
 ### Requirements
 
 - .NET Framework : 4.6.x
-- Visual Studia 2017
+- Visual Studio 2017
 
 ## Installation
 
