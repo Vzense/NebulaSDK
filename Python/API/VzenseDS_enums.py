@@ -41,6 +41,12 @@ class VzReturnStatus(Enum):
     VzRetUpgradeImgError            = -17
     VzRetUpgradeImgPathTooLong      = -18
     VzRetUpgradeCallbackNotSet		= -19
+    VzRetProductNotSupport          = -20
+    VzRetNoConfigFolder				= -21
+    VzRetWebServerStartError        = -22
+    VzRetGetOverStayFrame           = -23
+    VzRetCreateLogDirError          = -24
+    VzRetCreateLogFileError			= -25
     VzRetNoAdapterConnected			= -100
     VzRetReInitialized				= -101
     VzRetNoInitialized				= -102
@@ -50,6 +56,7 @@ class VzReturnStatus(Enum):
     VzRetIPNotMatch					= -106
     VzRetNotStopStream              = -107
     VzRetNotStartStream             = -108
+    VzRetNoDriversFolder			= -109
     VzRetOthers                     = -255
     
 class VzConnectStatus(Enum):

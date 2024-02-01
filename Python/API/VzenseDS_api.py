@@ -8,50 +8,10 @@ gCallbackFuncList=[]
 class VzenseTofCam():
     device_handle = c_void_p(0)
     def __init__(self):
-        system_ = platform.system().lower()
-        machine_ = platform.machine().lower()
-        architecture_ = platform.architecture()[0]
-        print('system:',system_)
-        print('machine_:',machine_)
-        print('architecture:',architecture_)
-        if system_ == 'linux':
-            if machine_ == 'x86_64':
-                os_info = os.uname()
-                print('os_info:',type(os_info))
-                system_info = os_info.version
-                print('version:',system_info)
-                if system_info.find('18.04') != -1 or system_info.find('20.04') != -1:
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Ubuntu18.04/Lib/libNebula_api.so"
-                    print(libpath)
-                    self.vz_cam_lib = cdll.LoadLibrary(libpath)
-                else:
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Ubuntu16.04/Lib/libNebula_api.so"
-                    print(libpath)
-                    self.vz_cam_lib = cdll.LoadLibrary(libpath)
-            elif machine_ == 'aarch64':
-                libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/AArch64/Lib/libNebula_api.so"
-                print(libpath)
-                self.vz_cam_lib = cdll.LoadLibrary(libpath)
-            else:
-                print('do not supported OS', system_, machine_)
-                exit()
-        elif platform.system() == 'Windows':
-            if machine_ == 'amd64':
-                if architecture_ == '64bit':
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Windows/Bin/x64/Nebula_api.dll"
-                    print(libpath)
-                    self.vz_cam_lib = cdll.LoadLibrary(libpath)
-                else:
-                    libpath = (os.path.abspath(os.path.dirname(os.getcwd()) + os.path.sep + "../../../"))+"/Windows/Bin/x86/Nebula_api.dll"
-                    print(libpath)
-                    self.vz_cam_lib = cdll.LoadLibrary(libpath)
-            else:
-                print('do not supported OS', system_, machine_)
-                exit()
-        else:
-            print('do not supported OS', system_, machine_)
-            exit()
-            
+
+        libpath = (os.path.abspath(os.path.dirname(os.path.realpath(__file__)) + os.path.sep)) + "/Ubuntu18.04/Lib/libNebula_api.so"
+        self.vz_cam_lib = cdll.LoadLibrary(libpath)
+
         self.device_handle = c_void_p(0)
         self.vz_cam_lib.VZ_Initialize()
         
