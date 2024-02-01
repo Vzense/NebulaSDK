@@ -1,35 +1,21 @@
 #ifndef VZENSE_MANAGER_H
 #define VZENSE_MANAGER_H
 
-
-#include <csignal>
-#include <iostream>
-// 包含头文件ros/ros.h,ROS提供的C++客户端库，在后面的编译配置中要添加相应的依赖库roscpp
-
 #include "rclcpp/rclcpp.hpp"
-#include "rclcpp/logger.hpp"
 // 使用std_msgs的内置消息或者自定义数据来传递图像数据
 #include <sensor_msgs/image_encodings.hpp>
 #include <sensor_msgs/msg/image.hpp>
 
 // opencv读取的图像数据传给sensor_msgs的图像消息
-#include <cv_bridge/cv_bridge.h>
+#include <cv_bridge/cv_bridge.hpp>
 
 // 用来发布和订阅图像信息
-#include <image_transport/image_transport.h>
-#include "std_msgs/msg/string.hpp"
+#include <image_transport/image_transport.hpp>
 #include <rcl_interfaces/msg/parameter_event.hpp>
 #include "pcl_conversions/pcl_conversions.h"
 
- 
-#include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
-#include <pcl/io/ply_io.h>
-#include <pcl/point_types.h>
-#include <pcl/console/print.h>
-#include <pcl/console/parse.h>
-#include <pcl/console/time.h>
- 
+
 #include <opencv2/opencv.hpp>
 #include "VzenseNebula_api.h"
 using namespace std;
